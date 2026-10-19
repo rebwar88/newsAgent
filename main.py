@@ -7,6 +7,7 @@ from datetime import datetime, timezone, timedelta
 import requests
 import feedparser
 from bs4 import BeautifulSoup
+from facebook_public import fetch_facebook_public_posts
 
 # ================= Configuration =================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -20,6 +21,8 @@ MAX_ITEMS_PER_RUN = 1
 GEMINI_INTERVAL = timedelta(minutes=5)
 QUOTA_BACKOFF = timedelta(minutes=30)
 PUBLISH_STATE_FILE = "publication_state.json"
+# Comma-separated public Facebook POST permalinks; no login or Meta API required.
+FACEBOOK_PUBLIC_POST_URLS = [u.strip() for u in os.getenv("FACEBOOK_PUBLIC_POST_URLS", "").split(",") if u.strip()]
 NORMAL_INTERVAL = timedelta(minutes=15)
 
 # لیستی فیدی ماڵپەڕەکان (RSS)
@@ -289,6 +292,9 @@ def main():
     # ٢. هێنانی پەیام لە تێلیگرام
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
+
+    # ٣. تەنها لینکە گشتییەکانی پۆستی Facebook کە بەبێ چوونەژوورەوە دەقەکەیان بەردەستە
+    new_items.extend(fetch_facebook_public_posts(FACEBOOK_PUBLIC_POST_URLS, seen_ids))
 
     print(f"Found {len(new_items)} new items.")
 
