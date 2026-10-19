@@ -197,10 +197,17 @@ def send_to_telegram(message_text, source_link):
 
     try:
         res = requests.post(url, json=payload, timeout=15)
-        res.raise_for_status()
+        if not res.ok:
+            # Never print the request URL: it contains the bot token.
+            try:
+                detail = res.json().get("description", "Unknown Telegram error")
+            except ValueError:
+                detail = "Non-JSON Telegram response"
+            print(f"Telegram rejected publication (HTTP {res.status_code}): {detail}")
+            return False
         return res.json().get("ok") is True
-    except Exception as e:
-        print(f"Error sending to Telegram: {e}")
+    except requests.RequestException as e:
+        print(f"Telegram transport error ({type(e).__name__}); delivery status uncertain.")
         return False
 
 def main():
