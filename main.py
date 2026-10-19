@@ -7,7 +7,7 @@ from datetime import datetime, timezone, timedelta
 import requests
 import feedparser
 from bs4 import BeautifulSoup
-from facebook_public import fetch_facebook_public_posts
+from facebook_public import fetch_facebook_public_posts, discover_public_page_posts, FACEBOOK_PAGE_SHARE_URLS
 
 # ================= Configuration =================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -295,6 +295,7 @@ def main():
 
     # ٣. تەنها لینکە گشتییەکانی پۆستی Facebook کە بەبێ چوونەژوورەوە دەقەکەیان بەردەستە
     new_items.extend(fetch_facebook_public_posts(FACEBOOK_PUBLIC_POST_URLS, seen_ids))
+    new_items.extend(discover_public_page_posts(FACEBOOK_PAGE_SHARE_URLS, seen_ids))
 
     print(f"Found {len(new_items)} new items.")
 
