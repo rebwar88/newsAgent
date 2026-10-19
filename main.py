@@ -3,6 +3,7 @@ import json
 import hashlib
 import html
 import re
+from datetime import datetime, timezone, timedelta
 import requests
 import feedparser
 from bs4 import BeautifulSoup
@@ -15,7 +16,9 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
 
 SEEN_FILE = "seen_urls.json"
-MAX_ITEMS_PER_RUN = 3  # To avoid spamming and respect API rate limits
+MAX_ITEMS_PER_RUN = 3
+PUBLISH_STATE_FILE = "publication_state.json"
+NORMAL_INTERVAL = timedelta(minutes=15)
 
 # لیستی فیدی ماڵپەڕەکان (RSS)
 RSS_FEEDS = [
@@ -45,6 +48,38 @@ def save_seen_ids(seen_ids):
     trimmed = sorted(seen_ids)  # Keep all published IDs; a set has no chronological order
     with open(SEEN_FILE, "w", encoding="utf-8") as f:
         json.dump(trimmed, f, ensure_ascii=False, indent=2)
+
+def load_publication_state():
+    if not os.path.exists(PUBLISH_STATE_FILE):
+        return {"last_normal_at": None}
+    try:
+        with open(PUBLISH_STATE_FILE, "r", encoding="utf-8") as f:
+            state = json.load(f)
+        if not isinstance(state, dict):
+            raise ValueError("Expected object")
+        return state
+    except (OSError, ValueError) as exc:
+        raise RuntimeError(f"Invalid publication state: {exc}")
+
+def save_publication_state(state):
+    with open(PUBLISH_STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=2)
+
+def is_breaking(item):
+    text = (item.get("title", "") + " " + item.get("content", ""))[:350]
+    return bool(re.search(r"(?i)(?:^|[\s:!🚨🔴])(?:breaking(?: news)?|urgent|عاجل|بەپەلە|فوری)(?:[\s:!🚨🔴]|$)", text))
+
+def normal_slot_available(state, now):
+    last = state.get("last_normal_at")
+    if not last:
+        return True
+    try:
+        previous = datetime.fromisoformat(last)
+        if previous.tzinfo is None:
+            raise ValueError("Missing timezone")
+        return now - previous >= NORMAL_INTERVAL
+    except (ValueError, TypeError):
+        raise RuntimeError("Invalid last publication timestamp")
 
 def fetch_rss_news(seen_ids):
     """هەواڵە نوێیەکان لە فیدی RSSی ماڵپەڕەکان کۆدەکاتەوە."""
@@ -227,6 +262,7 @@ def main():
         return
     print("Checking for new articles...")
     seen_ids = load_seen_ids()
+    state = load_publication_state()
     new_items = []
 
     # ١. هێنانی هەواڵ لە RSS
@@ -240,9 +276,14 @@ def main():
 
     # ڕێکخستنی سنووری پۆستکردن لە هەر سوڕانەوەیەکدا
     processed_count = 0
+    new_items.sort(key=lambda item: not is_breaking(item))
     for item in new_items:
         if processed_count >= MAX_ITEMS_PER_RUN:
             break
+        breaking = is_breaking(item)
+        if not breaking and not normal_slot_available(state, datetime.now(timezone.utc)):
+            print("Waiting for next normal-news publishing slot.")
+            continue
         print(f"Processing item from {item['source']}...")
         
         # داڕشتنەوە بە ژیری دەستکرد
@@ -255,6 +296,10 @@ def main():
         success = send_to_telegram(rewritten_text)
         if success:
             seen_ids.add(item["id"])
+            if not breaking:
+                state["last_normal_at"] = datetime.now(timezone.utc).isoformat()
+            save_seen_ids(seen_ids)
+            save_publication_state(state)
             processed_count += 1
             print("Successfully published!")
         else:
@@ -262,6 +307,7 @@ def main():
 
     # پاشەکەوتکردنی هەواڵە بینراوەکان بۆ ڕێگری لە دووبارەبوونەوە
     save_seen_ids(seen_ids)
+    save_publication_state(state)
     print(f"Completed run. Processed {processed_count} articles.")
 
 if __name__ == "__main__":
