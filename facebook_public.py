@@ -72,3 +72,42 @@ def fetch_facebook_public_posts(post_urls, seen_ids):
         except requests.RequestException as exc:
             print(f"Facebook: request failed ({type(exc).__name__}); skipping.")
     return articles
+
+# First-phase sources provided by the owner. These are share redirects, not verified page URLs.
+FACEBOOK_PAGE_SHARE_URLS = [
+    "https://www.facebook.com/share/1DvtYTJw66/",
+    "https://www.facebook.com/share/1DREGbC5ep/",
+    "https://www.facebook.com/share/1YJrGSyhwk/",
+    "https://www.facebook.com/share/1HrnBmejUv/",
+    "https://www.facebook.com/share/19sXZQW3Rx/",
+]
+
+
+def discover_public_page_posts(page_share_urls, seen_ids):
+    """Best effort: resolve public page share links and inspect publicly visible post anchors.
+
+    If Facebook requires login or hides the feed, return nothing rather than inventing posts.
+    """
+    found = []
+    for share_url in page_share_urls[:5]:
+        try:
+            response = requests.get(share_url, headers=HEADERS, timeout=12)
+            parsed = urlparse(response.url)
+            if parsed.hostname not in FACEBOOK_HOSTS or response.status_code != 200:
+                print("Facebook page: share URL could not resolve to a public page.")
+                continue
+            if len(response.content) > 2_000_000:
+                print("Facebook page: oversized page response.")
+                continue
+            soup = BeautifulSoup(response.text, "html.parser")
+            candidates = []
+            for a in soup.find_all("a", href=True):
+                from urllib.parse import urljoin
+                candidate = urljoin(response.url, a["href"]).split("?")[0]
+                if is_public_facebook_post(candidate) and candidate not in candidates:
+                    candidates.append(candidate)
+            print(f"Facebook page: found {len(candidates)} visible post links.")
+            found.extend(fetch_facebook_public_posts(candidates[:5], seen_ids))
+        except requests.RequestException as exc:
+            print(f"Facebook page: fetch failed ({type(exc).__name__}).")
+    return found
