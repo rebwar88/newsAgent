@@ -112,8 +112,10 @@ def rewrite_with_gemini(raw_text):
         print("GEMINI_API_KEY is not set; skipping publication.")
         return None
 
-    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
-    
+    base_url = "https://generativelanguage.googleapis.com/v1beta"
+    headers = {"x-goog-api-key": GEMINI_API_KEY}
+    model = GEMINI_MODEL
+
     system_prompt = (
         "تۆ ڕۆژنامەنووسێکی پیشەگەریت. دەقی ئەم هەواڵە بە شێوازێکی ڕۆژنامەوانیی پاراو و بە زمانی کوردیی سۆرانی دابڕێژەرەوە.\n"
         "یاساکانی داڕشتنەوە:\n"
@@ -139,8 +141,27 @@ def rewrite_with_gemini(raw_text):
     }
 
     try:
-        response = requests.post(endpoint, json=payload, timeout=25)
-        response.raise_for_status()
+        endpoint = f"{base_url}/models/{model}:generateContent"
+        response = requests.post(endpoint, headers=headers, json=payload, timeout=25)
+        if response.status_code == 404:
+            # Some keys/projects have a different set of supported models.
+            models_response = requests.get(f"{base_url}/models", headers=headers, timeout=15)
+            models_response.raise_for_status()
+            supported = [
+                m["name"].removeprefix("models/")
+                for m in models_response.json().get("models", [])
+                if "generateContent" in m.get("supportedGenerationMethods", [])
+                and "flash" in m.get("name", "").lower()
+            ]
+            if not supported:
+                print("No accessible Gemini Flash models found for this API key.")
+                return None
+            model = supported[0]
+            print(f"Requested model unavailable; retrying with available model: {model}")
+            response = requests.post(f"{base_url}/models/{model}:generateContent", headers=headers, json=payload, timeout=25)
+        if not response.ok:
+            print(f"Gemini API returned HTTP {response.status_code}: {response.text[:300]}")
+            return None
         res_json = response.json()
         rewritten = res_json["candidates"][0]["content"]["parts"][0]["text"].strip()
         return rewritten or None
