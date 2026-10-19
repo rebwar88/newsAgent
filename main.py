@@ -187,7 +187,7 @@ def rewrite_with_gemini(raw_text):
 
     try:
         endpoint = f"{base_url}/models/{model}:generateContent"
-        response = requests.post(endpoint, headers=headers, json=payload, timeout=25)
+        response = requests.post(endpoint, headers=headers, json=payload, timeout=60)
         if response.status_code == 404:
             # Some keys/projects have a different set of supported models.
             models_response = requests.get(f"{base_url}/models", headers=headers, timeout=15)
