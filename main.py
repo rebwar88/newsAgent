@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 SEEN_FILE = "seen_urls.json"
 MAX_ITEMS_PER_RUN = 3  # To avoid spamming and respect API rate limits
@@ -39,7 +40,7 @@ def load_seen_ids():
 
 def save_seen_ids(seen_ids):
     """لیستی هەواڵە بینراوەکان نوێ دەکاتەوە و تەنها دوایین ١٠٠٠ هەواڵ دەهێڵێتەوە."""
-    trimmed = list(seen_ids)[-1000:]
+    trimmed = sorted(seen_ids)  # Keep all published IDs; a set has no chronological order
     with open(SEEN_FILE, "w", encoding="utf-8") as f:
         json.dump(trimmed, f, ensure_ascii=False, indent=2)
 
@@ -90,7 +91,7 @@ def fetch_telegram_public_channel(channel_username, seen_ids):
                 
                 # وەرگرتنی لینکی پەیامەکە
                 data_post = msg.get("data-post", "")
-                post_id = hashlib.md5((channel_username + data_post + content[:40]).encode('utf-8')).hexdigest()
+                post_id = hashlib.md5((data_post or (channel_username + content)).encode("utf-8")).hexdigest()
                 
                 if post_id not in seen_ids and len(content) > 30:
                     news_items.append({
@@ -107,10 +108,10 @@ def fetch_telegram_public_channel(channel_username, seen_ids):
 def rewrite_with_gemini(raw_text):
     """دەقی هەواڵەکە بە Gemini دادەڕێژێتەوە بەپێی ڕێنماییە کوردییەکان."""
     if not GEMINI_API_KEY:
-        print("GEMINI_API_KEY is not set.")
-        return raw_text
+        print("GEMINI_API_KEY is not set; skipping publication.")
+        return None
 
-    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
     
     system_prompt = (
         "تۆ ڕۆژنامەنووسێکی پیشەگەریت. دەقی ئەم هەواڵە بە شێوازێکی ڕۆژنامەوانیی پاراو و بە زمانی کوردیی سۆرانی دابڕێژەرەوە.\n"
@@ -138,12 +139,13 @@ def rewrite_with_gemini(raw_text):
 
     try:
         response = requests.post(endpoint, json=payload, timeout=25)
+        response.raise_for_status()
         res_json = response.json()
-        rewritten = res_json["candidates"][0]["content"]["parts"][0]["text"]
-        return rewritten.strip()
+        rewritten = res_json["candidates"][0]["content"]["parts"][0]["text"].strip()
+        return rewritten or None
     except Exception as e:
         print(f"Error calling Gemini: {e}")
-        return raw_text
+        return None
 
 def send_to_telegram(message_text, source_link):
     """هەواڵە داڕێژراوەکە دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
@@ -169,7 +171,8 @@ def send_to_telegram(message_text, source_link):
 
     try:
         res = requests.post(url, json=payload, timeout=15)
-        return res.status_code == 200
+        res.raise_for_status()
+        return res.json().get("ok") is True
     except Exception as e:
         print(f"Error sending to Telegram: {e}")
         return False
@@ -195,6 +198,9 @@ def main():
         
         # داڕشتنەوە بە ژیری دەستکرد
         rewritten_text = rewrite_with_gemini(item["content"])
+        if not rewritten_text:
+            print("AI rewrite failed; keeping item for retry.")
+            continue
         
         # بڵاوکردنەوە لە تێلیگرام
         success = send_to_telegram(rewritten_text, item["link"])
@@ -203,8 +209,7 @@ def main():
             processed_count += 1
             print("Successfully published!")
         else:
-            # ئەگەر بۆ تێست تەنها بە کۆنسۆڵ چاپ بوو هەر بینراو دادەنرێت
-            seen_ids.add(item["id"])
+            print("Telegram publication failed; keeping item for retry.")
 
     # پاشەکەوتکردنی هەواڵە بینراوەکان بۆ ڕێگری لە دووبارەبوونەوە
     save_seen_ids(seen_ids)
