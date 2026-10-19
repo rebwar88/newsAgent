@@ -16,7 +16,9 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
 
 SEEN_FILE = "seen_urls.json"
-MAX_ITEMS_PER_RUN = 3
+MAX_ITEMS_PER_RUN = 1
+GEMINI_INTERVAL = timedelta(minutes=5)
+QUOTA_BACKOFF = timedelta(minutes=30)
 PUBLISH_STATE_FILE = "publication_state.json"
 NORMAL_INTERVAL = timedelta(minutes=15)
 
@@ -51,7 +53,7 @@ def save_seen_ids(seen_ids):
 
 def load_publication_state():
     if not os.path.exists(PUBLISH_STATE_FILE):
-        return {"last_normal_at": None}
+        return {"last_normal_at": None, "last_gemini_at": None, "quota_blocked_until": None}
     try:
         with open(PUBLISH_STATE_FILE, "r", encoding="utf-8") as f:
             state = json.load(f)
@@ -80,6 +82,15 @@ def normal_slot_available(state, now):
         return now - previous >= NORMAL_INTERVAL
     except (ValueError, TypeError):
         raise RuntimeError("Invalid last publication timestamp")
+
+def gemini_slot_available(state, now):
+    blocked = state.get("quota_blocked_until")
+    if blocked and now < datetime.fromisoformat(blocked):
+        return False
+    previous = state.get("last_gemini_at")
+    if previous and now - datetime.fromisoformat(previous) < GEMINI_INTERVAL:
+        return False
+    return True
 
 def fetch_rss_news(seen_ids):
     """هەواڵە نوێیەکان لە فیدی RSSی ماڵپەڕەکان کۆدەکاتەوە."""
@@ -293,17 +304,26 @@ def main():
             continue
         print(f"Processing item from {item['source']}...")
         
+        now = datetime.now(timezone.utc)
+        if not gemini_slot_available(state, now):
+            print("Gemini request cooldown active; no API request.")
+            break
+        state["last_gemini_at"] = now.isoformat()
+        save_publication_state(state)
+
         # داڕشتنەوە بە ژیری دەستکرد
         try:
             rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
         except RuntimeError as exc:
             if str(exc) == "GEMINI_QUOTA_EXCEEDED":
-                print("Gemini quota exhausted; stopping requests until the next run.")
+                state["quota_blocked_until"] = (datetime.now(timezone.utc) + QUOTA_BACKOFF).isoformat()
+                save_publication_state(state)
+                print("Gemini quota exhausted; waiting at least 30 minutes.")
                 break
             raise
         if not rewritten_text:
             print("AI rewrite failed; keeping item for retry.")
-            continue
+            break
         
         # بڵاوکردنەوە لە تێلیگرام
         success = send_to_telegram(rewritten_text)
@@ -317,6 +337,7 @@ def main():
             print("Successfully published!")
         else:
             print("Telegram publication failed; keeping item for retry.")
+        break  # Only one Gemini request per run, including failures.
 
     # پاشەکەوتکردنی هەواڵە بینراوەکان بۆ ڕێگری لە دووبارەبوونەوە
     save_seen_ids(seen_ids)
