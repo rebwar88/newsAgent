@@ -42,8 +42,18 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_LOG_CHAT_ID: ${{ secrets.TELEGRAM_LOG_CHAT_ID }}
         run: |
-          python main.py
+          python run_and_report.py
+
+      - name: Upload detailed execution log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsagent-log-${{ github.run_id }}
+          path: newsagent_run.log
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Commit and Push Seen News Cache
         run: |
