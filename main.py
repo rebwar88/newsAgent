@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
 
 SEEN_FILE = "seen_urls.json"
@@ -156,7 +156,7 @@ def rewrite_with_gemini(raw_text):
             if not supported:
                 print("No accessible Gemini Flash models found for this API key.")
                 return None
-            model = supported[0]
+            model = next((m for m in supported if m.startswith("gemini-3.8-flash")), next((m for m in supported if m != GEMINI_MODEL), supported[0]))
             print(f"Requested model unavailable; retrying with available model: {model}")
             response = requests.post(f"{base_url}/models/{model}:generateContent", headers=headers, json=payload, timeout=25)
         if not response.ok:
