@@ -206,6 +206,8 @@ def send_to_telegram(message_text, source_link):
             except ValueError:
                 detail = "Non-JSON Telegram response"
             print(f"Telegram rejected publication (HTTP {res.status_code}): {detail}")
+            if res.status_code == 403:
+                raise PermissionError("Telegram bot lacks access to the configured destination channel")
             return False
         return res.json().get("ok") is True
     except requests.RequestException as e:
