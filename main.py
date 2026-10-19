@@ -18,7 +18,7 @@ PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
 
 SEEN_FILE = "seen_urls.json"
 MAX_ITEMS_PER_RUN = 1
-GEMINI_INTERVAL = timedelta(minutes=5)
+GEMINI_INTERVAL = timedelta(minutes=15)
 QUOTA_BACKOFF = timedelta(minutes=30)
 PUBLISH_STATE_FILE = "publication_state.json"
 # Comma-separated public Facebook POST permalinks; no login or Meta API required.
@@ -294,8 +294,7 @@ def main():
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
 
     # ٣. تەنها لینکە گشتییەکانی پۆستی Facebook کە بەبێ چوونەژوورەوە دەقەکەیان بەردەستە
-    new_items.extend(fetch_facebook_public_posts(FACEBOOK_PUBLIC_POST_URLS, seen_ids))
-    new_items.extend(discover_public_page_posts(FACEBOOK_PAGE_SHARE_URLS, seen_ids))
+    # Facebook collection temporarily paused while Telegram delivery is stabilized.
 
     print(f"Found {len(new_items)} new items.")
 
