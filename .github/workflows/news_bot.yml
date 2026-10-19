@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths-ignore:
       - 'seen_urls.json'
+      - 'publication_state.json'
   schedule:
     # Check every 5 minutes, 24 hours a day (GitHub may delay scheduled jobs).
     - cron: '*/5 * * * *'
@@ -48,6 +49,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add seen_urls.json
+          git add seen_urls.json publication_state.json
           git commit -m "chore: update seen news cache [skip ci]" || echo "No new news to commit"
           git push
