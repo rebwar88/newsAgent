@@ -166,8 +166,8 @@ def rewrite_with_gemini(raw_text):
         data = json.loads(rewritten)
         if not isinstance(data, dict):
             return None
-        title = re.sub(r"https?://\\S+|www\\.\\S+", "", str(data.get("title", ""))).strip()
-        body = re.sub(r"https?://\\S+|www\\.\\S+", "", str(data.get("body", ""))).strip()
+        title = re.sub(r"https?://\S+|www\.\S+", "", str(data.get("title", ""))).strip()
+        body = re.sub(r"https?://\S+|www\.\S+", "", str(data.get("body", ""))).strip()
         if len(title) < 8 or len(body) < 60:
             print("Gemini returned an incomplete article; skipping.")
             return None
@@ -190,7 +190,7 @@ def send_to_telegram(message_text, source_link=None):
         body = message_text.get("body", "").strip()
         if not title or not body:
             return False
-        full_text = "<b>" + html.escape(title) + "</b>\\n\\n" + html.escape(body)
+        full_text = "<b>" + html.escape(title) + "</b>\n\n" + html.escape(body)
     else:
         full_text = html.escape(re.sub(r"</?b>", "", str(message_text), flags=re.IGNORECASE))
     if len(full_text) > 4000:
@@ -244,7 +244,7 @@ def main():
         if processed_count >= MAX_ITEMS_PER_RUN:\n            break\n        print(f"Processing item from {item['source']}...")
         
         # داڕشتنەوە بە ژیری دەستکرد
-        rewritten_text = rewrite_with_gemini((item.get("title", "") + "\\n" + item["content"]).strip())
+        rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
         if not rewritten_text:
             print("AI rewrite failed; keeping item for retry.")
             continue
