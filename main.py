@@ -193,6 +193,8 @@ def rewrite_with_gemini(raw_text):
             model = next((m for m in supported if m.startswith("gemini-3.8-flash")), next((m for m in supported if m != GEMINI_MODEL), supported[0]))
             print(f"Requested model unavailable; retrying with available model: {model}")
             response = requests.post(f"{base_url}/models/{model}:generateContent", headers=headers, json=payload, timeout=25)
+        if response.status_code == 429:
+            raise RuntimeError("GEMINI_QUOTA_EXCEEDED")
         if not response.ok:
             print(f"Gemini API returned HTTP {response.status_code}: {response.text[:300]}")
             return None
@@ -207,6 +209,11 @@ def rewrite_with_gemini(raw_text):
             print("Gemini returned an incomplete article; skipping.")
             return None
         return {"title": title, "body": body}
+    except RuntimeError as e:
+        if str(e) == "GEMINI_QUOTA_EXCEEDED":
+            raise
+        print(f"Error calling Gemini: {e}")
+        return None
     except Exception as e:
         print(f"Error calling Gemini: {e}")
         return None
@@ -287,7 +294,13 @@ def main():
         print(f"Processing item from {item['source']}...")
         
         # داڕشتنەوە بە ژیری دەستکرد
-        rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
+        try:
+            rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
+        except RuntimeError as exc:
+            if str(exc) == "GEMINI_QUOTA_EXCEEDED":
+                print("Gemini quota exhausted; stopping requests until the next run.")
+                break
+            raise
         if not rewritten_text:
             print("AI rewrite failed; keeping item for retry.")
             continue
