@@ -241,7 +241,9 @@ def main():
     # ڕێکخستنی سنووری پۆستکردن لە هەر سوڕانەوەیەکدا
     processed_count = 0
     for item in new_items:
-        if processed_count >= MAX_ITEMS_PER_RUN:\n            break\n        print(f"Processing item from {item['source']}...")
+        if processed_count >= MAX_ITEMS_PER_RUN:
+            break
+        print(f"Processing item from {item['source']}...")
         
         # داڕشتنەوە بە ژیری دەستکرد
         rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
