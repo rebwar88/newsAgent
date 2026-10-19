@@ -1,0 +1,40 @@
+name: Telegram delivery test
+
+on:
+  push:
+    paths:
+      - '.github/workflows/telegram_delivery_test.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram test message
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python - <<'PY'
+          import os
+          import requests
+          token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+          chat = os.environ.get("TELEGRAM_CHAT_ID", "")
+          if not token or not chat:
+              raise SystemExit("TEST FAILED: Telegram secrets missing")
+          response = requests.post(
+              f"https://api.telegram.org/bot{token}/sendMessage",
+              json={"chat_id": chat, "text": "🧪 NewsAgent Test\nئەمە پەیامێکی تاقیکردنەوەیە بۆ دڵنیابوون لە کارکردنی بۆتەکە."},
+              timeout=20,
+          )
+          try:
+              data = response.json()
+          except ValueError:
+              raise SystemExit(f"TEST FAILED: Telegram HTTP {response.status_code} (non-JSON response)")
+          if not data.get("ok"):
+              raise SystemExit(f"TEST FAILED: Telegram HTTP {response.status_code}: {data.get('description', 'unknown error')}")
+          print("TEST PASSED: Telegram confirmed message delivery")
+          PY
