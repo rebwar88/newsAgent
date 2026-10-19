@@ -64,7 +64,7 @@ def fetch_facebook_public_posts(post_urls, seen_ids):
                     continue
                 if text:
                     break
-            text = re.sub(r"\\s+", " ", text).strip()
+            text = re.sub(r"\s+", " ", text).strip()
             if len(text) < 80:
                 print("Facebook: no accessible structured post text; skipping (no login or bypass).")
                 continue
