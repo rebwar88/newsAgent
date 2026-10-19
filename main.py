@@ -1,6 +1,7 @@
 import os
 import json
 import hashlib
+import html
 import requests
 import feedparser
 from bs4 import BeautifulSoup
@@ -10,6 +11,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
 
 SEEN_FILE = "seen_urls.json"
 MAX_ITEMS_PER_RUN = 3  # To avoid spamming and respect API rate limits
@@ -34,8 +36,7 @@ def load_seen_ids():
             with open(SEEN_FILE, "r", encoding="utf-8") as f:
                 return set(json.load(f))
         except Exception as e:
-            print(f"Error loading seen file: {e}")
-            return set()
+            raise RuntimeError(f"Unsafe seen file; publication stopped: {e}")
     return set()
 
 def save_seen_ids(seen_ids):
@@ -156,11 +157,15 @@ def send_to_telegram(message_text, source_link):
 
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     
-    # زیارکردنی لینکی سەرچاوە لە خوارەوە
+    # Escape external text and source URL for Telegram HTML mode.
+    safe_text = html.escape(message_text).replace("&lt;b&gt;", "<b>").replace("&lt;/b&gt;", "</b>")
     if source_link:
-        full_text = f"{message_text}\n\n🔗 <a href='{source_link}'>سەرچاوە</a>"
+        full_text = f"{safe_text}\n\n🔗 <a href='{html.escape(source_link, quote=True)}'>سەرچاوە</a>"
     else:
-        full_text = message_text
+        full_text = safe_text
+    if len(message_text) > 3900:
+        print("Message too long; skipping.")
+        return False
 
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
@@ -178,6 +183,9 @@ def send_to_telegram(message_text, source_link):
         return False
 
 def main():
+    if not PUBLISH_ENABLED:
+        print("Safe mode: publication disabled until explicitly enabled.")
+        return
     print("Checking for new articles...")
     seen_ids = load_seen_ids()
     new_items = []
