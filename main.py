@@ -2,6 +2,7 @@ import os
 import json
 import hashlib
 import html
+import re
 import requests
 import feedparser
 from bs4 import BeautifulSoup
@@ -179,7 +180,8 @@ def send_to_telegram(message_text, source_link):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     
     # Escape external text and source URL for Telegram HTML mode.
-    safe_text = html.escape(message_text).replace("&lt;b&gt;", "<b>").replace("&lt;/b&gt;", "</b>")
+    # Treat AI output as untrusted plain text; unmatched tags must never block a post.
+    safe_text = html.escape(re.sub(r"</?b>", "", message_text, flags=re.IGNORECASE))
     if source_link:
         full_text = f"{safe_text}\n\n🔗 <a href='{html.escape(source_link, quote=True)}'>سەرچاوە</a>"
     else:
