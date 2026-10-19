@@ -118,13 +118,10 @@ def rewrite_with_gemini(raw_text):
     model = GEMINI_MODEL
 
     system_prompt = (
-        "تۆ ڕۆژنامەنووسێکی پیشەگەریت. دەقی ئەم هەواڵە بە شێوازێکی ڕۆژنامەوانیی پاراو و بە زمانی کوردیی سۆرانی دابڕێژەرەوە.\n"
-        "یاساکانی داڕشتنەوە:\n"
-        "١. سەردێڕێکی سەرنجڕاکێش و بەهێز لە دێڕی یەکەم بنووسە بە پیتی تۆخ (<b>سەردێڕ</b>).\n"
-        "٢. دەقی هەواڵەکە لە یەک تا دوو پەرەگرافی کورت و پوخت ڕێکبخە.\n"
-        "٣. بە تەواوی بێلایەن بە و هیچ بیروڕایەک لە خۆتەوە زیاد مەکە.\n"
-        "٤. لە کۆتایی دوو تا سێ هاشتاگی پەیوەندیدار دابنێ.\n"
-        "٥. هیچ پێشەکی یان لێدوانێک مەنووسە، تەنها دەقی داڕێژراوی هەواڵەکە بنێرە."
+        "تۆ سەرنووسەری پیشەگەری هەواڵ بە کوردیی سۆرانی. تەنها JSON بە دوو خانەی title و body بگەڕێنەوە. "
+        "title سەردێڕێکی ڕوون و کورت بێت. body هەواڵەکە بە دوو تا سێ پەرەگرافی تەواو بێت. "
+        "هەموو زانیارییە گرنگەکانی سەرچاوە بپارێزە، بەڵام هیچ ڕاستییەک یان وتەیەک زیاد مەکە. "
+        "بانگەشە پشتڕاستنەکراوەکان بخە پاڵ سەرچاوەکە. هیچ URL، لینک، هاشتاگ، HTML، Markdown یان @username مەنووسە."
     )
 
     payload = {
@@ -137,7 +134,8 @@ def rewrite_with_gemini(raw_text):
         ],
         "generationConfig": {
             "temperature": 0.4,
-            "maxOutputTokens": 600
+            "maxOutputTokens": 1200,
+            "responseMimeType": "application/json"
         }
     }
 
@@ -165,12 +163,20 @@ def rewrite_with_gemini(raw_text):
             return None
         res_json = response.json()
         rewritten = res_json["candidates"][0]["content"]["parts"][0]["text"].strip()
-        return rewritten or None
+        data = json.loads(rewritten)
+        if not isinstance(data, dict):
+            return None
+        title = re.sub(r"https?://\\S+|www\\.\\S+", "", str(data.get("title", ""))).strip()
+        body = re.sub(r"https?://\\S+|www\\.\\S+", "", str(data.get("body", ""))).strip()
+        if len(title) < 8 or len(body) < 60:
+            print("Gemini returned an incomplete article; skipping.")
+            return None
+        return {"title": title, "body": body}
     except Exception as e:
         print(f"Error calling Gemini: {e}")
         return None
 
-def send_to_telegram(message_text, source_link):
+def send_to_telegram(message_text, source_link=None):
     """هەواڵە داڕێژراوەکە دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Telegram tokens are not set. Message printed to console:")
@@ -179,22 +185,23 @@ def send_to_telegram(message_text, source_link):
 
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     
-    # Escape external text and source URL for Telegram HTML mode.
-    # Treat AI output as untrusted plain text; unmatched tags must never block a post.
-    safe_text = html.escape(re.sub(r"</?b>", "", message_text, flags=re.IGNORECASE))
-    if source_link:
-        full_text = f"{safe_text}\n\n🔗 <a href='{html.escape(source_link, quote=True)}'>سەرچاوە</a>"
+    if isinstance(message_text, dict):
+        title = message_text.get("title", "").strip()
+        body = message_text.get("body", "").strip()
+        if not title or not body:
+            return False
+        full_text = "<b>" + html.escape(title) + "</b>\\n\\n" + html.escape(body)
     else:
-        full_text = safe_text
-    if len(message_text) > 3900:
-        print("Message too long; skipping.")
+        full_text = html.escape(re.sub(r"</?b>", "", str(message_text), flags=re.IGNORECASE))
+    if len(full_text) > 4000:
+        print("Article too long for Telegram; skipping.")
         return False
 
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": full_text,
         "parse_mode": "HTML",
-        "disable_web_page_preview": False
+        "disable_web_page_preview": True
     }
 
     try:
@@ -233,17 +240,17 @@ def main():
 
     # ڕێکخستنی سنووری پۆستکردن لە هەر سوڕانەوەیەکدا
     processed_count = 0
-    for item in new_items[:MAX_ITEMS_PER_RUN]:
-        print(f"Processing item from {item['source']}...")
+    for item in new_items:
+        if processed_count >= MAX_ITEMS_PER_RUN:\n            break\n        print(f"Processing item from {item['source']}...")
         
         # داڕشتنەوە بە ژیری دەستکرد
-        rewritten_text = rewrite_with_gemini(item["content"])
+        rewritten_text = rewrite_with_gemini((item.get("title", "") + "\\n" + item["content"]).strip())
         if not rewritten_text:
             print("AI rewrite failed; keeping item for retry.")
             continue
         
         # بڵاوکردنەوە لە تێلیگرام
-        success = send_to_telegram(rewritten_text, item["link"])
+        success = send_to_telegram(rewritten_text)
         if success:
             seen_ids.add(item["id"])
             processed_count += 1
