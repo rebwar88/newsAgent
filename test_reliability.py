@@ -42,5 +42,43 @@ class ReliabilityTests(unittest.TestCase):
                     main.main()
 
 
+    EN = "Iran says it is ready for talks with European countries over its nuclear programme and all related issues today."
+    CKB = "ئێران ڕایگەیاند کە ئامادەیە بۆ دانوستان لەگەڵ وڵاتانی ئەوروپا دەربارەی پرۆگرامی ناوکی و هەموو پرسە پەیوەندیدارەکان لە ئەمڕۆدا."
+
+    def _resp(self, text, ok=True):
+        return Mock(ok=ok, status_code=200 if ok else 503, json=lambda: [[[text, "src", None, None, 1]], None, "en"])
+
+    def test_english_news_is_translated_when_gemini_unavailable(self):
+        with patch.object(main.requests, "post", return_value=self._resp(self.CKB)):
+            result = main.translate_without_gemini({"title": "", "content": self.EN})
+        self.assertIsNotNone(result)
+        self.assertGreaterEqual(len(result["body"]), 60)
+        self.assertNotRegex(result["title"] + result["body"], r"[A-Za-z]{4,}")
+
+    def test_translation_service_failure_skips_item(self):
+        with patch.object(main.requests, "post", return_value=self._resp("", ok=False)), patch.object(main.time, "sleep"):
+            self.assertIsNone(main.translate_without_gemini({"title": "", "content": self.EN}))
+
+    def test_untranslated_output_is_rejected(self):
+        with patch.object(main.requests, "post", return_value=self._resp(self.EN)):
+            self.assertIsNone(main.translate_without_gemini({"title": "", "content": self.EN}))
+
+    def test_translation_fallback_can_be_disabled(self):
+        with patch.object(main, "TRANSLATE_FALLBACK_ENABLED", False), patch.object(main.requests, "post") as post:
+            self.assertIsNone(main.translate_without_gemini({"title": "", "content": self.EN}))
+            post.assert_not_called()
+
+    def test_english_item_published_via_translation_when_gemini_fails(self):
+        item = {"id": "en-1", "source": "test", "title": "", "content": self.EN, "link": ""}
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(main, "SEEN_FILE", os.path.join(folder, "seen.json")), patch.object(main, "PUBLISH_STATE_FILE", os.path.join(folder, "state.json")):
+                with patch.object(main, "PUBLISH_ENABLED", True), patch.object(main, "TELEGRAM_CHANNELS", []), patch.object(main, "fetch_rss_news", return_value=[item]):
+                    with patch.object(main, "rewrite_with_gemini", return_value=None), patch.object(main.requests, "post", return_value=self._resp(self.CKB)):
+                        with patch.object(main, "send_to_telegram", return_value=True) as send:
+                            main.main()
+                            send.assert_called_once()
+                            self.assertEqual(main.load_seen_ids(), {"en-1"})
+
+
 if __name__ == "__main__":
     unittest.main()

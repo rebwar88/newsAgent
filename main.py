@@ -293,6 +293,62 @@ def format_without_ai(item):
     return {"title": title, "body": body}
 
 
+TRANSLATE_FALLBACK_ENABLED = os.getenv("TRANSLATE_FALLBACK_ENABLED", "true").lower() == "true"
+TRANSLATE_ENDPOINT = "https://translate.googleapis.com/translate_a/single"
+SORANI_LETTERS = r"[ئۆێەڕڵڤپچژگکق]"
+
+def translate_to_sorani(text):
+    """Free machine translation to Sorani (no Gemini, no API key). Returns None on any failure."""
+    params = {"client": "gtx", "sl": "auto", "tl": "ckb", "dt": "t"}
+    for attempt in range(2):
+        try:
+            res = requests.post(TRANSLATE_ENDPOINT, params=params, data={"q": text}, timeout=15,
+                                headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+            if not res.ok:
+                print(f"Translation service HTTP {res.status_code}.")
+            else:
+                segments = res.json()[0]
+                translated = "".join(seg[0] for seg in segments if seg and seg[0]).strip()
+                if translated:
+                    return translated
+        except (requests.RequestException, ValueError, IndexError, TypeError) as exc:
+            print(f"Translation attempt {attempt + 1} failed ({type(exc).__name__}).")
+        if attempt == 0:
+            time.sleep(3)
+    return None
+
+def translate_without_gemini(item):
+    """Fallback for non-Sorani news when Gemini is unavailable: free translation, then the same safety checks."""
+    if not TRANSLATE_FALLBACK_ENABLED:
+        return None
+    def clean(value):
+        value = re.sub(r"https?://\S+|www\.\S+|@[A-Za-z0-9_]+|#[\w]+", "", str(value or ""))
+        value = re.sub(r"<[^>]*>", "", value)
+        value = re.sub(r"[ \t]+", " ", value)
+        return re.sub(r"\n{3,}", "\n\n", value).strip()
+    title, body = clean(item.get("title")), clean(item.get("content"))
+    source_text = (title + "\n\n" + body).strip() if title else body
+    if len(source_text) < 60:
+        return None
+    if len(source_text) > 2000:
+        source_text = source_text[:2000].rsplit(" ", 1)[0]
+    translated = translate_to_sorani(source_text)
+    if not translated:
+        print("Translation fallback unavailable; skipping item.")
+        return None
+    letters = re.findall(r"[A-Za-z\u0600-\u06FF]", translated)
+    sorani = re.findall(SORANI_LETTERS, translated)
+    latin = re.findall(r"[A-Za-z]", translated)
+    # Reject output that is still mostly foreign text (would mix languages in the channel).
+    if not letters or len(sorani) < 20 or len(latin) > 0.25 * len(letters):
+        print("Translation fallback rejected: output is not clean Sorani.")
+        return None
+    t_title, t_body = "", translated
+    if title and "\n" in translated:
+        t_title, t_body = [part.strip() for part in translated.split("\n", 1)]
+    return format_without_ai({"title": t_title, "content": t_body})
+
+
 def send_to_telegram(message_text, source_link=None):
     """هەواڵە داڕێژراوەکە دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -393,6 +449,10 @@ def main():
             rewritten_text = format_without_ai(item)
             if rewritten_text:
                 print("Using non-AI Sorani formatting fallback.")
+            else:
+                rewritten_text = translate_without_gemini(item)
+                if rewritten_text:
+                    print("Using free-translation fallback (non-Gemini).")
         if not rewritten_text:
             print("No safe publishable text; checking next item.")
             continue
