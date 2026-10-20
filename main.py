@@ -394,6 +394,56 @@ def send_to_telegram(message_text, source_link=None):
         print(f"Telegram transport error ({type(e).__name__}); delivery status uncertain.")
         return False
 
+FLUSH_FILE = "flush_backlog.json"
+FLUSH_MAX_ITEMS = 12
+FLUSH_TIME_BUDGET = timedelta(minutes=7)
+
+def flush_requested(state):
+    """Return the id of a not-yet-used one-time backlog flush request, or None."""
+    try:
+        with open(FLUSH_FILE, "r", encoding="utf-8") as f:
+            flag = json.load(f).get("id")
+    except (OSError, ValueError, AttributeError):
+        return None
+    return flag if flag and flag != state.get("flushed_id") else None
+
+def flush_backlog(items, seen_ids, state, flush_id):
+    """One-time run: publish every pending item at once so later runs only see fresh news."""
+    started = datetime.now(timezone.utc)
+    gemini_ok = True
+    published = 0
+    print(f"Backlog flush requested ({flush_id}): {len(items)} pending items.")
+    for item in items[:FLUSH_MAX_ITEMS]:
+        if datetime.now(timezone.utc) - started > FLUSH_TIME_BUDGET:
+            print("Flush time budget reached; remaining items stay pending.")
+            break
+        text = None
+        if gemini_ok:
+            try:
+                text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
+            except RuntimeError:
+                text = None
+            if not text:
+                gemini_ok = False  # stop asking Gemini during this flush to keep the run short
+        if not text:
+            text = format_without_ai(item) or translate_without_gemini(item)
+        if not text:
+            print("Flush: no safe publishable text; marking item as seen.")
+            seen_ids.add(item["id"])
+            continue
+        if send_to_telegram(text):
+            seen_ids.add(item["id"])
+            published += 1
+            save_seen_ids(seen_ids)
+            time.sleep(3)  # stay well under Telegram's per-chat rate limit
+        else:
+            print("Flush: Telegram delivery failed; item stays pending.")
+    state["flushed_id"] = flush_id
+    state["last_normal_at"] = datetime.now(timezone.utc).isoformat()
+    save_seen_ids(seen_ids)
+    save_publication_state(state)
+    print(f"Backlog flush completed. Published {published} articles.")
+
 def main():
     if not PUBLISH_ENABLED:
         print("Safe mode: publication disabled until explicitly enabled.")
@@ -414,6 +464,11 @@ def main():
     # Facebook collection temporarily paused while Telegram delivery is stabilized.
 
     print(f"Found {len(new_items)} new items.")
+
+    flush_id = flush_requested(state)
+    if flush_id:
+        flush_backlog(new_items, seen_ids, state, flush_id)
+        return
 
     # ڕێکخستنی سنووری پۆستکردن لە هەر سوڕانەوەیەکدا
     processed_count = 0

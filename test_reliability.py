@@ -80,5 +80,24 @@ class ReliabilityTests(unittest.TestCase):
                             self.assertEqual(main.load_seen_ids(), {"en-1"})
 
 
+    def test_backlog_flush_publishes_everything_once(self):
+        ckb = "ئێران ڕایگەیاند کە ئامادەیە بۆ دانوستان لەگەڵ وڵاتانی ئەوروپا دەربارەی پرۆگرامی ناوکی و هەموو پرسە پەیوەندیدارەکان لە ئەمڕۆدا."
+        items = [{"id": f"b{i}", "source": "t", "title": "", "content": ckb, "link": ""} for i in range(4)]
+        with tempfile.TemporaryDirectory() as folder:
+            flag = os.path.join(folder, "flush.json")
+            with open(flag, "w", encoding="utf-8") as f:
+                f.write('{"id": "flush-1"}')
+            with patch.object(main, "SEEN_FILE", os.path.join(folder, "seen.json")), patch.object(main, "PUBLISH_STATE_FILE", os.path.join(folder, "state.json")), patch.object(main, "FLUSH_FILE", flag):
+                with patch.object(main, "PUBLISH_ENABLED", True), patch.object(main, "TELEGRAM_CHANNELS", []), patch.object(main, "fetch_rss_news", return_value=items):
+                    with patch.object(main, "rewrite_with_gemini", return_value=None), patch.object(main.time, "sleep"):
+                        with patch.object(main, "send_to_telegram", return_value=True) as send:
+                            main.main()
+                            self.assertEqual(send.call_count, 4)
+                            self.assertEqual(main.load_seen_ids(), {"b0", "b1", "b2", "b3"})
+                            self.assertEqual(main.load_publication_state()["flushed_id"], "flush-1")
+                            main.main()  # same flag id must not flush again
+                            self.assertEqual(send.call_count, 4)
+
+
 if __name__ == "__main__":
     unittest.main()
