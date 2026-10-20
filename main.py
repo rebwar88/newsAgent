@@ -184,7 +184,7 @@ def rewrite_with_gemini(raw_text):
         ],
         "generationConfig": {
             "temperature": 0.4,
-            "maxOutputTokens": 1200,
+            "maxOutputTokens": 2400,
             "responseMimeType": "application/json"
         }
     }
@@ -240,8 +240,16 @@ def rewrite_with_gemini(raw_text):
             print(f"Gemini API returned HTTP {response.status_code}: {response.text[:300]}")
             return None
         res_json = response.json()
-        rewritten = res_json["candidates"][0]["content"]["parts"][0]["text"].strip()
-        data = json.loads(rewritten)
+        candidate = res_json["candidates"][0]
+        rewritten = "".join(part.get("text", "") for part in candidate.get("content", {}).get("parts", [])).strip()
+        if candidate.get("finishReason") == "MAX_TOKENS":
+            print("Gemini output truncated at token limit; keeping item for retry.")
+            return None
+        try:
+            data = json.loads(rewritten)
+        except json.JSONDecodeError as exc:
+            print(f"Gemini returned invalid JSON ({exc.msg}); keeping item for retry.")
+            return None
         if not isinstance(data, dict):
             return None
         title = re.sub(r"https?://\S+|www\.\S+", "", str(data.get("title", ""))).strip()
