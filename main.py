@@ -376,7 +376,7 @@ def main():
             state["last_gemini_at"] = now.isoformat()
             save_publication_state(state)
             try:
-                rewritten_text = rewrite_with_gemini((item.get("title", "") + "\\n" + item["content"]).strip())
+                rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
             except RuntimeError as exc:
                 if str(exc) == "GEMINI_QUOTA_EXCEEDED":
                     state["quota_blocked_until"] = (datetime.now(timezone.utc) + QUOTA_BACKOFF).isoformat()
