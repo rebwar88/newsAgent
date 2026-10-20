@@ -267,6 +267,31 @@ def rewrite_with_gemini(raw_text):
         print(f"Error calling Gemini: {e}")
         return None
 
+def format_without_ai(item):
+    """Safely format existing Sorani text without inventing or translating facts."""
+    raw_title = str(item.get("title") or "")
+    raw_body = str(item.get("content") or "")
+    def clean(value):
+        value = re.sub(r"https?://\S+|www\.\S+|@[A-Za-z0-9_]+|#[\w]+", "", value)
+        value = re.sub(r"<[^>]*>", "", value)
+        value = re.sub(r"[ \t]+", " ", value)
+        return re.sub(r"\n{3,}", "\n\n", value).strip()
+    title, body = clean(raw_title), clean(raw_body)
+    # Do not publish untranslated foreign-language or nearly empty news.
+    sorani_chars = re.findall(r"[ئۆێەڕڵڤپچژگکق]", title + body)
+    if len(sorani_chars) < 8 or len(body) < 60:
+        print("Non-AI fallback rejected: insufficient Sorani text or article content.")
+        return None
+    if not title:
+        title = body.split("\n", 1)[0][:110].strip()
+    if len(title) < 8:
+        print("Non-AI fallback rejected: missing meaningful title.")
+        return None
+    if len(title) + len(body) > 3600:
+        body = body[: max(0, 3550 - len(title))].rsplit(" ", 1)[0] + "…"
+    return {"title": title, "body": body}
+
+
 def send_to_telegram(message_text, source_link=None):
     """هەواڵە داڕێژراوەکە دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -346,26 +371,29 @@ def main():
         print(f"Processing item from {item['source']}...")
         
         now = datetime.now(timezone.utc)
-        if not gemini_slot_available(state, now):
-            print("Gemini request cooldown active; no API request.")
-            break
-        state["last_gemini_at"] = now.isoformat()
-        save_publication_state(state)
-
-        # داڕشتنەوە بە ژیری دەستکرد
-        try:
-            rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
-        except RuntimeError as exc:
-            if str(exc) == "GEMINI_QUOTA_EXCEEDED":
-                state["quota_blocked_until"] = (datetime.now(timezone.utc) + QUOTA_BACKOFF).isoformat()
-                save_publication_state(state)
-                print("Gemini quota exhausted; waiting at least 30 minutes.")
-                break
-            raise
+        rewritten_text = None
+        if gemini_slot_available(state, now):
+            state["last_gemini_at"] = now.isoformat()
+            save_publication_state(state)
+            try:
+                rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
+            except RuntimeError as exc:
+                if str(exc) == "GEMINI_QUOTA_EXCEEDED":
+                    state["quota_blocked_until"] = (datetime.now(timezone.utc) + QUOTA_BACKOFF).isoformat()
+                    save_publication_state(state)
+                    print("Gemini quota exhausted; using safe non-AI fallback.")
+                else:
+                    raise
+        else:
+            print("Gemini cooldown active; trying safe non-AI fallback.")
         if not rewritten_text:
-            print("AI rewrite failed; keeping item for retry.")
+            rewritten_text = format_without_ai(item)
+            if rewritten_text:
+                print("Using non-AI Sorani formatting fallback.")
+        if not rewritten_text:
+            print("No safe publishable text; keeping item for retry.")
             break
-        
+
         # بڵاوکردنەوە لە تێلیگرام
         success = send_to_telegram(rewritten_text)
         if success:

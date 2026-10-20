@@ -1,0 +1,27 @@
+name: Test Safe Fallback
+on:
+  push:
+    branches: [feature/safe-non-ai-fallback-20261020]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - name: Verify fallback without Telegram or Gemini calls
+        run: |
+          python -m py_compile main.py
+          python - <<'PY'
+          from main import format_without_ai
+          good = {"title": "هەواڵێکی نوێ لە کوردستان", "content": "لە ئەمڕۆدا هەواڵێکی نوێ لە ناوچەکە بڵاوکرایەوە و بەپێی زانیارییە بەردەستەکان وردەکارییەکانی ڕووداوەکە ڕاگەیەندراون."}
+          assert format_without_ai(good)
+          assert format_without_ai({"title": "Breaking", "content": "An English news item with no Sorani content and no translation should be posted."}) is None
+          assert format_without_ai({"title": "کورت", "content": "کورت"}) is None
+          print("Fallback checks passed")
+          PY
