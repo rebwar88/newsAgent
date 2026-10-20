@@ -434,6 +434,7 @@ def flush_backlog(items, seen_ids, state, flush_id):
         if send_to_telegram(text):
             seen_ids.add(item["id"])
             published += 1
+            print("Successfully published!")
             save_seen_ids(seen_ids)
             time.sleep(3)  # stay well under Telegram's per-chat rate limit
         else:
@@ -443,6 +444,7 @@ def flush_backlog(items, seen_ids, state, flush_id):
     save_seen_ids(seen_ids)
     save_publication_state(state)
     print(f"Backlog flush completed. Published {published} articles.")
+    print(f"Completed run. Processed {published} articles.")
 
 def main():
     if not PUBLISH_ENABLED:
