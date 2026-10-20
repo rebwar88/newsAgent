@@ -283,7 +283,8 @@ def format_without_ai(item):
         print("Non-AI fallback rejected: insufficient Sorani text or article content.")
         return None
     if not title:
-        title = body.split("\n", 1)[0][:110].strip()
+        meaningful_lines = [line.strip(" •-–—:،.؛!؟") for line in body.splitlines() if len(line.strip(" •-–—:،.؛!؟")) >= 8]
+        title = (meaningful_lines[0] if meaningful_lines else body.strip(" •-–—:،.؛!؟"))[:110].strip()
     if len(title) < 8:
         print("Non-AI fallback rejected: missing meaningful title.")
         return None
@@ -361,6 +362,7 @@ def main():
     # ڕێکخستنی سنووری پۆستکردن لە هەر سوڕانەوەیەکدا
     processed_count = 0
     new_items.sort(key=lambda item: not is_breaking(item))
+    gemini_attempted = False
     for item in new_items:
         if processed_count >= MAX_ITEMS_PER_RUN:
             break
@@ -372,7 +374,8 @@ def main():
         
         now = datetime.now(timezone.utc)
         rewritten_text = None
-        if gemini_slot_available(state, now):
+        if not gemini_attempted and gemini_slot_available(state, now):
+            gemini_attempted = True
             state["last_gemini_at"] = now.isoformat()
             save_publication_state(state)
             try:
@@ -391,8 +394,8 @@ def main():
             if rewritten_text:
                 print("Using non-AI Sorani formatting fallback.")
         if not rewritten_text:
-            print("No safe publishable text; keeping item for retry.")
-            break
+            print("No safe publishable text; checking next item.")
+            continue
 
         # بڵاوکردنەوە لە تێلیگرام
         success = send_to_telegram(rewritten_text)
