@@ -49,3 +49,23 @@
 - بچۆ پەڕەی **Actions** لە گیت‌هەب.
 - کلیک لەسەر وۆرکفلۆی **Automated News Workflow** بکە.
 - دوگمەی **Run workflow** دابگرە.
+
+---
+
+### کارپێکردنی هەر ١٥ خولەک جارێک بە cron-job.org
+
+گیت‌هەب کاتی `schedule` بە دەگمەن دوا دەخات یان تێدەپەڕێنێت، بۆیە بۆتەکە بە cron-job.org دەست پێدەکرێت:
+
+1. لە گیت‌هەب تۆکنێکی Fine-grained دروست بکە، تەنها بۆ ئەم کۆگایە، بە مۆڵەتی **Actions: Read and write**.
+2. لە [cron-job.org](https://cron-job.org) هەژمار دروست بکە و Cronjobێکی نوێ زیاد بکە:
+   - URL: `https://api.github.com/repos/rebwar88/newsAgent/actions/workflows/news_bot.yml/dispatches`
+   - Schedule: هەر ١٥ خولەک
+   - Request method: `POST`
+   - Request body: `{"ref":"main"}`
+   - Headers:
+     - `Authorization: Bearer <تۆکنەکەت>`
+     - `Accept: application/vnd.github+json`
+     - `Content-Type: application/json`
+3. پاش تاقیکردنەوە، وەڵامی سەرکەوتوو `204` ـە.
+
+تۆکنەکە تەنها لە cron-job.org دابنێ و هەرگیز لە کۆددا مەینووسە.

@@ -19,12 +19,12 @@ PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
 
 SEEN_FILE = "seen_urls.json"
 MAX_ITEMS_PER_RUN = 1
-GEMINI_INTERVAL = timedelta(minutes=15)
+GEMINI_INTERVAL = timedelta(minutes=10)  # shorter than the 15-min trigger so Gemini is not skipped by timing jitter
 QUOTA_BACKOFF = timedelta(minutes=30)
 PUBLISH_STATE_FILE = "publication_state.json"
 # Comma-separated public Facebook POST permalinks; no login or Meta API required.
 FACEBOOK_PUBLIC_POST_URLS = [u.strip() for u in os.getenv("FACEBOOK_PUBLIC_POST_URLS", "").split(",") if u.strip()]
-NORMAL_INTERVAL = timedelta(minutes=15)
+NORMAL_INTERVAL = timedelta(minutes=12)  # shorter than the 15-min trigger so one article is published per trigger
 
 # لیستی فیدی ماڵپەڕەکان (RSS)
 RSS_FEEDS = [
