@@ -1,12 +1,12 @@
 {
-  "run_id": "39499504859",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/39499504859",
-  "started_at": "2026-10-20T21:20:29.996502+00:00",
-  "finished_at": "2026-10-20T21:20:31.181504+00:00",
-  "duration_seconds": 1.2,
+  "run_id": "39500185855",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/39500185855",
+  "started_at": "2026-10-20T21:25:19.125607+00:00",
+  "finished_at": "2026-10-20T21:25:23.920642+00:00",
+  "duration_seconds": 4.8,
   "exit_code": 0,
   "found": 3,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,29 @@
       "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "AI article generated"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Translation fallback rejected: output is not clean Sorani.",
+    "Gemini cooldown active; trying safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,9 +50,33 @@
       "message": "Found 3 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini cooldown active; trying safe non-AI fallback."
+    },
+    {
+      "stage": "gemini",
+      "message": "Using free-translation fallback (non-Gemini)."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next normal-news publishing slot.\nWaiting for next normal-news publishing slot.\nWaiting for next normal-news publishing slot.\nCompleted run. Processed 0 articles."
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation fallback rejected: output is not clean Sorani.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini cooldown active; trying safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nUsing free-translation fallback (non-Gemini).\nSuccessfully published!\nCompleted run. Processed 1 articles."
 }
