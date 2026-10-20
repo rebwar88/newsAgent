@@ -272,10 +272,10 @@ def format_without_ai(item):
     raw_title = str(item.get("title") or "")
     raw_body = str(item.get("content") or "")
     def clean(value):
-        value = re.sub(r"https?://\\S+|www\\.\\S+|@[A-Za-z0-9_]+|#[\\w]+", "", value)
+        value = re.sub(r"https?://\S+|www\.\S+|@[A-Za-z0-9_]+|#[\w]+", "", value)
         value = re.sub(r"<[^>]*>", "", value)
-        value = re.sub(r"[ \\t]+", " ", value)
-        return re.sub(r"\\n{3,}", "\\n\\n", value).strip()
+        value = re.sub(r"[ \t]+", " ", value)
+        return re.sub(r"\n{3,}", "\n\n", value).strip()
     title, body = clean(raw_title), clean(raw_body)
     # Do not publish untranslated foreign-language or nearly empty news.
     sorani_chars = re.findall(r"[ئۆێەڕڵڤپچژگکق]", title + body)
@@ -283,7 +283,7 @@ def format_without_ai(item):
         print("Non-AI fallback rejected: insufficient Sorani text or article content.")
         return None
     if not title:
-        title = body.split("\\n", 1)[0][:110].strip()
+        title = body.split("\n", 1)[0][:110].strip()
     if len(title) < 8:
         print("Non-AI fallback rejected: missing meaningful title.")
         return None
