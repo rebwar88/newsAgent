@@ -5,6 +5,7 @@ import html
 import re
 from datetime import datetime, timezone, timedelta
 import requests
+import time
 import feedparser
 from bs4 import BeautifulSoup
 from facebook_public import fetch_facebook_public_posts, discover_public_page_posts, FACEBOOK_PAGE_SHARE_URLS
@@ -188,9 +189,33 @@ def rewrite_with_gemini(raw_text):
         }
     }
 
+    def request_with_retry(selected_model):
+        endpoint = f"{base_url}/models/{selected_model}:generateContent"
+        for attempt in range(3):
+            try:
+                response = requests.post(endpoint, headers=headers, json=payload, timeout=45)
+            except (requests.Timeout, requests.ConnectionError) as exc:
+                if attempt == 2:
+                    print(f"Gemini transport unavailable after retries ({type(exc).__name__}).")
+                    return None
+                delay = (5, 15)[attempt]
+                print(f"Gemini transport issue; retry {attempt + 1}/2 in {delay}s.")
+                time.sleep(delay)
+                continue
+            if response.status_code not in (500, 502, 503, 504):
+                return response
+            if attempt == 2:
+                print(f"Gemini HTTP {response.status_code} after 3 attempts; keeping article for retry.")
+                return response
+            delay = (5, 15)[attempt]
+            print(f"Gemini HTTP {response.status_code}; retry {attempt + 1}/2 in {delay}s.")
+            time.sleep(delay)
+        return None
+
     try:
-        endpoint = f"{base_url}/models/{model}:generateContent"
-        response = requests.post(endpoint, headers=headers, json=payload, timeout=60)
+        response = request_with_retry(model)
+        if response is None:
+            return None
         if response.status_code == 404:
             # Some keys/projects have a different set of supported models.
             models_response = requests.get(f"{base_url}/models", headers=headers, timeout=15)
@@ -206,7 +231,9 @@ def rewrite_with_gemini(raw_text):
                 return None
             model = next((m for m in supported if m.startswith("gemini-3.8-flash")), next((m for m in supported if m != GEMINI_MODEL), supported[0]))
             print(f"Requested model unavailable; retrying with available model: {model}")
-            response = requests.post(f"{base_url}/models/{model}:generateContent", headers=headers, json=payload, timeout=25)
+            response = request_with_retry(model)
+            if response is None:
+                return None
         if response.status_code == 429:
             raise RuntimeError("GEMINI_QUOTA_EXCEEDED")
         if not response.ok:

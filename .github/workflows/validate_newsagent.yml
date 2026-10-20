@@ -1,0 +1,35 @@
+name: Validate NewsAgent Changes
+
+on:
+  push:
+    branches:
+      - fix/dashboard-export-syntax-20261020
+  pull_request:
+    paths:
+      - 'main.py'
+      - 'dashboard_export.py'
+      - '.github/workflows/news_bot.yml'
+      - '.github/workflows/validate_newsagent.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout proposed changes
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Check Python syntax without publishing
+        run: python -m py_compile main.py dashboard_export.py run_and_report.py
+      - name: Validate telemetry output without credentials
+        run: |
+          printf 'Checking for new articles...\nFound 0 new items.\nCompleted run. Processed 0 articles.\n' > newsagent_run.log
+          python dashboard_export.py
+          python -c 'import json; d=json.load(open("docs/status.json")); assert d["found"] == 0 and d["published"] == 0; print("Telemetry JSON verified")'

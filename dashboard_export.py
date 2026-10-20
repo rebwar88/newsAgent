@@ -78,7 +78,10 @@ try:
     duration = round((datetime.fromisoformat(end) - datetime.fromisoformat(start)).total_seconds(), 1)
 except (TypeError, ValueError):
     pass
-payload = {"run_id": os.getenv("GITHUB_RUN_ID", ""), "run_url": run_url, "started_at": start, "finished_at": end, "duration_seconds": duration, "exit_code": exit_code, "found": found, "published": published, "stages": stages, "issues": [safe(x) for x in issues[-20:]], "events": [{"stage": x["stage"], "message": safe(x["message"])} for x in events[-60:]], "log": "\n".join(safe(x) for x in lines if any(k in x for k in ("Checking for new", "Found ", "Processing item", "Gemini", "AI rewrite", "cooldown", "quota", "published", "Completed run", "Telegram rejected", "Error ", "Waiting "))[-12000:]}
+log_keywords = ("Checking for new", "Found ", "Processing item", "Gemini", "AI rewrite", "cooldown", "quota", "published", "Completed run", "Telegram rejected", "Error ", "Waiting ")
+public_log = "\n".join(safe(line) for line in lines if any(key in line for key in log_keywords))[-12000:]
+payload = {"run_id": os.getenv("GITHUB_RUN_ID", ""), "run_url": run_url, "started_at": start, "finished_at": end, "duration_seconds": duration, "exit_code": exit_code, "found": found, "published": published, "stages": stages, "issues": [safe(x) for x in issues[-20:]], "events": [{"stage": x["stage"], "message": safe(x["message"])} for x in events[-60:]], "log": public_log}
+
 Path("docs").mkdir(exist_ok=True)
 Path("docs/status.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 print("Dashboard telemetry exported")
