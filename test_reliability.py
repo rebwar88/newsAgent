@@ -99,5 +99,44 @@ class ReliabilityTests(unittest.TestCase):
                             self.assertEqual(send.call_count, 4)
 
 
+    def test_extracts_photo_from_telegram_preview_html(self):
+        from bs4 import BeautifulSoup
+        html_doc = '<div class="tgme_widget_message"><a class="tgme_widget_message_photo_wrap" style="width:800px;background-image:url(\'https://cdn.example.org/file/a.jpg\')"></a></div>'
+        msg = BeautifulSoup(html_doc, "html.parser").find("div")
+        self.assertEqual(main.extract_telegram_image(msg), "https://cdn.example.org/file/a.jpg")
+        self.assertEqual(main.extract_telegram_image(BeautifulSoup("<div></div>", "html.parser").find("div")), "")
+
+    def _tg_ok(self):
+        return Mock(ok=True, status_code=200, json=lambda: {"ok": True})
+
+    def _send_with_image(self, message, post_results):
+        image = Mock(ok=True, status_code=200, headers={"Content-Type": "image/jpeg"}, content=b"x" * 5000)
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "get", return_value=image), patch.object(main.requests, "post", side_effect=post_results) as post:
+                result = main.send_to_telegram(message, image_url="https://cdn.example.org/a.jpg")
+        return result, [c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list]
+
+    def test_short_article_sent_as_photo_with_caption(self):
+        result, calls = self._send_with_image({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, [self._tg_ok()])
+        self.assertTrue(result)
+        self.assertEqual(calls, ["sendPhoto"])
+
+    def test_long_article_sends_photo_then_text(self):
+        result, calls = self._send_with_image({"title": "سەردێڕی تاقیکردنەوە", "body": "ب" * 1500}, [self._tg_ok(), self._tg_ok()])
+        self.assertTrue(result)
+        self.assertEqual(calls, ["sendPhoto", "sendMessage"])
+
+    def test_rejected_photo_falls_back_to_text(self):
+        bad = Mock(ok=False, status_code=400, json=lambda: {"description": "bad image"})
+        result, calls = self._send_with_image({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, [bad, self._tg_ok()])
+        self.assertTrue(result)
+        self.assertEqual(calls, ["sendPhoto", "sendMessage"])
+
+    def test_non_image_download_is_ignored(self):
+        page = Mock(ok=True, status_code=200, headers={"Content-Type": "text/html"}, content=b"x" * 5000)
+        with patch.object(main.requests, "get", return_value=page):
+            self.assertIsNone(main.download_image("https://example.org/a"))
+
+
 if __name__ == "__main__":
     unittest.main()

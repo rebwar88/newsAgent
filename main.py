@@ -96,6 +96,49 @@ def gemini_slot_available(state, now):
         return False
     return True
 
+IMAGE_UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+MAX_IMAGE_BYTES = 9_000_000
+
+def extract_telegram_image(msg):
+    """Return the first photo (or link-preview image) URL of a public Telegram web-preview message."""
+    for css in ("tgme_widget_message_photo_wrap", "link_preview_image", "link_preview_right_image"):
+        node = msg.find(["a", "i"], class_=css)
+        if node:
+            m = re.search(r"url\(['\"]?([^'\")]+)", node.get("style", ""))
+            if m and m.group(1).startswith("https://"):
+                return html.unescape(m.group(1))
+    return ""
+
+def extract_rss_image(entry, summary_html):
+    for media in entry.get("media_content", []) or []:
+        url = media.get("url", "")
+        if url.startswith("https://") and (media.get("type", "image").startswith("image") or media.get("medium") == "image"):
+            return url
+    for link in entry.get("links", []) or []:
+        if str(link.get("type", "")).startswith("image/") and str(link.get("href", "")).startswith("https://"):
+            return link["href"]
+    img = BeautifulSoup(summary_html or "", "html.parser").find("img")
+    src = img.get("src", "") if img else ""
+    return src if src.startswith("https://") else ""
+
+def download_image(url):
+    """Download an image so it can be uploaded to Telegram. Returns (bytes, content_type) or None."""
+    if not url or not url.startswith("https://"):
+        return None
+    try:
+        res = requests.get(url, headers=IMAGE_UA, timeout=15)
+        content_type = res.headers.get("Content-Type", "").split(";")[0].strip().lower()
+        if not res.ok or not content_type.startswith("image/"):
+            print(f"Image skipped (HTTP {res.status_code}, type {content_type or 'unknown'}).")
+            return None
+        if not 1000 <= len(res.content) <= MAX_IMAGE_BYTES:
+            print("Image skipped (unsuitable size).")
+            return None
+        return res.content, content_type
+    except requests.RequestException as exc:
+        print(f"Image download failed ({type(exc).__name__}).")
+        return None
+
 def fetch_rss_news(seen_ids):
     """هەواڵە نوێیەکان لە فیدی RSSی ماڵپەڕەکان کۆدەکاتەوە."""
     news_items = []
@@ -117,7 +160,8 @@ def fetch_rss_news(seen_ids):
                         "source": "وێبسایت",
                         "title": title,
                         "content": clean_text or title,
-                        "link": link
+                        "link": link,
+                        "image": extract_rss_image(entry, summary)
                     })
         except Exception as e:
             print(f"Error fetching RSS {feed_url}: {e}")
@@ -151,7 +195,8 @@ def fetch_telegram_public_channel(channel_username, seen_ids):
                         "source": f"تێلیگرام (@{channel_username})",
                         "title": "",
                         "content": content,
-                        "link": f"https://t.me/{data_post}" if data_post else ""
+                        "link": f"https://t.me/{data_post}" if data_post else "",
+                        "image": extract_telegram_image(msg)
                     })
     except Exception as e:
         print(f"Error fetching Telegram @{channel_username}: {e}")
@@ -349,15 +394,34 @@ def translate_without_gemini(item):
     return format_without_ai({"title": t_title, "content": t_body})
 
 
-def send_to_telegram(message_text, source_link=None):
-    """هەواڵە داڕێژراوەکە دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
+def post_telegram(method, data, files=None):
+    """Call a Telegram Bot API method. Returns "ok", "rejected" (HTTP error) or "uncertain" (transport error)."""
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/{method}"
+    try:
+        res = requests.post(url, json=data, timeout=15) if files is None else requests.post(url, data=data, files=files, timeout=40)
+        if not res.ok:
+            # Never print the request URL: it contains the bot token.
+            try:
+                detail = res.json().get("description", "Unknown Telegram error")
+            except ValueError:
+                detail = "Non-JSON Telegram response"
+            print(f"Telegram rejected {method} (HTTP {res.status_code}): {detail}")
+            if res.status_code == 403:
+                raise PermissionError("Telegram bot lacks access to the configured destination channel")
+            return "rejected"
+        return "ok" if res.json().get("ok") is True else "rejected"
+    except requests.RequestException as e:
+        print(f"Telegram transport error ({type(e).__name__}); delivery status uncertain.")
+        return "uncertain"
+
+def send_to_telegram(message_text, source_link=None, image_url=None):
+    """هەواڵە داڕێژراوەکە (و وێنەکەی ئەگەر هەبێت) دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Telegram tokens are not set. Message printed to console:")
         print(message_text)
         return False
 
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    
+    title = body = ""
     if isinstance(message_text, dict):
         title = message_text.get("title", "").strip()
         body = message_text.get("body", "").strip()
@@ -370,29 +434,30 @@ def send_to_telegram(message_text, source_link=None):
         print("Article too long for Telegram; skipping.")
         return False
 
-    payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": full_text,
-        "parse_mode": "HTML",
-        "disable_web_page_preview": True
-    }
+    text_payload = {"chat_id": TELEGRAM_CHAT_ID, "text": full_text, "parse_mode": "HTML", "disable_web_page_preview": True}
 
-    try:
-        res = requests.post(url, json=payload, timeout=15)
-        if not res.ok:
-            # Never print the request URL: it contains the bot token.
-            try:
-                detail = res.json().get("description", "Unknown Telegram error")
-            except ValueError:
-                detail = "Non-JSON Telegram response"
-            print(f"Telegram rejected publication (HTTP {res.status_code}): {detail}")
-            if res.status_code == 403:
-                raise PermissionError("Telegram bot lacks access to the configured destination channel")
-            return False
-        return res.json().get("ok") is True
-    except requests.RequestException as e:
-        print(f"Telegram transport error ({type(e).__name__}); delivery status uncertain.")
-        return False
+    photo = download_image(image_url) if image_url else None
+    if photo:
+        data, content_type = photo
+        files = {"photo": ("news." + content_type.split("/")[-1].replace("jpeg", "jpg"), data, content_type)}
+        if len(full_text) <= 1000:
+            status = post_telegram("sendPhoto", {"chat_id": TELEGRAM_CHAT_ID, "caption": full_text, "parse_mode": "HTML"}, files)
+            if status == "ok":
+                return True
+            if status == "uncertain":
+                return False
+            print("Photo delivery rejected; sending text only.")
+        elif title:
+            # Telegram captions are limited to 1024 characters: photo with the headline, article in a second message.
+            caption = "<b>" + html.escape(title[:900]) + "</b>"
+            status = post_telegram("sendPhoto", {"chat_id": TELEGRAM_CHAT_ID, "caption": caption, "parse_mode": "HTML"}, files)
+            if status == "ok":
+                return post_telegram("sendMessage", dict(text_payload, text=html.escape(body))) == "ok"
+            if status == "uncertain":
+                return False
+            print("Photo delivery rejected; sending text only.")
+
+    return post_telegram("sendMessage", text_payload) == "ok"
 
 FLUSH_FILE = "flush_backlog.json"
 FLUSH_MAX_ITEMS = 12
@@ -431,7 +496,7 @@ def flush_backlog(items, seen_ids, state, flush_id):
             print("Flush: no safe publishable text; marking item as seen.")
             seen_ids.add(item["id"])
             continue
-        if send_to_telegram(text):
+        if send_to_telegram(text, image_url=item.get("image")):
             seen_ids.add(item["id"])
             published += 1
             print("Successfully published!")
@@ -515,7 +580,7 @@ def main():
             continue
 
         # بڵاوکردنەوە لە تێلیگرام
-        success = send_to_telegram(rewritten_text)
+        success = send_to_telegram(rewritten_text, image_url=item.get("image"))
         if success:
             seen_ids.add(item["id"])
             if not breaking:
