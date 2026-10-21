@@ -80,6 +80,7 @@ def post_to_item(raw, page_url, now):
     page_name = raw.get("pageName") or user.get("name") or fallback_name or "نەناسراو"
     return {"id": "fb:" + post_id, "source": "facebook:" + page_url.rstrip("/").rsplit("/", 1)[-1], "title": "",
             "source_type": "facebook", "source_name": page_name,
+            "source_published_at": posted.isoformat() if posted else None, "fetched_at": now.isoformat(),
             "content": text, "link": post_url, "image": images[0] if images else "", "images": images, "video": ""}
 
 
