@@ -141,6 +141,63 @@ def download_image(url):
 
 MAX_VIDEO_BYTES = 45_000_000  # Telegram bots can upload up to 50 MB
 
+def read_mp4_info(data):
+    """Read (width, height, duration_seconds) of the first video track from an MP4/MOV file. Returns None if unreadable."""
+    def boxes(start, end):
+        pos = start
+        while pos + 8 <= end:
+            size = int.from_bytes(data[pos:pos + 4], "big")
+            kind = data[pos + 4:pos + 8]
+            header = 8
+            if size == 1:
+                size = int.from_bytes(data[pos + 8:pos + 16], "big")
+                header = 16
+            elif size == 0:
+                size = end - pos
+            if size < header:
+                return
+            yield kind, pos + header, min(pos + size, end)
+            pos += size
+    try:
+        moov = next(((a, b) for kind, a, b in boxes(0, len(data)) if kind == b"moov"), None)
+        if not moov:
+            return None
+        duration = 0.0
+        found = None
+        for kind, a, b in boxes(*moov):
+            if kind == b"mvhd":
+                version = data[a]
+                offset = a + (20 if version == 1 else 12)
+                timescale = int.from_bytes(data[offset:offset + 4], "big")
+                dur = int.from_bytes(data[offset + 4:offset + (12 if version == 1 else 8)], "big")
+                duration = dur / timescale if timescale else 0.0
+            elif kind == b"trak" and not found:
+                tkhd = None
+                is_video = False
+                for k2, a2, b2 in boxes(a, b):
+                    if k2 == b"tkhd":
+                        tkhd = a2
+                    elif k2 == b"mdia":
+                        for k3, a3, b3 in boxes(a2, b2):
+                            if k3 == b"hdlr" and data[a3 + 8:a3 + 12] == b"vide":
+                                is_video = True
+                if tkhd is not None and is_video:
+                    version = data[tkhd]
+                    base = tkhd + (52 if version == 1 else 40)
+                    matrix = [int.from_bytes(data[base + i * 4:base + i * 4 + 4], "big", signed=True) for i in range(9)]
+                    wpos = base + 36
+                    width = int.from_bytes(data[wpos:wpos + 4], "big") >> 16
+                    height = int.from_bytes(data[wpos + 4:wpos + 8], "big") >> 16
+                    if matrix[0] == 0 and matrix[4] == 0 and matrix[1] != 0 and matrix[3] != 0:
+                        width, height = height, width  # rotated 90/270 degrees: the displayed size is swapped
+                    if width > 0 and height > 0:
+                        found = (width, height)
+        if not found:
+            return None
+        return found[0], found[1], int(round(duration))
+    except (IndexError, ValueError, ZeroDivisionError):
+        return None
+
 def extract_telegram_video(msg):
     """Return the direct video URL of a public Telegram web-preview message (only small videos expose one)."""
     node = msg.find("video")
@@ -535,7 +592,14 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
     video = download_video(video_url) if video_url else None
     if video:
         data, content_type = video
-        outcome = send_media("sendVideo", "video", "news." + content_type.split("/")[-1], data, content_type, 180, {"supports_streaming": "true"})
+        extra = {"supports_streaming": "true"}
+        info = read_mp4_info(data)
+        if info:
+            # Without explicit size Telegram may guess the aspect ratio wrong (stretched or cropped video).
+            extra.update({"width": str(info[0]), "height": str(info[1])})
+            if info[2] > 0:
+                extra["duration"] = str(info[2])
+        outcome = send_media("sendVideo", "video", "news." + content_type.split("/")[-1], data, content_type, 180, extra)
         if outcome is not None:
             return outcome
 

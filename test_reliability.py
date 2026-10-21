@@ -202,5 +202,36 @@ class ReliabilityTests(unittest.TestCase):
         self.assertEqual([c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list], ["sendVideo", "sendMessage"])
 
 
+    @staticmethod
+    def _box(kind, payload):
+        return (len(payload) + 8).to_bytes(4, "big") + kind + payload
+
+    def _fake_mp4(self, width, height, rotated=False, duration=12, timescale=1000):
+        import struct
+        mvhd = self._box(b"mvhd", b"\x00\x00\x00\x00" + b"\x00" * 8 + timescale.to_bytes(4, "big") + (duration * timescale).to_bytes(4, "big") + b"\x00" * 80)
+        matrix = struct.pack(">9i", 0 if rotated else 0x10000, 0x10000 if rotated else 0, 0, -0x10000 if rotated else 0, 0 if rotated else 0x10000, 0, 0, 0, 0x40000000)
+        tkhd = self._box(b"tkhd", b"\x00\x00\x00\x07" + b"\x00" * 20 + b"\x00" * 16 + matrix + (width << 16).to_bytes(4, "big") + (height << 16).to_bytes(4, "big"))
+        hdlr = self._box(b"hdlr", b"\x00" * 8 + b"vide" + b"\x00" * 12)
+        trak = self._box(b"trak", tkhd + self._box(b"mdia", hdlr))
+        return self._box(b"ftyp", b"isom" + b"\x00" * 8) + self._box(b"mdat", b"\x00" * 6000) + self._box(b"moov", mvhd + trak)
+
+    def test_reads_mp4_size_and_duration(self):
+        self.assertEqual(main.read_mp4_info(self._fake_mp4(1280, 720)), (1280, 720, 12))
+
+    def test_rotated_mp4_swaps_size(self):
+        self.assertEqual(main.read_mp4_info(self._fake_mp4(1920, 1080, rotated=True)), (1080, 1920, 12))
+
+    def test_unreadable_video_has_no_info(self):
+        self.assertIsNone(main.read_mp4_info(b"not a video" * 100))
+
+    def test_sendvideo_includes_real_dimensions(self):
+        video = Mock(ok=True, status_code=200, headers={"Content-Type": "video/mp4"}, iter_content=lambda n: iter([self._fake_mp4(720, 1280)]))
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "get", return_value=video), patch.object(main.requests, "post", side_effect=[self._tg_ok()]) as post:
+                main.send_to_telegram({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, video_url="https://cdn.example.org/v.mp4")
+        sent = post.call_args.kwargs["data"]
+        self.assertEqual((sent["width"], sent["height"], sent["duration"]), ("720", "1280", "12"))
+
+
 if __name__ == "__main__":
     unittest.main()
