@@ -5,11 +5,18 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
+DEFAULT_PAGES = [
+    "https://www.facebook.com/Rudaw.net",
+    "https://www.facebook.com/avamediatv",
+    "https://www.facebook.com/diplomatic.media",
+    "https://www.facebook.com/profile.php?id=100077778374527",
+    "https://www.facebook.com/channel8corp",
+]
 APIFY_TOKEN = os.getenv("APIFY_TOKEN", "")
 APIFY_ACTOR = os.getenv("APIFY_ACTOR", "apify~facebook-posts-scraper")
-FACEBOOK_PAGE_URLS = [u.strip() for u in os.getenv("FACEBOOK_PAGE_URLS", "https://www.facebook.com/Rudaw.net").split(",") if u.strip()]
-APIFY_INTERVAL = timedelta(minutes=int(os.getenv("APIFY_INTERVAL_MINUTES", "60")))
-APIFY_RESULTS_LIMIT = int(os.getenv("APIFY_RESULTS_LIMIT", "3"))  # newest posts per page per call = the cost cap
+FACEBOOK_PAGE_URLS = [u.strip() for u in os.getenv("FACEBOOK_PAGE_URLS", ",".join(DEFAULT_PAGES)).split(",") if u.strip()]
+APIFY_INTERVAL = timedelta(minutes=int(os.getenv("APIFY_INTERVAL_MINUTES", "120")))
+APIFY_RESULTS_LIMIT = int(os.getenv("APIFY_RESULTS_LIMIT", "2"))  # newest posts per page per call = the cost cap
 MAX_POST_AGE = timedelta(hours=12)
 
 
@@ -79,8 +86,8 @@ def fetch_facebook_via_apify(seen_ids, state, now=None):
     state["last_apify_at"] = now.isoformat()  # set before the paid call so failures cannot cause a cost loop
     try:
         res = requests.post(f"https://api.apify.com/v2/acts/{APIFY_ACTOR}/run-sync-get-dataset-items",
-                            headers={"Authorization": f"Bearer {APIFY_TOKEN}"}, params={"timeout": 120},
-                            json={"startUrls": [{"url": u} for u in FACEBOOK_PAGE_URLS], "resultsLimit": APIFY_RESULTS_LIMIT}, timeout=150)
+                            headers={"Authorization": f"Bearer {APIFY_TOKEN}"}, params={"timeout": 180},
+                            json={"startUrls": [{"url": u} for u in FACEBOOK_PAGE_URLS], "resultsLimit": APIFY_RESULTS_LIMIT}, timeout=200)
         if not res.ok:
             print(f"Apify request failed (HTTP {res.status_code}).")
             return []
