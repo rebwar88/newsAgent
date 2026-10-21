@@ -8,6 +8,7 @@ import requests
 import time
 import feedparser
 from bs4 import BeautifulSoup
+from apify_facebook import fetch_facebook_via_apify
 from facebook_public import fetch_facebook_public_posts, discover_public_page_posts, FACEBOOK_PAGE_SHARE_URLS
 
 # ================= Configuration =================
@@ -730,6 +731,10 @@ def main():
 
     # ٣. تەنها لینکە گشتییەکانی پۆستی Facebook کە بەبێ چوونەژوورەوە دەقەکەیان بەردەستە
     # Facebook collection temporarily paused while Telegram delivery is stabilized.
+    apify_before = state.get("last_apify_at")
+    new_items.extend(fetch_facebook_via_apify(seen_ids, state))
+    if state.get("last_apify_at") != apify_before:
+        save_publication_state(state)
 
     print(f"Found {len(new_items)} new items.")
 

@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 import os
 import tempfile
 import unittest
@@ -269,6 +270,41 @@ class ReliabilityTests(unittest.TestCase):
         result, post = self._album_send({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, [bad, self._tg_ok()])
         self.assertTrue(result)
         self.assertEqual([c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list], ["sendMediaGroup", "sendPhoto"])
+
+
+    def test_apify_posts_become_news_items(self):
+        import apify_facebook as af
+        now = datetime.now(timezone.utc)
+        rows = [
+            {"postId": "1", "postUrl": "https://www.facebook.com/Rudaw.net/posts/1", "text": "ئێران ڕایگەیاند کە ئامادەیە بۆ دانوستان لەگەڵ وڵاتانی ئەوروپا", "time": now.isoformat(),
+             "media": [{"photo_image": {"uri": "https://scontent.example/a.jpg"}}, {"thumbnail": "https://scontent.example/b.jpg"}], "inputUrl": "https://www.facebook.com/Rudaw.net"},
+            {"postId": "2", "text": "کورت", "time": now.isoformat()},
+            {"postId": "3", "text": "پۆستێکی کۆن کە زیاتر لە دوازدە کاتژمێر لەمەوپێش بڵاوکراوەتەوە", "time": (now - timedelta(hours=30)).isoformat()},
+        ]
+        with patch.object(af, "APIFY_TOKEN", "x"), patch.object(af.requests, "post", return_value=Mock(ok=True, status_code=201, json=lambda: rows)):
+            state = {}
+            items = af.fetch_facebook_via_apify(set(), state, now)
+        self.assertEqual([i["id"] for i in items], ["fb:1"])
+        self.assertEqual(items[0]["images"], ["https://scontent.example/a.jpg", "https://scontent.example/b.jpg"])
+        self.assertIn("last_apify_at", state)
+
+    def test_apify_respects_interval_and_missing_token(self):
+        import apify_facebook as af
+        now = datetime.now(timezone.utc)
+        with patch.object(af, "APIFY_TOKEN", ""), patch.object(af.requests, "post") as post:
+            self.assertEqual(af.fetch_facebook_via_apify(set(), {}, now), [])
+            post.assert_not_called()
+        with patch.object(af, "APIFY_TOKEN", "x"), patch.object(af.requests, "post") as post:
+            self.assertEqual(af.fetch_facebook_via_apify(set(), {"last_apify_at": (now - timedelta(minutes=5)).isoformat()}, now), [])
+            post.assert_not_called()
+
+    def test_apify_failure_still_blocks_immediate_retry(self):
+        import apify_facebook as af
+        now = datetime.now(timezone.utc)
+        state = {}
+        with patch.object(af, "APIFY_TOKEN", "x"), patch.object(af.requests, "post", return_value=Mock(ok=False, status_code=402)):
+            self.assertEqual(af.fetch_facebook_via_apify(set(), state, now), [])
+        self.assertFalse(af.apify_slot_available(state, now + timedelta(minutes=5)))
 
 
 if __name__ == "__main__":
