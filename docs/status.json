@@ -1,12 +1,12 @@
 {
-  "run_id": "39678619870",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/39678619870",
-  "started_at": "2026-10-21T21:25:19.260149+00:00",
-  "finished_at": "2026-10-21T21:25:20.937731+00:00",
-  "duration_seconds": 1.7,
+  "run_id": "39679308660",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/39679308660",
+  "started_at": "2026-10-21T21:30:30.615648+00:00",
+  "finished_at": "2026-10-21T21:33:45.853585+00:00",
+  "duration_seconds": 195.2,
   "exit_code": 0,
-  "found": 2,
-  "published": 0,
+  "found": 5,
+  "published": 2,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,31 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "2 items found"
+      "detail": "5 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 2 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,62 +46,58 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 2 new items."
+      "message": "Found 5 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 2 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 2 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini transport issue; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
   "articles": [
     {
       "id": "5298827eacc7453989d7d1eb9f7bb32f",
       "title": "وەزارەتی دارایی: لیستی مووچەی مانگی 10 ڕەوانەی بەغداد کرا",
       "source": "بەپەلە|Breaking News",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-10-21T20:13:09.073533+00:00",
-      "updated_at": "2026-10-21T21:25:20.907965+00:00",
+      "updated_at": "2026-10-21T21:31:38.090891+00:00",
       "eligible_at": "2026-10-21T21:25:34.397151+00:00",
       "history": [
-        {
-          "stage": "translating",
-          "at": "2026-10-21T20:46:02.306630+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ Gemini",
-          "method": "translation"
-        },
-        {
-          "stage": "blocked_content",
-          "at": "2026-10-21T20:46:02.308845+00:00",
-          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-          "method": "translation"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-21T20:50:24.214928+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "translation"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-21T20:50:24.250988+00:00",
-          "reason": "Gemini بەردەست نییە یان لە سنووری چاوەڕوانیدایە",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-21T20:50:24.254695+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ Gemini",
-          "method": "translation"
-        },
-        {
-          "stage": "blocked_content",
-          "at": "2026-10-21T20:50:24.258367+00:00",
-          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-          "method": "translation"
-        },
         {
           "stage": "selected",
           "at": "2026-10-21T20:56:21.157327+00:00",
@@ -240,18 +241,235 @@
           "at": "2026-10-21T21:25:20.907965+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-21T21:30:32.286991+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-21T21:30:32.290064+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-21T21:30:32.296203+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-21T21:31:38.083983+00:00",
+          "reason": "Gemini بەردەست نییە یان لە سنووری چاوەڕوانیدایە",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-21T21:31:38.087834+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ Gemini",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-10-21T21:31:38.090891+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        }
+      ]
+    },
+    {
+      "id": "da868ac80e8b61edb813230e930ba2b0",
+      "title": "Hillary Clinton:",
+      "source": "Clash Report",
+      "stage": "waiting_slot",
+      "method": "undecided",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-10-21T21:30:32.257921+00:00",
+      "updated_at": "2026-10-21T21:33:45.824203+00:00",
+      "eligible_at": "2026-10-21T21:35:45.817415+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-21T21:30:32.257921+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-21T21:30:32.261267+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-21T21:33:45.820881+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-21T21:33:45.824203+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "a8b281d33c3b47974cfbb489703aa805",
+      "title": "Hillary Clinton:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-21T21:30:32.264931+00:00",
+      "updated_at": "2026-10-21T21:30:32.268098+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-21T21:30:32.264931+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-21T21:30:32.268098+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "70752172576f87f0f5515146674d8d8c",
+      "title": "Hillary Clinton:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-21T21:30:32.271119+00:00",
+      "updated_at": "2026-10-21T21:30:32.274218+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-21T21:30:32.271119+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-21T21:30:32.274218+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "fcfaf9ce16a02c5a233852c196f6a40b",
+      "title": "Hillary Clinton:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-21T21:30:32.277312+00:00",
+      "updated_at": "2026-10-21T21:30:32.280393+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-21T21:30:32.277312+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-21T21:30:32.280393+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "7713475b1d690bf5ef222eb88db9f40b",
+      "title": "BIG: ماڵپەڕەکان لە سەرانسەری جیهان لە ئۆفلاین بردران دوای ئەوەی دوو کەموکوڕی ئاسایشی گرنگ لە PHP دۆزرایەوە کە",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-10-21T21:15:21.895228+00:00",
+      "updated_at": "2026-10-21T21:33:45.814100+00:00",
+      "eligible_at": "2026-10-21T21:33:41.558580+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-21T21:15:21.895228+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-21T21:15:21.897080+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-21T21:31:41.562113+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-21T21:31:41.565318+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-21T21:33:41.587481+00:00",
+          "reason": "Gemini بەردەست نییە یان لە سنووری چاوەڕوانیدایە",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-21T21:33:41.591003+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ Gemini",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-21T21:33:42.909387+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-21T21:33:42.912663+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-21T21:33:45.814100+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
     },
     {
       "id": "55c02e36e16b80e36a56156e61a4c113",
-      "title": "Former Italian Prime Minister Mario Draghi said young people feel “no one is listening to them,” linking recent youth riots in Paris, Milan and other European cities to frustration about their future.",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "ماریۆ دراگی، سەرۆکوەزیرانی پێشووی ئیتاڵیا ڕایگەیاند، گەنجان هەست دەکەن \"کەس گوێیان لێناگرێت\"، ئاژاوەگێڕییەکانی",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-21T21:15:21.891446+00:00",
-      "updated_at": "2026-10-21T21:15:22.980461+00:00",
+      "updated_at": "2026-10-21T21:31:41.555196+00:00",
       "eligible_at": "2026-10-21T21:20:22.976744+00:00",
       "history": [
         {
@@ -277,36 +495,45 @@
           "at": "2026-10-21T21:15:22.980461+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "7713475b1d690bf5ef222eb88db9f40b",
-      "title": "BIG: Websites around the world were taken offline after two critical security flaws were found in PHP, a programming language that powers much of the internet. ",
-      "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-21T21:15:21.895228+00:00",
-      "updated_at": "2026-10-21T21:15:21.897080+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-10-21T21:15:21.895228+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-10-21T21:31:38.094128+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-10-21T21:15:21.897080+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "formatting_source",
+          "at": "2026-10-21T21:31:38.097228+00:00",
+          "reason": "Gemini بەردەست نییە یان لە سنووری چاوەڕوانیدایە",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-21T21:31:38.100416+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ Gemini",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-21T21:31:39.516056+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-21T21:31:39.519312+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-21T21:31:41.555196+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "fb:1134486529273826",
       "title": "هێرش دەستیپێکردەوە و دەنگی بەهێز بیسترا",
@@ -2097,7 +2324,7 @@
       ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-10-21T21:25:21.003511+00:00",
-  "gemini_blocked_until": "2026-10-21T21:16:02.291938+00:00"
+  "pending_count": 5,
+  "snapshot_at": "2026-10-21T21:33:45.915971+00:00",
+  "gemini_blocked_until": "2026-10-21T22:01:38.079633+00:00"
 }
