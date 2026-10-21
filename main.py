@@ -1,4 +1,5 @@
 import os
+import calendar
 import json
 import hashlib
 import html
@@ -311,6 +312,8 @@ def fetch_rss_news(seen_ids):
                         "id": news_id,
                         "source": "وێبسایت",
                         "source_type": "website",
+                        "source_published_at": datetime.fromtimestamp(calendar.timegm(entry["published_parsed"]), timezone.utc).isoformat() if entry.get("published_parsed") else None,
+                        "fetched_at": datetime.now(timezone.utc).isoformat(),
                         "source_name": feed.feed.get("title") or urlparse(link or feed_url).hostname,
                         "title": title,
                         "content": clean_text or title,
@@ -350,6 +353,8 @@ def fetch_telegram_public_channel(channel_username, seen_ids):
                         "id": post_id,
                         "source": f"تێلیگرام (@{channel_username})",
                         "source_type": "telegram",
+                        "source_published_at": (msg.select_one("time[datetime]").get("datetime") if msg.select_one("time[datetime]") else None),
+                        "fetched_at": datetime.now(timezone.utc).isoformat(),
                         "source_name": channel_name,
                         "title": "",
                         "content": content,
@@ -594,6 +599,27 @@ def publication_source(item):
     return f"{prefix} - {name}"
 
 
+def publication_credit(item):
+    """Show source publication time, or explicitly label the collection time."""
+    label = publication_source(item)
+    candidates = [
+        (item.get("source_published_at"), "کاتی بڵاوکردنەوە لە سەرچاوە"),
+        (item.get("fetched_at") or (item.get("progress") or {}).get("received_at"), "کاتی وەرگرتن"),
+    ]
+    for value, caption in candidates:
+        if not value:
+            continue
+        try:
+            stamp = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            if stamp.tzinfo is None:
+                continue  # Do not guess the source timezone.
+            local = stamp.astimezone(timezone(timedelta(hours=3)))
+            return label + "\n" + caption + ": " + local.strftime("%d/%m/%Y - %H:%M") + " (کاتی عێراق)"
+        except (ValueError, TypeError, OverflowError):
+            continue
+    return label + "\nکاتی سەرچاوە بەردەست نییە"
+
+
 def send_to_telegram(message_text, source_link=None, image_url=None, video_url=None, image_urls=None, source_label=None):
     """هەواڵە داڕێژراوەکە (و ڤیدیۆ یان وێنەکەی ئەگەر هەبێت) دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -727,7 +753,7 @@ def flush_backlog(items, seen_ids, state, flush_id):
             print("Flush: no safe publishable text; marking item as seen.")
             seen_ids.add(item["id"])
             continue
-        if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"), source_label=publication_source(item)):
+        if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"), source_label=publication_credit(item)):
             seen_ids.add(item["id"])
             published += 1
             print("Successfully published!")
@@ -885,7 +911,7 @@ def main():
         track_article(item, state, "sending", "ناردن بۆ تێلیگرام")
         success = send_to_telegram(rewritten_text, image_url=item.get("image"),
                                    video_url=item.get("video"), image_urls=item.get("images"),
-                                   source_label=publication_source(item))
+                                   source_label=publication_credit(item))
         if not success:
             track_article(item, state, "delivery_failed", "ناردن پشتڕاست نەکراوە؛ هەواڵەکە پارێزراوە")
             print("Telegram publication failed; keeping item for retry.")
