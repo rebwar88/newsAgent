@@ -1,6 +1,7 @@
 """Facebook page posts through Apify (paid per returned post). Cost is capped by interval and results limit."""
 import hashlib
 import os
+from urllib.parse import urlparse, parse_qs
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -73,7 +74,12 @@ def post_to_item(raw, page_url, now):
     post_url = str(raw.get("postUrl") or raw.get("url") or raw.get("topLevelUrl") or "")
     post_id = str(raw.get("postId") or raw.get("post_id") or "") or hashlib.sha1((post_url or text).encode("utf-8")).hexdigest()[:16]
     images = extract_media_urls(raw.get("media"))
+    user = raw.get("user") if isinstance(raw.get("user"), dict) else {}
+    page = urlparse(page_url)
+    fallback_name = parse_qs(page.query).get("id", [""])[0] or page.path.strip("/").split("/")[0]
+    page_name = raw.get("pageName") or user.get("name") or fallback_name or "نەناسراو"
     return {"id": "fb:" + post_id, "source": "facebook:" + page_url.rstrip("/").rsplit("/", 1)[-1], "title": "",
+            "source_type": "facebook", "source_name": page_name,
             "content": text, "link": post_url, "image": images[0] if images else "", "images": images, "video": ""}
 
 
@@ -99,7 +105,7 @@ def fetch_facebook_via_apify(seen_ids, state, now=None):
     for raw in rows if isinstance(rows, list) else []:
         if not isinstance(raw, dict):
             continue
-        page = str(raw.get("inputUrl") or raw.get("sourceUrl") or raw.get("facebookUrl") or FACEBOOK_PAGE_URLS[0])
+        page = str(raw.get("inputUrl") or raw.get("sourceUrl") or raw.get("facebookUrl") or "")
         item = post_to_item(raw, page, now)
         if item and item["id"] not in seen_ids:
             items.append(item)
