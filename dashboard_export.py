@@ -27,7 +27,7 @@ for line in lines:
         m = re.search(r"Found (\d+) new items", line)
         if m:
             found = int(m.group(1))
-            stages["fetch"] = {"status": "ok", "detail": "Telegram source collection completed"}
+            stages["fetch"] = {"status": "ok", "detail": "Source collection completed"}
             stages[stage] = {"status": "ok", "detail": f"{found} items found"}
     elif "Processing item from" in line:
         stage = "selection"
@@ -42,7 +42,6 @@ for line in lines:
             stages[stage] = {"status": "ok", "detail": "Gemini stage reached"}
     elif "Successfully published" in line:
         stage = "telegram"
-        stages["gemini"] = {"status": "ok", "detail": "AI article generated"}
         stages[stage] = {"status": "ok", "detail": "Telegram confirmed publication"}
     elif "Telegram publication failed" in line or "Telegram rejected" in line:
         stage = "telegram"
@@ -61,7 +60,7 @@ for line in lines:
 def safe(value):
     value = re.sub(r"https?://\S+", "[URL]", value)
     value = re.sub(r"bot\d{5,}:[A-Za-z0-9_-]+", "[TOKEN]", value)
-    for name in ("GEMINI_API_KEY", "TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID", "TELEGRAM_LOG_CHAT_ID"):
+    for name in ("GEMINI_API_KEY", "TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID", "TELEGRAM_LOG_CHAT_ID", "APIFY_TOKEN"):
         secret = os.getenv(name, "")
         if secret:
             value = value.replace(secret, "[REDACTED]")
@@ -81,6 +80,35 @@ except (TypeError, ValueError):
 log_keywords = ("Checking for new", "Found ", "Processing item", "Gemini", "AI rewrite", "cooldown", "quota", "published", "Completed run", "Telegram rejected", "Error ", "Waiting ", "Flush", "flush", "Backlog", "Translation", "free-translation", "Non-AI", "Image", "Photo", "Video", "sendVideo")
 public_log = "\n".join(safe(line) for line in lines if any(key in line for key in log_keywords))[-12000:]
 payload = {"run_id": os.getenv("GITHUB_RUN_ID", ""), "run_url": run_url, "started_at": start, "finished_at": end, "duration_seconds": duration, "exit_code": exit_code, "found": found, "published": published, "stages": stages, "issues": [safe(x) for x in issues[-20:]], "events": [{"stage": x["stage"], "message": safe(x["message"])} for x in events[-60:]], "log": public_log}
+
+
+# Export only dashboard fields, never raw queue contents, media URLs or credentials.
+try:
+    publication = json.loads(Path("publication_state.json").read_text(encoding="utf-8"))
+except (OSError, ValueError):
+    publication = {}
+
+def article_view(item, published=False):
+    progress = item.get("progress") or {}
+    prepared = item.get("prepared_text") or {}
+    title = prepared.get("title") or item.get("title") or str(item.get("content") or "").split("\n")[0]
+    source = item.get("source_name") or item.get("source") or "نەناسراو"
+    return {"id": str(item.get("id", "")), "title": safe(str(title))[:220] or "بێ سەردێڕ",
+            "source": safe(str(source))[:180],
+            "stage": progress.get("stage", "published" if published else "waiting_turn"),
+            "method": progress.get("method", "undecided"),
+            "reason": safe(str(progress.get("reason", ""))),
+            "received_at": progress.get("received_at"), "updated_at": progress.get("updated_at"),
+            "eligible_at": progress.get("eligible_at"),
+            "history": [{"stage": h.get("stage"), "at": h.get("at"),
+                         "reason": safe(str(h.get("reason", ""))), "method": h.get("method", "undecided")}
+                        for h in progress.get("history", [])[-30:]]}
+
+payload["articles"] = [article_view(item) for item in publication.get("pending_items", []) if isinstance(item, dict)]
+payload["recent_articles"] = [article_view(item, True) for item in reversed(publication.get("recent_articles", [])[-60:]) if isinstance(item, dict)]
+payload["pending_count"] = len(payload["articles"])
+payload["snapshot_at"] = datetime.now(timezone.utc).isoformat()
+payload["gemini_blocked_until"] = publication.get("quota_blocked_until")
 
 Path("docs").mkdir(exist_ok=True)
 Path("docs/status.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
