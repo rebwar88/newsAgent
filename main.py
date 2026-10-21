@@ -3,6 +3,7 @@ import json
 import hashlib
 import html
 import re
+from urllib.parse import urlparse
 from datetime import datetime, timezone, timedelta
 import requests
 import time
@@ -309,6 +310,8 @@ def fetch_rss_news(seen_ids):
                     news_items.append({
                         "id": news_id,
                         "source": "وێبسایت",
+                        "source_type": "website",
+                        "source_name": feed.feed.get("title") or urlparse(link or feed_url).hostname,
                         "title": title,
                         "content": clean_text or title,
                         "link": link,
@@ -328,6 +331,8 @@ def fetch_telegram_public_channel(channel_username, seen_ids):
         res = requests.get(url, headers=headers, timeout=10)
         if res.status_code == 200:
             soup = BeautifulSoup(res.text, "html.parser")
+            channel_title = soup.select_one(".tgme_channel_info_header_title")
+            channel_name = channel_title.get_text(" ", strip=True) if channel_title else channel_username
             messages = soup.find_all("div", class_="tgme_widget_message")
             
             for msg in messages[-5:]:  # دوایین ٥ پەیام
@@ -344,6 +349,8 @@ def fetch_telegram_public_channel(channel_username, seen_ids):
                     news_items.append({
                         "id": post_id,
                         "source": f"تێلیگرام (@{channel_username})",
+                        "source_type": "telegram",
+                        "source_name": channel_name,
                         "title": "",
                         "content": content,
                         "link": f"https://t.me/{data_post}" if data_post else "",
@@ -567,7 +574,27 @@ def post_telegram(method, data, files=None, timeout=40):
         print(f"Telegram transport error ({type(e).__name__}); delivery status uncertain.")
         return "uncertain"
 
-def send_to_telegram(message_text, source_link=None, image_url=None, video_url=None, image_urls=None):
+def publication_source(item):
+    """Build attribution from collector metadata, independently of AI output."""
+    kind = item.get("source_type")
+    name = item.get("source_name") or ""
+    source = str(item.get("source") or "")
+    if not kind:
+        if source.startswith("تێلیگرام"):
+            kind = "telegram"
+            name = source.removeprefix("تێلیگرام").strip(" ()@")
+        elif source.startswith("facebook:"):
+            kind = "facebook"
+            name = source.split(":", 1)[1]
+        else:
+            kind = "website"
+            name = urlparse(item.get("link") or "").hostname or source
+    name = " ".join(str(name).split())[:150] or "نەناسراو"
+    prefix = {"telegram": "تلگرامی", "facebook": "پەیجی", "website": "سایتی"}.get(kind, "سایتی")
+    return f"{prefix} - {name}"
+
+
+def send_to_telegram(message_text, source_link=None, image_url=None, video_url=None, image_urls=None, source_label=None):
     """هەواڵە داڕێژراوەکە (و ڤیدیۆ یان وێنەکەی ئەگەر هەبێت) دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Telegram tokens are not set. Message printed to console:")
@@ -583,6 +610,8 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
         full_text = "<b>" + html.escape(title) + "</b>\n\n" + html.escape(body)
     else:
         full_text = html.escape(re.sub(r"</?b>", "", str(message_text), flags=re.IGNORECASE))
+    attribution = "\n\n" + html.escape(source_label) if source_label else ""
+    full_text += attribution
     if len(full_text) > 4000:
         print("Article too long for Telegram; skipping.")
         return False
@@ -603,7 +632,7 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
             if short:
                 return True
             # Telegram captions are limited to 1024 characters: media with the headline, article in a second message.
-            return post_telegram("sendMessage", dict(text_payload, text=html.escape(body))) == "ok"
+            return post_telegram("sendMessage", dict(text_payload, text=html.escape(body) + attribution)) == "ok"
         if status == "uncertain":
             return False
         print(f"{method} rejected; trying the next option.")
@@ -698,7 +727,7 @@ def flush_backlog(items, seen_ids, state, flush_id):
             print("Flush: no safe publishable text; marking item as seen.")
             seen_ids.add(item["id"])
             continue
-        if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images")):
+        if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"), source_label=publication_source(item)):
             seen_ids.add(item["id"])
             published += 1
             print("Successfully published!")
@@ -786,7 +815,7 @@ def main():
             continue
 
         # بڵاوکردنەوە لە تێلیگرام
-        success = send_to_telegram(rewritten_text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"))
+        success = send_to_telegram(rewritten_text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"), source_label=publication_source(item))
         if success:
             seen_ids.add(item["id"])
             if not breaking:
