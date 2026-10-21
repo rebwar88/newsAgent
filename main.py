@@ -109,6 +109,23 @@ def extract_telegram_image(msg):
                 return html.unescape(m.group(1))
     return ""
 
+MAX_ALBUM_IMAGES = 10  # Telegram albums hold at most 10 items
+
+def extract_telegram_images(msg):
+    """Return every photo URL (in order, no duplicates, max 10) of a public Telegram web-preview message."""
+    urls = []
+    for node in msg.find_all(["a", "i"], class_="tgme_widget_message_photo_wrap"):
+        m = re.search(r"url\(['\"]?([^'\")]+)", node.get("style", ""))
+        if m and m.group(1).startswith("https://"):
+            url = html.unescape(m.group(1))
+            if url not in urls:
+                urls.append(url)
+    if not urls:
+        single = extract_telegram_image(msg)  # link-preview image as a fallback
+        if single:
+            urls.append(single)
+    return urls[:MAX_ALBUM_IMAGES]
+
 def extract_rss_image(entry, summary_html):
     for media in entry.get("media_content", []) or []:
         url = media.get("url", "")
@@ -330,6 +347,7 @@ def fetch_telegram_public_channel(channel_username, seen_ids):
                         "content": content,
                         "link": f"https://t.me/{data_post}" if data_post else "",
                         "image": extract_telegram_image(msg),
+                        "images": extract_telegram_images(msg),
                         "video": extract_telegram_video(msg)
                     })
     except Exception as e:
@@ -548,7 +566,7 @@ def post_telegram(method, data, files=None, timeout=40):
         print(f"Telegram transport error ({type(e).__name__}); delivery status uncertain.")
         return "uncertain"
 
-def send_to_telegram(message_text, source_link=None, image_url=None, video_url=None):
+def send_to_telegram(message_text, source_link=None, image_url=None, video_url=None, image_urls=None):
     """هەواڵە داڕێژراوەکە (و ڤیدیۆ یان وێنەکەی ئەگەر هەبێت) دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Telegram tokens are not set. Message printed to console:")
@@ -570,15 +588,16 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
 
     text_payload = {"chat_id": TELEGRAM_CHAT_ID, "text": full_text, "parse_mode": "HTML", "disable_web_page_preview": True}
 
-    def send_media(method, field, filename, data, content_type, upload_timeout, extra=None):
-        """Returns True (delivered), False (uncertain; retry later) or None (rejected; try the next option)."""
-        short = len(full_text) <= 1000
-        if not short and not title:
+    def build_caption():
+        """Returns (caption, is_short) or None when the article cannot be captioned."""
+        if len(full_text) <= 1000:
+            return full_text, True
+        if not title:
             return None
-        caption = full_text if short else "<b>" + html.escape(title[:900]) + "</b>"
-        payload = {"chat_id": TELEGRAM_CHAT_ID, "caption": caption, "parse_mode": "HTML"}
-        payload.update(extra or {})
-        status = post_telegram(method, payload, {field: (filename, data, content_type)}, upload_timeout)
+        return "<b>" + html.escape(title[:900]) + "</b>", False
+
+    def finish(status, method, short):
+        """Returns True (delivered), False (uncertain; retry later) or None (rejected; try the next option)."""
         if status == "ok":
             if short:
                 return True
@@ -588,6 +607,30 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
             return False
         print(f"{method} rejected; trying the next option.")
         return None
+
+    def send_media(method, field, filename, data, content_type, upload_timeout, extra=None):
+        built = build_caption()
+        if not built:
+            return None
+        caption, short = built
+        payload = {"chat_id": TELEGRAM_CHAT_ID, "caption": caption, "parse_mode": "HTML"}
+        payload.update(extra or {})
+        return finish(post_telegram(method, payload, {field: (filename, data, content_type)}, upload_timeout), method, short)
+
+    def send_album(photos):
+        built = build_caption()
+        if not built:
+            return None
+        caption, short = built
+        media, files = [], {}
+        for i, (data, content_type) in enumerate(photos):
+            entry = {"type": "photo", "media": f"attach://photo{i}"}
+            if i == 0:
+                entry.update({"caption": caption, "parse_mode": "HTML"})
+            media.append(entry)
+            files[f"photo{i}"] = (f"news{i}.jpg", data, content_type)
+        status = post_telegram("sendMediaGroup", {"chat_id": TELEGRAM_CHAT_ID, "media": json.dumps(media)}, files, 90)
+        return finish(status, "sendMediaGroup", short)
 
     video = download_video(video_url) if video_url else None
     if video:
@@ -603,9 +646,14 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
         if outcome is not None:
             return outcome
 
-    photo = download_image(image_url) if image_url else None
-    if photo:
-        data, content_type = photo
+    urls = list(image_urls or ([image_url] if image_url else []))[:MAX_ALBUM_IMAGES]
+    photos = [p for p in (download_image(u) for u in urls) if p]
+    if len(photos) >= 2:
+        outcome = send_album(photos)
+        if outcome is not None:
+            return outcome
+    if photos:
+        data, content_type = photos[0]
         outcome = send_media("sendPhoto", "photo", "news." + content_type.split("/")[-1].replace("jpeg", "jpg"), data, content_type, 40)
         if outcome is not None:
             return outcome
@@ -649,7 +697,7 @@ def flush_backlog(items, seen_ids, state, flush_id):
             print("Flush: no safe publishable text; marking item as seen.")
             seen_ids.add(item["id"])
             continue
-        if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video")):
+        if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images")):
             seen_ids.add(item["id"])
             published += 1
             print("Successfully published!")
@@ -733,7 +781,7 @@ def main():
             continue
 
         # بڵاوکردنەوە لە تێلیگرام
-        success = send_to_telegram(rewritten_text, image_url=item.get("image"), video_url=item.get("video"))
+        success = send_to_telegram(rewritten_text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"))
         if success:
             seen_ids.add(item["id"])
             if not breaking:

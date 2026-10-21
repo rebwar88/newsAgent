@@ -233,5 +233,43 @@ class ReliabilityTests(unittest.TestCase):
         self.assertEqual((sent["width"], sent["height"], sent["duration"]), ("720", "1280", "12"))
 
 
+    def test_extracts_all_photos_of_an_album(self):
+        from bs4 import BeautifulSoup
+        doc = "<div>" + "".join(f'<a class="tgme_widget_message_photo_wrap" style="background-image:url(\'https://cdn.example.org/{n}.jpg\')"></a>' for n in "abc") + "</div>"
+        urls = main.extract_telegram_images(BeautifulSoup(doc, "html.parser").find("div"))
+        self.assertEqual(urls, ["https://cdn.example.org/a.jpg", "https://cdn.example.org/b.jpg", "https://cdn.example.org/c.jpg"])
+
+    def _album_send(self, message, post_results):
+        image = Mock(ok=True, status_code=200, headers={"Content-Type": "image/jpeg"}, content=b"x" * 5000)
+        urls = [f"https://cdn.example.org/{n}.jpg" for n in "abc"]
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "get", return_value=image), patch.object(main.requests, "post", side_effect=post_results) as post:
+                result = main.send_to_telegram(message, image_urls=urls)
+        return result, post
+
+    def test_multiple_photos_are_sent_as_one_album(self):
+        import json as _json
+        result, post = self._album_send({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, [self._tg_ok()])
+        self.assertTrue(result)
+        self.assertEqual([c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list], ["sendMediaGroup"])
+        sent = post.call_args.kwargs
+        media = _json.loads(sent["data"]["media"])
+        self.assertEqual(len(media), 3)
+        self.assertIn("caption", media[0])
+        self.assertNotIn("caption", media[1])
+        self.assertEqual(sorted(sent["files"]), ["photo0", "photo1", "photo2"])
+
+    def test_long_article_album_then_text(self):
+        result, post = self._album_send({"title": "سەردێڕی تاقیکردنەوە", "body": "ب" * 1500}, [self._tg_ok(), self._tg_ok()])
+        self.assertTrue(result)
+        self.assertEqual([c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list], ["sendMediaGroup", "sendMessage"])
+
+    def test_rejected_album_falls_back_to_single_photo(self):
+        bad = Mock(ok=False, status_code=400, json=lambda: {"description": "bad album"})
+        result, post = self._album_send({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, [bad, self._tg_ok()])
+        self.assertTrue(result)
+        self.assertEqual([c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list], ["sendMediaGroup", "sendPhoto"])
+
+
 if __name__ == "__main__":
     unittest.main()
