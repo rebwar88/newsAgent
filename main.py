@@ -602,6 +602,14 @@ def publication_source(item):
 def publication_credit(item):
     """Show source publication time, or explicitly label the collection time."""
     label = publication_source(item)
+    method = (item.get("progress") or {}).get("method")
+    method_labels = {
+        "gemini": "داڕشتنەوەی جێمێنای",
+        "translation": "وەرگێڕاوی ئەیجێنت",
+        "source": "خاو لە سەرچاوەکەوە",
+    }
+    if method in method_labels:
+        label += "\n- " + method_labels[method]
     candidates = [
         (item.get("source_published_at"), "کاتی بڵاوکردنەوە لە سەرچاوە"),
         (item.get("fetched_at") or (item.get("progress") or {}).get("received_at"), "کاتی وەرگرتن"),
@@ -740,19 +748,27 @@ def flush_backlog(items, seen_ids, state, flush_id):
             print("Flush time budget reached; remaining items stay pending.")
             break
         text = None
+        method = None
         if gemini_ok:
             try:
                 text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
             except RuntimeError:
                 text = None
+            if text:
+                method = "gemini"
             if not text:
                 gemini_ok = False  # stop asking Gemini during this flush to keep the run short
         if not text:
-            text = format_without_ai(item) or translate_without_gemini(item)
+            text = format_without_ai(item)
+            method = "source"
+            if not text:
+                text = translate_without_gemini(item)
+                method = "translation"
         if not text:
             print("Flush: no safe publishable text; marking item as seen.")
             seen_ids.add(item["id"])
             continue
+        item.setdefault("progress", {})["method"] = method
         if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"), source_label=publication_credit(item)):
             seen_ids.add(item["id"])
             published += 1
