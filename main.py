@@ -20,7 +20,7 @@ PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
 
 SEEN_FILE = "seen_urls.json"
 MAX_ITEMS_PER_RUN = 1
-GEMINI_INTERVAL = timedelta(minutes=4)  # shorter than the 5-min publishing cadence to allow for timing jitter
+GEMINI_INTERVAL = timedelta(minutes=8)  # limit Gemini calls independently of the 5-minute publishing interval
 QUOTA_BACKOFF = timedelta(minutes=30)
 PUBLISH_STATE_FILE = "publication_state.json"
 # Comma-separated public Facebook POST permalinks; no login or Meta API required.
