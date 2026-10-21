@@ -742,96 +742,136 @@ def flush_backlog(items, seen_ids, state, flush_id):
     print(f"Backlog flush completed. Published {published} articles.")
     print(f"Completed run. Processed {published} articles.")
 
+def adaptive_interval(pending_count):
+    """More queued news reduces spacing, without increasing Gemini usage."""
+    if pending_count >= 10:
+        return timedelta(minutes=1)
+    if pending_count >= 5:
+        return timedelta(minutes=2)
+    return timedelta(minutes=5)
+
+
+def merge_pending(state, items, seen_ids):
+    """Persist unposted news across runs, including Facebook polling cooldowns."""
+    pending = state.get("pending_items", [])
+    if not isinstance(pending, list):
+        raise RuntimeError("Invalid pending news queue")
+    merged = {}
+    for item in pending + items:
+        if not isinstance(item, dict) or not item.get("id"):
+            continue
+        if item["id"] not in seen_ids:
+            merged.setdefault(item["id"], item)
+    state["pending_items"] = list(merged.values())
+    return state["pending_items"]
+
+
+def source_key(item):
+    if item.get("source_type") and item.get("source_name"):
+        return str(item["source_type"]) + ":" + str(item["source_name"])
+    return str(item.get("source") or publication_source(item))
+
+
+def choose_pending(items, state, attempted):
+    """Least recently served source first; breaking news first within that source."""
+    available = [item for item in items if item["id"] not in attempted]
+    if not available:
+        return None
+    turns = state.get("source_turns", {})
+    sources = list(dict.fromkeys(source_key(item) for item in available))
+    selected = min(sources, key=lambda key: turns.get(key, 0))
+    candidates = [item for item in available if source_key(item) == selected]
+    return next((item for item in candidates if is_breaking(item)), candidates[0])
+
+
 def main():
     if not PUBLISH_ENABLED:
         print("Safe mode: publication disabled until explicitly enabled.")
         return
+    started = time.monotonic()
     print("Checking for new articles...")
     seen_ids = load_seen_ids()
     state = load_publication_state()
-    new_items = []
-
-    # ١. هێنانی هەواڵ لە RSS
-    new_items.extend(fetch_rss_news(seen_ids))
-
-    # ٢. هێنانی پەیام لە تێلیگرام
+    new_items = fetch_rss_news(seen_ids)
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
-
-    # ٣. تەنها لینکە گشتییەکانی پۆستی Facebook کە بەبێ چوونەژوورەوە دەقەکەیان بەردەستە
-    # Facebook collection temporarily paused while Telegram delivery is stabilized.
-    apify_before = state.get("last_apify_at")
     new_items.extend(fetch_facebook_via_apify(seen_ids, state))
-    if state.get("last_apify_at") != apify_before:
-        save_publication_state(state)
-
+    pending = merge_pending(state, new_items, seen_ids)
+    save_publication_state(state)
     print(f"Found {len(new_items)} new items.")
+    print(f"Pending queue: {len(pending)} articles.")
 
-    flush_id = flush_requested(state)
-    if flush_id:
-        flush_backlog(new_items, seen_ids, state, flush_id)
-        return
-
-    # ڕێکخستنی سنووری پۆستکردن لە هەر سوڕانەوەیەکدا
+    # Spread publications within a five-minute trigger window. Leave time for
+    # telemetry and the state commit; never increase Gemini calls with backlog.
     processed_count = 0
-    new_items.sort(key=lambda item: not is_breaking(item))
     gemini_attempted = False
-    for item in new_items:
-        if processed_count >= MAX_ITEMS_PER_RUN:
+    attempted = set()
+    while processed_count < 5 and time.monotonic() - started < 240:
+        item = choose_pending(pending, state, attempted)
+        if item is None:
             break
-        breaking = is_breaking(item)
-        if not breaking and not normal_slot_available(state, datetime.now(timezone.utc)):
-            print("Waiting for next normal-news publishing slot.")
-            continue
-        print(f"Processing item from {item['source']}...")
-        
+        interval = adaptive_interval(len(pending))
         now = datetime.now(timezone.utc)
-        rewritten_text = None
-        if not gemini_attempted and gemini_slot_available(state, now):
+        last = state.get("last_published_at") or state.get("last_normal_at")
+        if last:
+            previous = datetime.fromisoformat(last)
+            if previous.tzinfo is None:
+                raise RuntimeError("Invalid last publication timestamp")
+            wait_seconds = max(0, (previous + interval - now).total_seconds())
+            # A five-minute interval is handled by the next scheduled run.
+            if wait_seconds and (interval >= timedelta(minutes=5) or
+                                 time.monotonic() - started + wait_seconds >= 240):
+                print("Waiting for next publishing slot; queue saved.")
+                break
+            while wait_seconds > 0:
+                time.sleep(min(wait_seconds, 30))
+                wait_seconds = max(0, (previous + interval - datetime.now(timezone.utc)).total_seconds())
+
+        attempted.add(item["id"])
+        print(f"Processing item from {item['source']}...")
+        now = datetime.now(timezone.utc)
+        rewritten_text = item.get("prepared_text")
+        if not rewritten_text and not gemini_attempted and gemini_slot_available(state, now):
             gemini_attempted = True
             state["last_gemini_at"] = now.isoformat()
             save_publication_state(state)
             try:
                 rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
             except RuntimeError as exc:
-                if str(exc) == "GEMINI_QUOTA_EXCEEDED":
-                    state["quota_blocked_until"] = (datetime.now(timezone.utc) + QUOTA_BACKOFF).isoformat()
-                    save_publication_state(state)
-                    print("Gemini quota exhausted; using safe non-AI fallback.")
-                else:
+                if str(exc) != "GEMINI_QUOTA_EXCEEDED":
                     raise
-        else:
-            print("Gemini cooldown active; trying safe non-AI fallback.")
+                state["quota_blocked_until"] = (datetime.now(timezone.utc) + QUOTA_BACKOFF).isoformat()
+                save_publication_state(state)
+                print("Gemini quota exhausted; using safe non-AI fallback.")
         if not rewritten_text:
-            rewritten_text = format_without_ai(item)
-            if rewritten_text:
-                print("Using non-AI Sorani formatting fallback.")
-            else:
-                rewritten_text = translate_without_gemini(item)
-                if rewritten_text:
-                    print("Using free-translation fallback (non-Gemini).")
+            rewritten_text = format_without_ai(item) or translate_without_gemini(item)
         if not rewritten_text:
-            print("No safe publishable text; checking next item.")
+            print("No safe publishable text; keeping item pending.")
             continue
-
-        # بڵاوکردنەوە لە تێلیگرام
-        success = send_to_telegram(rewritten_text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"), source_label=publication_source(item))
-        if success:
-            seen_ids.add(item["id"])
-            if not breaking:
-                state["last_normal_at"] = datetime.now(timezone.utc).isoformat()
-            save_seen_ids(seen_ids)
-            save_publication_state(state)
-            processed_count += 1
-            print("Successfully published!")
-        else:
+        item["prepared_text"] = rewritten_text
+        save_publication_state(state)
+        success = send_to_telegram(rewritten_text, image_url=item.get("image"),
+                                   video_url=item.get("video"), image_urls=item.get("images"),
+                                   source_label=publication_source(item))
+        if not success:
             print("Telegram publication failed; keeping item for retry.")
-        break  # Only one Gemini request per run, including failures.
+            break
+        seen_ids.add(item["id"])
+        pending.remove(item)
+        stamp = datetime.now(timezone.utc).isoformat()
+        state["last_published_at"] = stamp
+        state["last_normal_at"] = stamp
+        turns = state.setdefault("source_turns", {})
+        turns[source_key(item)] = max(turns.values(), default=0) + 1
+        save_seen_ids(seen_ids)
+        save_publication_state(state)
+        processed_count += 1
+        print("Successfully published!")
 
-    # پاشەکەوتکردنی هەواڵە بینراوەکان بۆ ڕێگری لە دووبارەبوونەوە
     save_seen_ids(seen_ids)
     save_publication_state(state)
     print(f"Completed run. Processed {processed_count} articles.")
+
 
 if __name__ == "__main__":
     main()
