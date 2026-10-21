@@ -1,12 +1,12 @@
 {
-  "run_id": "39658501705",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/39658501705",
-  "started_at": "2026-10-21T19:05:26.153955+00:00",
-  "finished_at": "2026-10-21T19:05:27.611757+00:00",
-  "duration_seconds": 1.5,
+  "run_id": "39659242404",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/39659242404",
+  "started_at": "2026-10-21T19:10:20.865486+00:00",
+  "finished_at": "2026-10-21T19:10:23.369747+00:00",
+  "duration_seconds": 2.5,
   "exit_code": 0,
   "found": 5,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,27 @@
       "detail": "5 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "AI article generated"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini cooldown active; trying safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Gemini cooldown active; trying safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,9 +48,29 @@
       "message": "Found 5 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini cooldown active; trying safe non-AI fallback."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini cooldown active; trying safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nWaiting for next normal-news publishing slot.\nWaiting for next normal-news publishing slot.\nWaiting for next normal-news publishing slot.\nWaiting for next normal-news publishing slot.\nWaiting for next normal-news publishing slot.\nCompleted run. Processed 0 articles."
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini cooldown active; trying safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini cooldown active; trying safe non-AI fallback.\nSuccessfully published!\nCompleted run. Processed 1 articles."
 }
