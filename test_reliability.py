@@ -138,5 +138,69 @@ class ReliabilityTests(unittest.TestCase):
             self.assertIsNone(main.download_image("https://example.org/a"))
 
 
+    def test_extracts_small_video_url(self):
+        from bs4 import BeautifulSoup
+        msg = BeautifulSoup('<div><video class="tgme_widget_message_video" src="https://cdn.example.org/v.mp4"></video></div>', "html.parser").find("div")
+        self.assertEqual(main.extract_telegram_video(msg), "https://cdn.example.org/v.mp4")
+        self.assertEqual(main.extract_telegram_video(BeautifulSoup("<div></div>", "html.parser").find("div")), "")
+
+    def test_video_is_uploaded_with_sendvideo(self):
+        video = Mock(ok=True, status_code=200, headers={"Content-Type": "video/mp4"}, iter_content=lambda chunk_size: [b"v" * 5000])
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "get", return_value=video), patch.object(main.requests, "post", return_value=self._tg_ok()) as post:
+                result = main.send_to_telegram({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, video_url="https://cdn.example.org/v.mp4")
+        self.assertTrue(result)
+        self.assertTrue(post.call_args.args[0].endswith("/sendVideo"))
+
+    def test_oversized_video_is_skipped(self):
+        big = Mock(ok=True, status_code=200, headers={"Content-Type": "video/mp4"}, iter_content=lambda chunk_size: [b"v" * 30_000_000, b"v" * 30_000_000])
+        with patch.object(main.requests, "get", return_value=big):
+            self.assertIsNone(main.download_video("https://cdn.example.org/v.mp4"))
+
+
+    def test_extracts_video_from_telegram_preview_html(self):
+        from bs4 import BeautifulSoup
+        doc = '<div class="m"><video class="tgme_widget_message_video js-message_video" src="https://cdn.example.org/v.mp4"></video></div>'
+        self.assertEqual(main.extract_telegram_video(BeautifulSoup(doc, "html.parser").find("div")), "https://cdn.example.org/v.mp4")
+        self.assertEqual(main.extract_telegram_video(BeautifulSoup("<div></div>", "html.parser").find("div")), "")
+
+    def _video_response(self, size=6000, ctype="video/mp4", length=None):
+        headers = {"Content-Type": ctype}
+        if length is not None:
+            headers["Content-Length"] = str(length)
+        return Mock(ok=True, status_code=200, headers=headers, iter_content=lambda n: iter([b"v" * size]))
+
+    def test_video_is_sent_with_sendvideo(self):
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "get", return_value=self._video_response()), patch.object(main.requests, "post", side_effect=[self._tg_ok()]) as post:
+                result = main.send_to_telegram({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, video_url="https://cdn.example.org/v.mp4")
+        self.assertTrue(result)
+        self.assertEqual([c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list], ["sendVideo"])
+
+    def test_oversized_video_falls_back_to_photo(self):
+        def fake_get(url, **kwargs):
+            if url.endswith(".mp4"):
+                return self._video_response(length=60_000_000)
+            return Mock(ok=True, status_code=200, headers={"Content-Type": "image/jpeg"}, content=b"x" * 5000)
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "get", side_effect=fake_get), patch.object(main.requests, "post", side_effect=[self._tg_ok()]) as post:
+                result = main.send_to_telegram({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, image_url="https://cdn.example.org/a.jpg", video_url="https://cdn.example.org/v.mp4")
+        self.assertTrue(result)
+        self.assertEqual([c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list], ["sendPhoto"])
+
+    def test_video_over_limit_without_content_length_is_dropped(self):
+        big = Mock(ok=True, status_code=200, headers={"Content-Type": "video/mp4"}, iter_content=lambda n: iter([b"v" * 30_000_000, b"v" * 30_000_000]))
+        with patch.object(main.requests, "get", return_value=big):
+            self.assertIsNone(main.download_video("https://cdn.example.org/v.mp4"))
+
+    def test_rejected_video_falls_back_to_text(self):
+        bad = Mock(ok=False, status_code=400, json=lambda: {"description": "bad video"})
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "get", return_value=self._video_response()), patch.object(main.requests, "post", side_effect=[bad, self._tg_ok()]) as post:
+                result = main.send_to_telegram({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, video_url="https://cdn.example.org/v.mp4")
+        self.assertTrue(result)
+        self.assertEqual([c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list], ["sendVideo", "sendMessage"])
+
+
 if __name__ == "__main__":
     unittest.main()

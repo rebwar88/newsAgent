@@ -139,6 +139,82 @@ def download_image(url):
         print(f"Image download failed ({type(exc).__name__}).")
         return None
 
+MAX_VIDEO_BYTES = 45_000_000  # Telegram bots can upload up to 50 MB
+
+def extract_telegram_video(msg):
+    """Return the direct video URL of a public Telegram web-preview message (only small videos expose one)."""
+    node = msg.find("video")
+    src = node.get("src", "") if node else ""
+    return html.unescape(src) if src.startswith("https://") else ""
+
+def download_video(url):
+    """Download a video for upload to Telegram. Returns (bytes, content_type) or None. Never touches Gemini."""
+    if not url or not url.startswith("https://"):
+        return None
+    try:
+        res = requests.get(url, headers=IMAGE_UA, timeout=(10, 60), stream=True)
+        content_type = res.headers.get("Content-Type", "").split(";")[0].strip().lower()
+        if not res.ok or not content_type.startswith("video/"):
+            print(f"Video skipped (HTTP {res.status_code}, type {content_type or 'unknown'}).")
+            return None
+        chunks, size = [], 0
+        for chunk in res.iter_content(chunk_size=1024 * 256):
+            size += len(chunk)
+            if size > MAX_VIDEO_BYTES:
+                print("Video skipped (larger than the 45 MB upload limit).")
+                return None
+            chunks.append(chunk)
+        data = b"".join(chunks)
+        return (data, content_type) if len(data) >= 1000 else None
+    except requests.RequestException as exc:
+        print(f"Video download failed ({type(exc).__name__}).")
+        return None
+
+MAX_VIDEO_BYTES = 45_000_000  # Telegram bots can upload up to 50 MB
+
+def extract_telegram_video(msg):
+    """Return the direct video URL of a public Telegram web-preview message, if the page exposes one."""
+    node = msg.find("video")
+    src = node.get("src", "") if node else ""
+    return html.unescape(src) if src.startswith("https://") else ""
+
+def download_video(url):
+    """Download a video (max 45 MB) so it can be uploaded to Telegram. Returns (bytes, content_type) or None."""
+    if not url or not url.startswith("https://"):
+        return None
+    res = None
+    try:
+        res = requests.get(url, headers=IMAGE_UA, timeout=(10, 60), stream=True)
+        content_type = res.headers.get("Content-Type", "").split(";")[0].strip().lower()
+        if not res.ok or not (content_type.startswith("video/") or content_type == "application/octet-stream"):
+            print(f"Video skipped (HTTP {res.status_code}, type {content_type or 'unknown'}).")
+            return None
+        try:
+            declared = int(res.headers.get("Content-Length") or 0)
+        except ValueError:
+            declared = 0
+        if declared > MAX_VIDEO_BYTES:
+            print("Video skipped (larger than the 45 MB limit).")
+            return None
+        chunks, total = [], 0
+        for chunk in res.iter_content(262144):
+            total += len(chunk)
+            if total > MAX_VIDEO_BYTES:
+                print("Video skipped (larger than the 45 MB limit).")
+                return None
+            chunks.append(chunk)
+        data = b"".join(chunks)
+        if len(data) < 5000:
+            print("Video skipped (unsuitable size).")
+            return None
+        return data, (content_type if content_type.startswith("video/") else "video/mp4")
+    except requests.RequestException as exc:
+        print(f"Video download failed ({type(exc).__name__}).")
+        return None
+    finally:
+        if res is not None:
+            res.close()
+
 def fetch_rss_news(seen_ids):
     """هەواڵە نوێیەکان لە فیدی RSSی ماڵپەڕەکان کۆدەکاتەوە."""
     news_items = []
@@ -196,7 +272,8 @@ def fetch_telegram_public_channel(channel_username, seen_ids):
                         "title": "",
                         "content": content,
                         "link": f"https://t.me/{data_post}" if data_post else "",
-                        "image": extract_telegram_image(msg)
+                        "image": extract_telegram_image(msg),
+                        "video": extract_telegram_video(msg)
                     })
     except Exception as e:
         print(f"Error fetching Telegram @{channel_username}: {e}")
@@ -394,11 +471,11 @@ def translate_without_gemini(item):
     return format_without_ai({"title": t_title, "content": t_body})
 
 
-def post_telegram(method, data, files=None):
+def post_telegram(method, data, files=None, timeout=40):
     """Call a Telegram Bot API method. Returns "ok", "rejected" (HTTP error) or "uncertain" (transport error)."""
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/{method}"
     try:
-        res = requests.post(url, json=data, timeout=15) if files is None else requests.post(url, data=data, files=files, timeout=40)
+        res = requests.post(url, json=data, timeout=15) if files is None else requests.post(url, data=data, files=files, timeout=timeout)
         if not res.ok:
             # Never print the request URL: it contains the bot token.
             try:
@@ -414,8 +491,8 @@ def post_telegram(method, data, files=None):
         print(f"Telegram transport error ({type(e).__name__}); delivery status uncertain.")
         return "uncertain"
 
-def send_to_telegram(message_text, source_link=None, image_url=None):
-    """هەواڵە داڕێژراوەکە (و وێنەکەی ئەگەر هەبێت) دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
+def send_to_telegram(message_text, source_link=None, image_url=None, video_url=None):
+    """هەواڵە داڕێژراوەکە (و ڤیدیۆ یان وێنەکەی ئەگەر هەبێت) دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Telegram tokens are not set. Message printed to console:")
         print(message_text)
@@ -436,26 +513,38 @@ def send_to_telegram(message_text, source_link=None, image_url=None):
 
     text_payload = {"chat_id": TELEGRAM_CHAT_ID, "text": full_text, "parse_mode": "HTML", "disable_web_page_preview": True}
 
+    def send_media(method, field, filename, data, content_type, upload_timeout, extra=None):
+        """Returns True (delivered), False (uncertain; retry later) or None (rejected; try the next option)."""
+        short = len(full_text) <= 1000
+        if not short and not title:
+            return None
+        caption = full_text if short else "<b>" + html.escape(title[:900]) + "</b>"
+        payload = {"chat_id": TELEGRAM_CHAT_ID, "caption": caption, "parse_mode": "HTML"}
+        payload.update(extra or {})
+        status = post_telegram(method, payload, {field: (filename, data, content_type)}, upload_timeout)
+        if status == "ok":
+            if short:
+                return True
+            # Telegram captions are limited to 1024 characters: media with the headline, article in a second message.
+            return post_telegram("sendMessage", dict(text_payload, text=html.escape(body))) == "ok"
+        if status == "uncertain":
+            return False
+        print(f"{method} rejected; trying the next option.")
+        return None
+
+    video = download_video(video_url) if video_url else None
+    if video:
+        data, content_type = video
+        outcome = send_media("sendVideo", "video", "news." + content_type.split("/")[-1], data, content_type, 180, {"supports_streaming": "true"})
+        if outcome is not None:
+            return outcome
+
     photo = download_image(image_url) if image_url else None
     if photo:
         data, content_type = photo
-        files = {"photo": ("news." + content_type.split("/")[-1].replace("jpeg", "jpg"), data, content_type)}
-        if len(full_text) <= 1000:
-            status = post_telegram("sendPhoto", {"chat_id": TELEGRAM_CHAT_ID, "caption": full_text, "parse_mode": "HTML"}, files)
-            if status == "ok":
-                return True
-            if status == "uncertain":
-                return False
-            print("Photo delivery rejected; sending text only.")
-        elif title:
-            # Telegram captions are limited to 1024 characters: photo with the headline, article in a second message.
-            caption = "<b>" + html.escape(title[:900]) + "</b>"
-            status = post_telegram("sendPhoto", {"chat_id": TELEGRAM_CHAT_ID, "caption": caption, "parse_mode": "HTML"}, files)
-            if status == "ok":
-                return post_telegram("sendMessage", dict(text_payload, text=html.escape(body))) == "ok"
-            if status == "uncertain":
-                return False
-            print("Photo delivery rejected; sending text only.")
+        outcome = send_media("sendPhoto", "photo", "news." + content_type.split("/")[-1].replace("jpeg", "jpg"), data, content_type, 40)
+        if outcome is not None:
+            return outcome
 
     return post_telegram("sendMessage", text_payload) == "ok"
 
@@ -496,7 +585,7 @@ def flush_backlog(items, seen_ids, state, flush_id):
             print("Flush: no safe publishable text; marking item as seen.")
             seen_ids.add(item["id"])
             continue
-        if send_to_telegram(text, image_url=item.get("image")):
+        if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video")):
             seen_ids.add(item["id"])
             published += 1
             print("Successfully published!")
@@ -580,7 +669,7 @@ def main():
             continue
 
         # بڵاوکردنەوە لە تێلیگرام
-        success = send_to_telegram(rewritten_text, image_url=item.get("image"))
+        success = send_to_telegram(rewritten_text, image_url=item.get("image"), video_url=item.get("video"))
         if success:
             seen_ids.add(item["id"])
             if not breaking:
