@@ -784,6 +784,22 @@ def choose_pending(items, state, attempted):
     return next((item for item in candidates if is_breaking(item)), candidates[0])
 
 
+def track_article(item, state, stage, reason="", method=None):
+    """Persist per-article progress; titles are taken from the source or prepared text."""
+    now = datetime.now(timezone.utc).isoformat()
+    progress = item.setdefault("progress", {})
+    progress.setdefault("received_at", now)
+    progress.update({"stage": stage, "updated_at": now, "reason": reason})
+    if method is not None:
+        progress["method"] = method
+    history = progress.setdefault("history", [])
+    if not history or history[-1].get("stage") != stage or history[-1].get("reason") != reason:
+        history.append({"stage": stage, "at": now, "reason": reason,
+                        "method": progress.get("method", "undecided")})
+        del history[:-30]
+    save_publication_state(state)
+
+
 def main():
     if not PUBLISH_ENABLED:
         print("Safe mode: publication disabled until explicitly enabled.")
@@ -797,6 +813,10 @@ def main():
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
     new_items.extend(fetch_facebook_via_apify(seen_ids, state))
     pending = merge_pending(state, new_items, seen_ids)
+    for queued in pending:
+        if not queued.get("progress"):
+            track_article(queued, state, "received")
+            track_article(queued, state, "waiting_turn", "چاوەڕوانی نۆرەی سەرچاوە")
     save_publication_state(state)
     print(f"Found {len(new_items)} new items.")
     print(f"Pending queue: {len(pending)} articles.")
@@ -810,6 +830,7 @@ def main():
         item = choose_pending(pending, state, attempted)
         if item is None:
             break
+        track_article(item, state, "selected", "نۆرەی ئەم سەرچاوەیە هاتووە")
         interval = adaptive_interval(len(pending))
         now = datetime.now(timezone.utc)
         last = state.get("last_published_at") or state.get("last_normal_at")
@@ -818,6 +839,9 @@ def main():
             if previous.tzinfo is None:
                 raise RuntimeError("Invalid last publication timestamp")
             wait_seconds = max(0, (previous + interval - now).total_seconds())
+            if wait_seconds:
+                item["progress"]["eligible_at"] = (previous + interval).isoformat()
+                track_article(item, state, "waiting_slot", "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە")
             # A five-minute interval is handled by the next scheduled run.
             if wait_seconds and (interval >= timedelta(minutes=5) or
                                  time.monotonic() - started + wait_seconds >= 240):
@@ -832,10 +856,12 @@ def main():
         now = datetime.now(timezone.utc)
         rewritten_text = item.get("prepared_text")
         if not rewritten_text and not gemini_attempted and gemini_slot_available(state, now):
+            track_article(item, state, "waiting_gemini", "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini", "gemini")
             gemini_attempted = True
             state["last_gemini_at"] = now.isoformat()
             save_publication_state(state)
             try:
+                track_article(item, state, "processing_gemini", "داواکاری بۆ Gemini نێردراوە", "gemini")
                 rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
             except RuntimeError as exc:
                 if str(exc) != "GEMINI_QUOTA_EXCEEDED":
@@ -844,18 +870,31 @@ def main():
                 save_publication_state(state)
                 print("Gemini quota exhausted; using safe non-AI fallback.")
         if not rewritten_text:
-            rewritten_text = format_without_ai(item) or translate_without_gemini(item)
+            reason = "Gemini بەردەست نییە یان لە سنووری چاوەڕوانیدایە"
+            track_article(item, state, "formatting_source", reason, "source")
+            rewritten_text = format_without_ai(item)
+            if not rewritten_text:
+                track_article(item, state, "translating", "وەرگێڕانی جێگرەوە بەبێ Gemini", "translation")
+                rewritten_text = translate_without_gemini(item)
         if not rewritten_text:
+            track_article(item, state, "blocked_content", "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە")
             print("No safe publishable text; keeping item pending.")
             continue
         item["prepared_text"] = rewritten_text
-        save_publication_state(state)
+        track_article(item, state, "ready", "دەق ئامادەی ناردنە")
+        track_article(item, state, "sending", "ناردن بۆ تێلیگرام")
         success = send_to_telegram(rewritten_text, image_url=item.get("image"),
                                    video_url=item.get("video"), image_urls=item.get("images"),
                                    source_label=publication_source(item))
         if not success:
+            track_article(item, state, "delivery_failed", "ناردن پشتڕاست نەکراوە؛ هەواڵەکە پارێزراوە")
             print("Telegram publication failed; keeping item for retry.")
             break
+        track_article(item, state, "published", "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە")
+        recent = state.setdefault("recent_articles", [])
+        recent.append({"id": item["id"], "title": rewritten_text.get("title", ""),
+                       "source": publication_source(item), "progress": item["progress"]})
+        del recent[:-60]
         seen_ids.add(item["id"])
         pending.remove(item)
         stamp = datetime.now(timezone.utc).isoformat()
