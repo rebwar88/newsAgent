@@ -39,7 +39,11 @@ RSS_FEEDS = [
 # لیستی چەناڵە گشتییەکانی تێلیگرام (تەنها ناوی بەکارهێنەر/username بێ @)
 TELEGRAM_CHANNELS = [
     "brakingnews24",
-    "ClashReport"
+    "ClashReport",
+    "Hengaw_kurdi",
+    "entekhab_ir",
+    "Khabar_Fouri",
+    "ajMubasher"
 ]
 
 def load_seen_ids():
