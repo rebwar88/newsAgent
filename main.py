@@ -15,6 +15,8 @@ from facebook_public import fetch_facebook_public_posts, discover_public_page_po
 
 # ================= Configuration =================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+OPENROUTER_MODELS = [m.strip() for m in os.getenv("OPENROUTER_MODELS", "openrouter/free").split(",") if m.strip()]
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
@@ -479,7 +481,7 @@ def rewrite_with_gemini(raw_text):
         if len(title) < 8 or len(body) < 60:
             print("Gemini returned an incomplete article; skipping.")
             return None
-        return {"title": title, "body": body}
+        return validate_ai_news({"title": title, "body": body})
     except RuntimeError as e:
         if str(e) == "GEMINI_QUOTA_EXCEEDED":
             raise
@@ -488,6 +490,67 @@ def rewrite_with_gemini(raw_text):
     except Exception as e:
         print(f"Error calling Gemini: {e}")
         return None
+
+
+def validate_ai_news(data):
+    """Reject empty or obviously untranslated AI responses before publication."""
+    if not isinstance(data, dict):
+        return None
+    title = re.sub(r"https?://\\S+|www\\.\\S+", "", str(data.get("title") or "")).strip()
+    body = re.sub(r"https?://\\S+|www\\.\\S+", "", str(data.get("body") or "")).strip()
+    if len(title) < 8 or len(body) < 60:
+        return None
+    # Distinctive Sorani characters; not sufficient for literary quality but
+    # prevents unmodified Persian/Arabic text from being published as Sorani.
+    if len(re.findall(r"[ئۆێەڕڵڤ]", title + body)) < 5:
+        print("AI text rejected: insufficient Sorani orthography.")
+        return None
+    return {"title": title, "body": body}
+
+
+def rewrite_with_openrouter(raw_text):
+    """Use OpenRouter only after Gemini cannot prepare the article."""
+    if not OPENROUTER_API_KEY or not OPENROUTER_MODELS:
+        print("OpenRouter not configured.")
+        return None
+    instructions = (
+        "You are an experienced Iraqi Kurdish Sorani news editor. Translate Persian, Arabic, "
+        "English or Kurdish source news into natural, fluent Kurdish Sorani (Arabic script), "
+        "not literal Persian/Arabic calques. Preserve every name, number, date, attribution "
+        "and uncertainty. Never invent facts. Return ONLY valid JSON with string fields "
+        "title and body, a concise headline and a factual news article. No URLs, hashtags "
+        "or markdown. Both fields MUST be Kurdish Sorani."
+    )
+    for model in OPENROUTER_MODELS:
+        try:
+            response = requests.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers={"Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                         "Content-Type": "application/json"},
+                json={"model": model, "messages": [
+                    {"role": "system", "content": instructions},
+                    {"role": "user", "content": raw_text[:12000]}],
+                    "temperature": 0.3, "max_tokens": 1800},
+                timeout=35)
+            if not response.ok:
+                print(f"OpenRouter {model} HTTP {response.status_code}.")
+                if response.status_code in (401, 402, 429):
+                    break  # Account-level problem; avoid wasting quota on other models.
+                continue
+            content = response.json()["choices"][0]["message"]["content"]
+            if isinstance(content, list):
+                content = "".join(part.get("text", "") for part in content if isinstance(part, dict))
+            content = str(content).strip()
+            if content.startswith("```"):
+                content = re.sub(r"^\x60{3}(?:json)?\\s*|\\s*\x60{3}$", "", content).strip()
+            prepared = validate_ai_news(json.loads(content))
+            if prepared:
+                return prepared
+            print(f"OpenRouter {model}: incomplete or untranslated output.")
+        except (requests.RequestException, ValueError, KeyError, IndexError, TypeError) as exc:
+            print(f"OpenRouter {model} failed ({type(exc).__name__}).")
+    return None
+
 
 def format_without_ai(item):
     """Safely format existing Sorani text without inventing or translating facts."""
@@ -807,6 +870,10 @@ def source_key(item):
 def choose_pending(items, state, attempted):
     """Least recently served source first; breaking news first within that source."""
     available = [item for item in items if item["id"] not in attempted]
+    # Already-prepared Gemini stories always have publication priority.
+    gemini_ready = [item for item in available if item.get("prepared_method") == "gemini"]
+    if gemini_ready:
+        available = gemini_ready
     if not available:
         return None
     turns = state.get("source_turns", {})
@@ -891,6 +958,7 @@ def main():
         print(f"Processing item from {item['source']}...")
         now = datetime.now(timezone.utc)
         rewritten_text = item.get("prepared_text")
+        method = item.get("prepared_method")
         if not rewritten_text and not gemini_attempted and gemini_slot_available(state, now):
             track_article(item, state, "waiting_gemini", "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini", "gemini")
             gemini_attempted = True
@@ -899,6 +967,8 @@ def main():
             try:
                 track_article(item, state, "processing_gemini", "داواکاری بۆ Gemini نێردراوە", "gemini")
                 rewritten_text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
+                if rewritten_text:
+                    method = "gemini"
             except RuntimeError as exc:
                 if str(exc) != "GEMINI_QUOTA_EXCEEDED":
                     raise
@@ -906,17 +976,27 @@ def main():
                 save_publication_state(state)
                 print("Gemini quota exhausted; using safe non-AI fallback.")
         if not rewritten_text:
-            reason = "Gemini بەردەست نییە یان لە سنووری چاوەڕوانیدایە"
-            track_article(item, state, "formatting_source", reason, "source")
+            track_article(item, state, "processing_openrouter", "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter", "openrouter")
+            rewritten_text = rewrite_with_openrouter((item.get("title", "") + "\n" + item["content"]).strip())
+            if rewritten_text:
+                method = "openrouter"
+        if not rewritten_text:
+            # Never post foreign-language source text unchanged.
+            track_article(item, state, "formatting_source", "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی", "source")
             rewritten_text = format_without_ai(item)
-            if not rewritten_text:
-                track_article(item, state, "translating", "وەرگێڕانی جێگرەوە بەبێ Gemini", "translation")
+            if rewritten_text:
+                method = "source"
+            else:
+                track_article(item, state, "translating", "وەرگێڕانی جێگرەوە بەبێ AI", "translation")
                 rewritten_text = translate_without_gemini(item)
+                if rewritten_text:
+                    method = "translation"
         if not rewritten_text:
             track_article(item, state, "blocked_content", "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە")
             print("No safe publishable text; keeping item pending.")
             continue
         item["prepared_text"] = rewritten_text
+        item["prepared_method"] = method or "unknown"
         track_article(item, state, "ready", "دەق ئامادەی ناردنە")
         track_article(item, state, "sending", "ناردن بۆ تێلیگرام")
         success = send_to_telegram(rewritten_text, image_url=item.get("image"),
