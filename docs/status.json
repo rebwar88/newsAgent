@@ -1,9 +1,9 @@
 {
-  "run_id": "39863554413",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/39863554413",
-  "started_at": "2026-10-22T22:15:27.507199+00:00",
-  "finished_at": "2026-10-22T22:15:44.902308+00:00",
-  "duration_seconds": 17.4,
+  "run_id": "39864182767",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/39864182767",
+  "started_at": "2026-10-22T22:20:21.751823+00:00",
+  "finished_at": "2026-10-22T22:20:29.551940+00:00",
+  "duration_seconds": 7.8,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "unknown",
@@ -34,7 +34,7 @@
     }
   },
   "issues": [
-    "OpenRouter openrouter/free failed (KeyError).",
+    "Gemini quota exhausted; using safe non-AI fallback.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -51,11 +51,15 @@
       "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; skipping item.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; skipping item.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "0020ac2364930d7c4ad1b508ba89d35d",
@@ -65,51 +69,9 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-10-22T21:30:34.595292+00:00",
-      "updated_at": "2026-10-22T22:15:44.862986+00:00",
+      "updated_at": "2026-10-22T22:20:29.510604+00:00",
       "eligible_at": null,
       "history": [
-        {
-          "stage": "selected",
-          "at": "2026-10-22T21:50:27.036384+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "translation"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-22T21:50:27.054284+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-22T21:50:27.281427+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-22T21:50:27.288810+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "blocked_content",
-          "at": "2026-10-22T21:50:30.938365+00:00",
-          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-          "method": "translation"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-22T21:55:26.195652+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "translation"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-22T21:55:26.199016+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
         {
           "stage": "formatting_source",
           "at": "2026-10-22T21:55:26.417488+00:00",
@@ -245,6 +207,48 @@
         {
           "stage": "blocked_content",
           "at": "2026-10-22T22:15:44.862986+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-22T22:20:24.888615+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-22T22:20:24.894200+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-22T22:20:24.905418+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-22T22:20:25.078471+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-22T22:20:25.789930+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-22T22:20:25.796687+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-10-22T22:20:29.510604+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
@@ -4220,6 +4224,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-10-22T22:15:44.969130+00:00",
-  "gemini_blocked_until": "2026-10-22T22:16:37.353408+00:00"
+  "snapshot_at": "2026-10-22T22:20:29.622341+00:00",
+  "gemini_blocked_until": "2026-10-22T22:50:25.071910+00:00"
 }
