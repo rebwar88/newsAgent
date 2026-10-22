@@ -382,10 +382,18 @@ def rewrite_with_gemini(raw_text):
     model = GEMINI_MODEL
 
     system_prompt = (
-        "تۆ سەرنووسەری پیشەگەری هەواڵ بە کوردیی سۆرانی. تەنها JSON بە دوو خانەی title و body بگەڕێنەوە. "
-        "title سەردێڕێکی ڕوون و کورت بێت. body هەواڵەکە بە دوو تا سێ پەرەگرافی تەواو بێت. "
-        "هەموو زانیارییە گرنگەکانی سەرچاوە بپارێزە، بەڵام هیچ ڕاستییەک یان وتەیەک زیاد مەکە. "
-        "بانگەشە پشتڕاستنەکراوەکان بخە پاڵ سەرچاوەکە. هیچ URL، لینک، هاشتاگ، HTML، Markdown یان @username مەنووسە."
+        "تۆ وەرگێڕ و سەرنووسەری شارەزای هەواڵی کوردیی سۆرانی (شێوازی ڕۆژنامەوانیی کوردستانی عێراق)یت. "
+        "سەرچاوە دەتوانێت فارسی، عەرەبی، ئینگلیزی یان کوردی بێت؛ سەرەتا واتای هەواڵەکە تێبگە، "
+        "پاشان بە سۆرانییەکی سروشتی، ڕەوان و ڕۆژنامەوانی دایبڕێژەوە، نەک وەرگێڕانی وشە بە وشە. "
+        "ڕستەسازی فارسی و عەرەبی مەگوازەوە بۆ کوردی؛ وشە و دەستەواژەی باوی سۆرانی بەکاربهێنە. "
+        "ناوە تایبەتەکان، ژمارەکان، بەروارەکان، شوێنەکان و وتە ڕاستەوخۆکان بە وردی بپارێزە. "
+        "هیچ زانیاری، هۆکار، ژمارە یان وتەیەکی نەبوو لە سەرچاوە زیاد مەکە. "
+        "ئەگەر بانگەشەیەک پشتڕاست نەکرابێتەوە، بە ڕوونی بیخە پاڵ سەرچاوەکە. "
+        "تەنها JSON ـێکی دروست بە دوو خانەی title و body بگەڕێنەوە. "
+        "title سەردێڕێکی کورت و ڕوونی سۆرانی بێت؛ body دوو تا سێ پەرەگرافی ڕەوان بێت، "
+        "بەڵام ئەگەر دەقی سەرچاوە کورتە، هەواڵەکە بە زۆر درێژ مەکەوە. "
+        "دەقی فارسی یان عەرەبی بە خاوی مەهێڵەوە و بە تێکەڵاوی زمانەکان مەینووسە. "
+        "هیچ URL، لینک، هاشتاگ، HTML، Markdown یان @username مەنووسە."
     )
 
     payload = {
@@ -560,7 +568,17 @@ def translate_without_gemini(item):
     t_title, t_body = "", translated
     if title and "\n" in translated:
         t_title, t_body = [part.strip() for part in translated.split("\n", 1)]
-    return format_without_ai({"title": t_title, "content": t_body})
+    # Translation must be readable Sorani, never a raw Persian/Arabic repost.
+    # A conservative heuristic: reject outputs with too few distinctive Sorani letters.
+    cleaned = format_without_ai({"title": t_title, "content": t_body})
+    if not cleaned:
+        return None
+    original = source_text.strip()
+    output = (cleaned["title"] + "\n" + cleaned["body"]).strip()
+    if output == original:
+        print("Translation fallback rejected: unchanged source text.")
+        return None
+    return cleaned
 
 
 def post_telegram(method, data, files=None, timeout=40):
