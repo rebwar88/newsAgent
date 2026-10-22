@@ -300,5 +300,16 @@ class ReliabilityTests(unittest.TestCase):
         self.assertEqual(seen, {"old-blocked", "stale"})
 
 
+    def test_publishing_interval_shrinks_as_the_queue_grows(self):
+        minutes = lambda n: main.adaptive_interval(n).total_seconds() / 60
+        self.assertEqual(minutes(1), 5)
+        self.assertEqual(minutes(4), 5)
+        self.assertEqual(minutes(5), 4)
+        self.assertAlmostEqual(minutes(10), 2)
+        self.assertEqual(minutes(20), 1)
+        self.assertEqual(minutes(60), 1)
+        self.assertGreaterEqual(minutes(7), minutes(8))
+
+
 if __name__ == "__main__":
     unittest.main()

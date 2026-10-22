@@ -729,13 +729,14 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
     return post_telegram("sendMessage", text_payload) == "ok"
 
 
+DRAIN_TARGET = timedelta(minutes=20)  # the queue should be empty within about this long
+
 def adaptive_interval(pending_count):
-    """More queued news reduces spacing, without increasing Gemini usage."""
-    if pending_count >= 10:
-        return timedelta(minutes=1)
-    if pending_count >= 5:
-        return timedelta(minutes=2)
-    return timedelta(minutes=5)
+    """Spacing between articles shrinks as the queue grows: 5 min for a short queue down to 1 min for a long one."""
+    if pending_count <= 1:
+        return timedelta(minutes=5)
+    seconds = DRAIN_TARGET.total_seconds() / pending_count
+    return timedelta(seconds=min(300, max(60, seconds)))
 
 
 PENDING_MAX_AGE = timedelta(hours=6)   # older news is stale: drop it instead of publishing it late
