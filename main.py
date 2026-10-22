@@ -724,65 +724,6 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
 
     return post_telegram("sendMessage", text_payload) == "ok"
 
-FLUSH_FILE = "flush_backlog.json"
-FLUSH_MAX_ITEMS = 12
-FLUSH_TIME_BUDGET = timedelta(minutes=7)
-
-def flush_requested(state):
-    """Return the id of a not-yet-used one-time backlog flush request, or None."""
-    try:
-        with open(FLUSH_FILE, "r", encoding="utf-8") as f:
-            flag = json.load(f).get("id")
-    except (OSError, ValueError, AttributeError):
-        return None
-    return flag if flag and flag != state.get("flushed_id") else None
-
-def flush_backlog(items, seen_ids, state, flush_id):
-    """One-time run: publish every pending item at once so later runs only see fresh news."""
-    started = datetime.now(timezone.utc)
-    gemini_ok = True
-    published = 0
-    print(f"Backlog flush requested ({flush_id}): {len(items)} pending items.")
-    for item in items[:FLUSH_MAX_ITEMS]:
-        if datetime.now(timezone.utc) - started > FLUSH_TIME_BUDGET:
-            print("Flush time budget reached; remaining items stay pending.")
-            break
-        text = None
-        method = None
-        if gemini_ok:
-            try:
-                text = rewrite_with_gemini((item.get("title", "") + "\n" + item["content"]).strip())
-            except RuntimeError:
-                text = None
-            if text:
-                method = "gemini"
-            if not text:
-                gemini_ok = False  # stop asking Gemini during this flush to keep the run short
-        if not text:
-            text = format_without_ai(item)
-            method = "source"
-            if not text:
-                text = translate_without_gemini(item)
-                method = "translation"
-        if not text:
-            print("Flush: no safe publishable text; marking item as seen.")
-            seen_ids.add(item["id"])
-            continue
-        item.setdefault("progress", {})["method"] = method
-        if send_to_telegram(text, image_url=item.get("image"), video_url=item.get("video"), image_urls=item.get("images"), source_label=publication_credit(item)):
-            seen_ids.add(item["id"])
-            published += 1
-            print("Successfully published!")
-            save_seen_ids(seen_ids)
-            time.sleep(3)  # stay well under Telegram's per-chat rate limit
-        else:
-            print("Flush: Telegram delivery failed; item stays pending.")
-    state["flushed_id"] = flush_id
-    state["last_normal_at"] = datetime.now(timezone.utc).isoformat()
-    save_seen_ids(seen_ids)
-    save_publication_state(state)
-    print(f"Backlog flush completed. Published {published} articles.")
-    print(f"Completed run. Processed {published} articles.")
 
 def adaptive_interval(pending_count):
     """More queued news reduces spacing, without increasing Gemini usage."""
@@ -792,6 +733,32 @@ def adaptive_interval(pending_count):
         return timedelta(minutes=2)
     return timedelta(minutes=5)
 
+
+PENDING_MAX_AGE = timedelta(hours=6)   # older news is stale: drop it instead of publishing it late
+BLOCKED_MAX_AGE = timedelta(hours=1)   # items that cannot be turned into safe text are retried for an hour at most
+RECENT_LIMIT = 30
+
+def prune_pending(state, seen_ids, now=None):
+    """Remove stale or permanently blocked items from the queue and mark them as seen. Returns how many were dropped."""
+    now = now or datetime.now(timezone.utc)
+    kept, dropped = [], 0
+    for item in state.get("pending_items", []):
+        if not isinstance(item, dict) or not item.get("id"):
+            continue
+        progress = item.get("progress") or {}
+        try:
+            received = datetime.fromisoformat(str(progress.get("received_at") or item.get("fetched_at") or ""))
+            age = now - received
+        except (ValueError, TypeError):
+            age = timedelta(0)
+        limit = BLOCKED_MAX_AGE if progress.get("stage") == "blocked_content" else PENDING_MAX_AGE
+        if age > limit:
+            seen_ids.add(item["id"])
+            dropped += 1
+        else:
+            kept.append(item)
+    state["pending_items"] = kept
+    return dropped
 
 def merge_pending(state, items, seen_ids):
     """Persist unposted news across runs, including Facebook polling cooldowns."""
@@ -854,6 +821,10 @@ def main():
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
     new_items.extend(fetch_facebook_via_apify(seen_ids, state))
+    dropped = prune_pending(state, seen_ids)
+    if dropped:
+        print(f"Dropped {dropped} stale or blocked articles from the queue.")
+        save_seen_ids(seen_ids)
     pending = merge_pending(state, new_items, seen_ids)
     for queued in pending:
         if not queued.get("progress"):
@@ -936,7 +907,7 @@ def main():
         recent = state.setdefault("recent_articles", [])
         recent.append({"id": item["id"], "title": rewritten_text.get("title", ""),
                        "source": publication_source(item), "progress": item["progress"]})
-        del recent[:-60]
+        del recent[:-RECENT_LIMIT]
         seen_ids.add(item["id"])
         pending.remove(item)
         stamp = datetime.now(timezone.utc).isoformat()

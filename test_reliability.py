@@ -25,7 +25,7 @@ class ReliabilityTests(unittest.TestCase):
     def test_failed_delivery_not_marked_seen(self):
         item = {"id": "story-1", "source": "test", "content": "This is a long enough test article for rewriting.", "link": ""}
         with tempfile.TemporaryDirectory() as folder:
-            with patch.object(main, "SEEN_FILE", os.path.join(folder, "seen.json")):
+            with patch.object(main, "SEEN_FILE", os.path.join(folder, "seen.json")), patch.object(main, "PUBLISH_STATE_FILE", os.path.join(folder, "state.json")):
                 with patch.object(main, "PUBLISH_ENABLED", True), patch.object(main, "RSS_FEEDS", []):
                     with patch.object(main, "TELEGRAM_CHANNELS", []), patch.object(main, "fetch_rss_news", return_value=[item]):
                         with patch.object(main, "rewrite_with_gemini", return_value="Rewritten news"):
@@ -38,7 +38,7 @@ class ReliabilityTests(unittest.TestCase):
             path = os.path.join(folder, "seen.json")
             with open(path, "w", encoding="utf-8") as f:
                 f.write("not valid json")
-            with patch.object(main, "SEEN_FILE", path), patch.object(main, "PUBLISH_ENABLED", True):
+            with patch.object(main, "SEEN_FILE", path), patch.object(main, "PUBLISH_STATE_FILE", os.path.join(folder, "state.json")), patch.object(main, "PUBLISH_ENABLED", True):
                 with self.assertRaises(RuntimeError):
                     main.main()
 
@@ -79,25 +79,6 @@ class ReliabilityTests(unittest.TestCase):
                             main.main()
                             send.assert_called_once()
                             self.assertEqual(main.load_seen_ids(), {"en-1"})
-
-
-    def test_backlog_flush_publishes_everything_once(self):
-        ckb = "ئێران ڕایگەیاند کە ئامادەیە بۆ دانوستان لەگەڵ وڵاتانی ئەوروپا دەربارەی پرۆگرامی ناوکی و هەموو پرسە پەیوەندیدارەکان لە ئەمڕۆدا."
-        items = [{"id": f"b{i}", "source": "t", "title": "", "content": ckb, "link": ""} for i in range(4)]
-        with tempfile.TemporaryDirectory() as folder:
-            flag = os.path.join(folder, "flush.json")
-            with open(flag, "w", encoding="utf-8") as f:
-                f.write('{"id": "flush-1"}')
-            with patch.object(main, "SEEN_FILE", os.path.join(folder, "seen.json")), patch.object(main, "PUBLISH_STATE_FILE", os.path.join(folder, "state.json")), patch.object(main, "FLUSH_FILE", flag):
-                with patch.object(main, "PUBLISH_ENABLED", True), patch.object(main, "TELEGRAM_CHANNELS", []), patch.object(main, "fetch_rss_news", return_value=items):
-                    with patch.object(main, "rewrite_with_gemini", return_value=None), patch.object(main.time, "sleep"):
-                        with patch.object(main, "send_to_telegram", return_value=True) as send:
-                            main.main()
-                            self.assertEqual(send.call_count, 4)
-                            self.assertEqual(main.load_seen_ids(), {"b0", "b1", "b2", "b3"})
-                            self.assertEqual(main.load_publication_state()["flushed_id"], "flush-1")
-                            main.main()  # same flag id must not flush again
-                            self.assertEqual(send.call_count, 4)
 
 
     def test_extracts_photo_from_telegram_preview_html(self):
@@ -305,6 +286,18 @@ class ReliabilityTests(unittest.TestCase):
         with patch.object(af, "APIFY_TOKEN", "x"), patch.object(af.requests, "post", return_value=Mock(ok=False, status_code=402)):
             self.assertEqual(af.fetch_facebook_via_apify(set(), state, now), [])
         self.assertFalse(af.apify_slot_available(state, now + timedelta(minutes=5)))
+
+
+    def test_prune_pending_drops_stale_and_blocked_items(self):
+        now = datetime.now(timezone.utc)
+        def item(item_id, hours_ago, stage):
+            return {"id": item_id, "progress": {"received_at": (now - timedelta(hours=hours_ago)).isoformat(), "stage": stage}}
+        state = {"pending_items": [item("old-blocked", 2, "blocked_content"), item("fresh-blocked", 0.2, "blocked_content"),
+                                   item("stale", 7, "waiting_turn"), item("fresh", 1, "waiting_turn")]}
+        seen = set()
+        self.assertEqual(main.prune_pending(state, seen, now), 2)
+        self.assertEqual([i["id"] for i in state["pending_items"]], ["fresh-blocked", "fresh"])
+        self.assertEqual(seen, {"old-blocked", "stale"})
 
 
 if __name__ == "__main__":
