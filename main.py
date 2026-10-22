@@ -542,7 +542,7 @@ def rewrite_with_openrouter(raw_text):
                 content = "".join(part.get("text", "") for part in content if isinstance(part, dict))
             content = str(content).strip()
             if content.startswith("```"):
-                content = re.sub(r"^\x60{3}(?:json)?\\s*|\\s*\x60{3}$", "", content).strip()
+                content = re.sub(r"^\x60{3}(?:json)?\s*|\s*\x60{3}$", "", content).strip()
             prepared = validate_ai_news(json.loads(content))
             if prepared:
                 return prepared
@@ -563,8 +563,8 @@ def format_without_ai(item):
         return re.sub(r"\n{3,}", "\n\n", value).strip()
     title, body = clean(raw_title), clean(raw_body)
     # Do not publish untranslated foreign-language or nearly empty news.
-    sorani_chars = re.findall(r"[ئۆێەڕڵڤپچژگکق]", title + body)
-    if len(sorani_chars) < 8 or len(body) < 60:
+    sorani_chars = re.findall(r"[ئۆێەڕڵڤ]", title + body)
+    if len(sorani_chars) < 5 or len(body) < 60:
         print("Non-AI fallback rejected: insufficient Sorani text or article content.")
         return None
     if not title:
@@ -580,7 +580,7 @@ def format_without_ai(item):
 
 TRANSLATE_FALLBACK_ENABLED = os.getenv("TRANSLATE_FALLBACK_ENABLED", "true").lower() == "true"
 TRANSLATE_ENDPOINT = "https://translate.googleapis.com/translate_a/single"
-SORANI_LETTERS = r"[ئۆێەڕڵڤپچژگکق]"
+SORANI_LETTERS = r"[ئۆێەڕڵڤ]"
 
 def translate_to_sorani(text):
     """Free machine translation to Sorani (no Gemini, no API key). Returns None on any failure."""
@@ -625,7 +625,7 @@ def translate_without_gemini(item):
     sorani = re.findall(SORANI_LETTERS, translated)
     latin = re.findall(r"[A-Za-z]", translated)
     # Reject output that is still mostly foreign text (would mix languages in the channel).
-    if not letters or len(sorani) < 20 or len(latin) > 0.25 * len(letters):
+    if not letters or len(sorani) < 5 or len(latin) > 0.25 * len(letters):
         print("Translation fallback rejected: output is not clean Sorani.")
         return None
     t_title, t_body = "", translated
