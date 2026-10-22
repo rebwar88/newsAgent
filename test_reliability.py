@@ -8,6 +8,34 @@ import main
 
 
 class ReliabilityTests(unittest.TestCase):
+    def test_openrouter_requires_key(self):
+        with patch.object(main, "OPENROUTER_API_KEY", None):
+            with patch.object(main.requests, "post") as post:
+                self.assertIsNone(main.rewrite_with_openrouter("sample"))
+                post.assert_not_called()
+
+    def test_openrouter_success_sorani(self):
+        payload = {"choices": [{"message": {"content": '{"title":"هەواڵێکی نوێ لە هەولێر", "body":"ئەمڕۆ لە هەولێر هەواڵێکی نوێ ڕاگەیەندرا. بەرپرسان ڕوونیان کردەوە کە ڕووداوەکە لەژێر چاودێریدایە و وردەکارییەکان دواتر بڵاو دەکرێنەوە."}'}}]}
+        with patch.object(main, "OPENROUTER_API_KEY", "test"), patch.object(main, "OPENROUTER_MODELS", ["openrouter/free"]):
+            with patch.object(main.requests, "post", return_value=Mock(ok=True, json=lambda: payload)) as post:
+                result = main.rewrite_with_openrouter("خبر جدید")
+                self.assertIsNotNone(result)
+                self.assertIn("هەواڵ", result["title"])
+                self.assertEqual(post.call_count, 1)
+
+    def test_openrouter_rejects_untranslated_persian(self):
+        payload = {"choices": [{"message": {"content": '{"title":"خبر فوری از تهران", "body":"مقامات امروز اعلام کردند که جلسه مهمی درباره وضعیت منطقه برگزار شده است و جزئیات بیشتری به زودی منتشر خواهد شد."}'}}]}
+        with patch.object(main, "OPENROUTER_API_KEY", "test"), patch.object(main, "OPENROUTER_MODELS", ["openrouter/free"]):
+            with patch.object(main.requests, "post", return_value=Mock(ok=True, json=lambda: payload)):
+                self.assertIsNone(main.rewrite_with_openrouter("خبر جدید"))
+
+    def test_gemini_prepared_article_selected_first(self):
+        articles = [
+            {"id": "fallback", "source": "a", "content": "text"},
+            {"id": "gemini", "source": "b", "content": "text", "prepared_method": "gemini"},
+        ]
+        self.assertEqual(main.choose_pending(articles, {}, set())["id"], "gemini")
+
     def test_publishing_disabled_by_default(self):
         with patch.object(main, "PUBLISH_ENABLED", False), patch.object(main, "fetch_rss_news") as fetch:
             main.main()
