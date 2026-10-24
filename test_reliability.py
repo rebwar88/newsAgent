@@ -397,5 +397,15 @@ class ReliabilityTests(unittest.TestCase):
         main.TRANSLATE_SERVICE_FAILED = False
 
 
+    def test_openrouter_non_json_reply_is_logged_with_a_snippet(self):
+        def bad_json():
+            raise ValueError("not json")
+        reply = Mock(ok=True, status_code=200, text="<html>Bad gateway</html>", json=bad_json)
+        with patch.object(main, "OPENROUTER_API_KEY", "k"), patch.object(main, "OPENROUTER_MODELS", ["m1"]):
+            with patch.object(main.requests, "post", return_value=reply), patch("builtins.print") as printed:
+                self.assertIsNone(main.rewrite_with_openrouter("some news text that is long enough to be a story " * 3))
+        self.assertTrue(any("Bad gateway" in str(c.args[0]) for c in printed.call_args_list))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -555,7 +555,10 @@ def rewrite_with_openrouter(raw_text):
                 return prepared
             print(f"OpenRouter {model}: incomplete or untranslated output.")
         except (requests.RequestException, ValueError, KeyError, IndexError, TypeError) as exc:
-            print(f"OpenRouter {model} failed ({type(exc).__name__}).")
+            snippet = ""
+            if isinstance(exc, ValueError) and "response" in locals():
+                snippet = f" HTTP {response.status_code}, body starts: {response.text[:80]!r}"
+            print(f"OpenRouter {model} failed ({type(exc).__name__}).{snippet}")
     return None
 
 
