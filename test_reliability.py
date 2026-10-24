@@ -339,5 +339,63 @@ class ReliabilityTests(unittest.TestCase):
         self.assertGreaterEqual(minutes(7), minutes(8))
 
 
+    A = "ئێران ڕایگەیاند کە ئامادەیە بۆ دانوستان لەگەڵ وڵاتانی ئەوروپا دەربارەی پرۆگرامی ناوکی و ٣ پرسی تر لە ئەمڕۆدا"
+    A2 = "ئێران ڕایگەیاند کە ئامادەیە بۆ دانوستان لەگەڵ وڵاتانی ئەوروپا دەربارەی پرۆگرامی ناوکی و هەموو پرسەکانی تر ئەمڕۆ"
+    GOLD = "نرخی زێڕ لە بازاڕەکانی هەولێر بەرز بووەوە و هەر ئۆنسێک گەیشتە ٢٦٠٠ دۆلار بەپێی ڕاپۆرتەکان"
+
+    def test_near_duplicate_is_detected_and_other_news_is_not(self):
+        import editorial
+        state = {}
+        editorial.remember(state, editorial.fingerprint(self.A, "final"), "final", "t")
+        self.assertIsNotNone(editorial.find_duplicate(editorial.fingerprint(self.A, "final"), state, "final"))
+        self.assertIsNotNone(editorial.find_duplicate(editorial.fingerprint(self.A2, "final"), state, "final"))
+        self.assertIsNone(editorial.find_duplicate(editorial.fingerprint(self.GOLD, "final"), state, "final"))
+        self.assertIsNone(editorial.find_duplicate(editorial.fingerprint(self.A, "raw"), state, "raw"))
+
+    def test_duplicate_store_stays_small(self):
+        import editorial
+        state = {}
+        for i in range(400):
+            editorial.remember(state, editorial.fingerprint(f"خەبەری ژمارە {i} " + self.A, "final"), "final", "t")
+        self.assertLessEqual(len(state["fingerprints"]), editorial.MAX_FINGERPRINTS)
+
+    def test_topics_have_priority_and_unmatched_news_expires(self):
+        import editorial
+        self.assertIn("gold", editorial.match_topics(self.GOLD))
+        self.assertIn("iran_us_war", editorial.match_topics("Iran fires missiles at US base"))
+        self.assertEqual(editorial.match_topics("ڕیکلامی بازاڕ"), [])
+        items = [{"id": "x", "source": "a", "topics": []}, {"id": "y", "source": "b", "topics": ["gold"]}]
+        self.assertEqual(main.choose_pending(items, {}, set())["id"], "y")
+        now = datetime.now(timezone.utc)
+        old = (now - timedelta(minutes=40)).isoformat()
+        state = {"pending_items": [{"id": "x", "topics": [], "progress": {"received_at": old, "stage": "waiting_turn"}},
+                                   {"id": "y", "topics": ["gold"], "progress": {"received_at": old, "stage": "waiting_turn"}}]}
+        self.assertEqual(main.prune_pending(state, set(), now), 1)
+        self.assertEqual([i["id"] for i in state["pending_items"]], ["y"])
+
+    def test_telegram_flood_control_does_not_downgrade_to_text(self):
+        image = Mock(ok=True, status_code=200, headers={"Content-Type": "image/jpeg"}, content=b"x" * 5000)
+        flood = Mock(ok=False, status_code=429, json=lambda: {"description": "Too Many Requests"})
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "get", return_value=image), patch.object(main.requests, "post", side_effect=[flood]) as post:
+                result = main.send_to_telegram({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, image_url="https://cdn.example.org/a.jpg")
+        self.assertFalse(result)
+        self.assertEqual(post.call_count, 1)
+
+    def test_openrouter_response_without_choices_tries_next_model(self):
+        error_body = Mock(ok=True, status_code=200, json=lambda: {"error": {"message": "provider unavailable"}})
+        with patch.object(main, "OPENROUTER_API_KEY", "k"), patch.object(main, "OPENROUTER_MODELS", ["m1", "m2"]):
+            with patch.object(main.requests, "post", return_value=error_body) as post:
+                self.assertIsNone(main.rewrite_with_openrouter("some news text that is long enough to be a story " * 3))
+        self.assertEqual(post.call_count, 2)
+
+    def test_unreachable_translation_service_sets_breaker_flag(self):
+        main.TRANSLATE_SERVICE_FAILED = False
+        with patch.object(main.requests, "post", side_effect=main.requests.ConnectionError()), patch.object(main.time, "sleep"):
+            self.assertIsNone(main.translate_to_sorani("hello world"))
+        self.assertTrue(main.TRANSLATE_SERVICE_FAILED)
+        main.TRANSLATE_SERVICE_FAILED = False
+
+
 if __name__ == "__main__":
     unittest.main()

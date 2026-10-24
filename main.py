@@ -10,6 +10,7 @@ import requests
 import time
 import feedparser
 from bs4 import BeautifulSoup
+import editorial
 from apify_facebook import fetch_facebook_via_apify
 from facebook_public import fetch_facebook_public_posts, discover_public_page_posts, FACEBOOK_PAGE_SHARE_URLS
 
@@ -537,7 +538,13 @@ def rewrite_with_openrouter(raw_text):
                 if response.status_code in (401, 402, 429):
                     break  # Account-level problem; avoid wasting quota on other models.
                 continue
-            content = response.json()["choices"][0]["message"]["content"]
+            body = response.json()
+            if not isinstance(body, dict) or not body.get("choices"):
+                err = body.get("error") if isinstance(body, dict) else None
+                detail = err.get("message") if isinstance(err, dict) else (err or "unexpected response")
+                print(f"OpenRouter {model} returned no result: {str(detail)[:120]}")
+                continue
+            content = body["choices"][0]["message"]["content"]
             if isinstance(content, list):
                 content = "".join(part.get("text", "") for part in content if isinstance(part, dict))
             content = str(content).strip()
@@ -582,8 +589,11 @@ TRANSLATE_FALLBACK_ENABLED = os.getenv("TRANSLATE_FALLBACK_ENABLED", "true").low
 TRANSLATE_ENDPOINT = "https://translate.googleapis.com/translate_a/single"
 SORANI_LETTERS = r"[ئۆێەڕڵڤ]"
 
+TRANSLATE_SERVICE_FAILED = False  # set when the free translation service itself is unreachable
+
 def translate_to_sorani(text):
     """Free machine translation to Sorani (no Gemini, no API key). Returns None on any failure."""
+    global TRANSLATE_SERVICE_FAILED
     params = {"client": "gtx", "sl": "auto", "tl": "ckb", "dt": "t"}
     for attempt in range(2):
         try:
@@ -600,6 +610,7 @@ def translate_to_sorani(text):
             print(f"Translation attempt {attempt + 1} failed ({type(exc).__name__}).")
         if attempt == 0:
             time.sleep(3)
+    TRANSLATE_SERVICE_FAILED = True
     return None
 
 def translate_without_gemini(item):
@@ -658,6 +669,8 @@ def post_telegram(method, data, files=None, timeout=40):
             print(f"Telegram rejected {method} (HTTP {res.status_code}): {detail}")
             if res.status_code == 403:
                 raise PermissionError("Telegram bot lacks access to the configured destination channel")
+            if res.status_code == 429 or res.status_code >= 500:
+                return "uncertain"  # flood control or server trouble: retry later, never downgrade the message
             return "rejected"
         return "ok" if res.json().get("ok") is True else "rejected"
     except requests.RequestException as e:
@@ -838,6 +851,8 @@ def prune_pending(state, seen_ids, now=None):
         except (ValueError, TypeError):
             age = timedelta(0)
         limit = BLOCKED_MAX_AGE if progress.get("stage") == "blocked_content" else PENDING_MAX_AGE
+        if item.get("topics") == []:
+            limit = min(limit, timedelta(minutes=editorial.load_policy()["unmatched_max_age_minutes"]))
         if age > limit:
             seen_ids.add(item["id"])
             dropped += 1
@@ -874,6 +889,10 @@ def choose_pending(items, state, attempted):
     gemini_ready = [item for item in available if item.get("prepared_method") == "gemini"]
     if gemini_ready:
         available = gemini_ready
+    # Wanted topics first; items outside the policy only run when nothing wanted is waiting.
+    wanted = [item for item in available if item.get("topics", ["legacy"])]
+    if wanted:
+        available = wanted
     if not available:
         return None
     turns = state.get("source_turns", {})
@@ -899,6 +918,13 @@ def track_article(item, state, stage, reason="", method=None):
     save_publication_state(state)
 
 
+def story_text(prepared):
+    """Title and body of a prepared story (dict) or the plain text itself."""
+    if isinstance(prepared, dict):
+        return str(prepared.get("title", "")) + "\n" + str(prepared.get("body", ""))
+    return str(prepared)
+
+
 def main():
     if not PUBLISH_ENABLED:
         print("Safe mode: publication disabled until explicitly enabled.")
@@ -917,6 +943,9 @@ def main():
         save_seen_ids(seen_ids)
     pending = merge_pending(state, new_items, seen_ids)
     for queued in pending:
+        if "topics" not in queued:
+            queued["topics"] = editorial.match_topics(queued.get("title", "") + "\n" + queued.get("content", ""))
+    for queued in pending:
         if not queued.get("progress"):
             track_article(queued, state, "received")
             track_article(queued, state, "waiting_turn", "چاوەڕوانی نۆرەی سەرچاوە")
@@ -934,6 +963,16 @@ def main():
         if item is None:
             break
         track_article(item, state, "selected", "نۆرەی ئەم سەرچاوەیە هاتووە")
+        raw_fp = editorial.fingerprint(item.get("title", "") + "\n" + item["content"], "raw")
+        dup = editorial.find_duplicate(raw_fp, state, "raw")
+        if dup:
+            print(f"Duplicate of an already published story ({dup.get('title', '')[:60]}); skipping.")
+            track_article(item, state, "duplicate", "duplicate of " + dup.get("title", "")[:60])
+            seen_ids.add(item["id"])
+            pending.remove(item)
+            save_seen_ids(seen_ids)
+            save_publication_state(state)
+            continue
         interval = adaptive_interval(len(pending))
         now = datetime.now(timezone.utc)
         last = state.get("last_published_at") or state.get("last_normal_at")
@@ -988,12 +1027,30 @@ def main():
                 method = "source"
             else:
                 track_article(item, state, "translating", "وەرگێڕانی جێگرەوە بەبێ AI", "translation")
-                rewritten_text = translate_without_gemini(item)
+                blocked = state.get("translate_blocked_until")
+                if blocked and datetime.now(timezone.utc) < datetime.fromisoformat(blocked):
+                    rewritten_text = None
+                else:
+                    rewritten_text = translate_without_gemini(item)
+                    if TRANSLATE_SERVICE_FAILED:
+                        globals()["TRANSLATE_SERVICE_FAILED"] = False
+                        state["translate_blocked_until"] = (datetime.now(timezone.utc) + timedelta(minutes=30)).isoformat()
+                        print("Translation service unreachable; pausing it for 30 minutes.")
                 if rewritten_text:
                     method = "translation"
         if not rewritten_text:
             track_article(item, state, "blocked_content", "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە")
             print("No safe publishable text; keeping item pending.")
+            continue
+        final_fp = editorial.fingerprint(story_text(rewritten_text), "final")
+        dup = editorial.find_duplicate(final_fp, state, "final")
+        if dup:
+            print(f"Duplicate of an already published story ({dup.get('title', '')[:60]}); skipping.")
+            track_article(item, state, "duplicate", "duplicate of " + dup.get("title", "")[:60])
+            seen_ids.add(item["id"])
+            pending.remove(item)
+            save_seen_ids(seen_ids)
+            save_publication_state(state)
             continue
         item["prepared_text"] = rewritten_text
         item["prepared_method"] = method or "unknown"
@@ -1011,6 +1068,8 @@ def main():
         recent.append({"id": item["id"], "title": rewritten_text.get("title", ""),
                        "source": publication_source(item), "progress": item["progress"]})
         del recent[:-RECENT_LIMIT]
+        editorial.remember(state, raw_fp, "raw", rewritten_text.get("title", "") if isinstance(rewritten_text, dict) else "")
+        editorial.remember(state, final_fp, "final", rewritten_text.get("title", "") if isinstance(rewritten_text, dict) else "")
         seen_ids.add(item["id"])
         pending.remove(item)
         stamp = datetime.now(timezone.utc).isoformat()
