@@ -409,7 +409,7 @@ class ReliabilityTests(unittest.TestCase):
 
     def test_openrouter_falls_through_from_paid_to_free_model(self):
         no_credit = Mock(ok=False, status_code=402, text="payment required")
-        good = Mock(ok=True, status_code=200, json=lambda: {"choices": [{"message": {"content": "not valid json"}}]})
+        good = Mock(ok=True, status_code=200, text="", json=lambda: {"choices": [{"message": {"content": "not valid json"}}]})
         with patch.object(main, "OPENROUTER_API_KEY", "k"), patch.object(main, "OPENROUTER_MODELS", ["google/gemini-2.5-flash", "openrouter/free"]):
             with patch.object(main.requests, "post", side_effect=[no_credit, good]) as post:
                 main.rewrite_with_openrouter("some news text that is long enough to be a story " * 3)
