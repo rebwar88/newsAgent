@@ -17,7 +17,7 @@ from facebook_public import fetch_facebook_public_posts, discover_public_page_po
 # ================= Configuration =================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-OPENROUTER_MODELS = [m.strip() for m in os.getenv("OPENROUTER_MODELS", "openrouter/free").split(",") if m.strip()]
+OPENROUTER_MODELS = [m.strip() for m in os.getenv("OPENROUTER_MODELS", "google/gemini-2.5-flash,openrouter/free").split(",") if m.strip()]
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
@@ -535,8 +535,9 @@ def rewrite_with_openrouter(raw_text):
                 timeout=35)
             if not response.ok:
                 print(f"OpenRouter {model} HTTP {response.status_code}.")
-                if response.status_code in (401, 402, 429):
-                    break  # Account-level problem; avoid wasting quota on other models.
+                if response.status_code == 401:
+                    break  # Invalid key: no other model can work.
+                # 402 (no credit for a paid model) or 429 (rate limit): try the next model, e.g. the free router.
                 continue
             body = response.json()
             if not isinstance(body, dict) or not body.get("choices"):

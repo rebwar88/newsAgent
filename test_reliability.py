@@ -407,5 +407,19 @@ class ReliabilityTests(unittest.TestCase):
         self.assertTrue(any("Bad gateway" in str(c.args[0]) for c in printed.call_args_list))
 
 
+    def test_openrouter_falls_through_from_paid_to_free_model(self):
+        no_credit = Mock(ok=False, status_code=402, text="payment required")
+        good = Mock(ok=True, status_code=200, json=lambda: {"choices": [{"message": {"content": "not valid json"}}]})
+        with patch.object(main, "OPENROUTER_API_KEY", "k"), patch.object(main, "OPENROUTER_MODELS", ["google/gemini-2.5-flash", "openrouter/free"]):
+            with patch.object(main.requests, "post", side_effect=[no_credit, good]) as post:
+                main.rewrite_with_openrouter("some news text that is long enough to be a story " * 3)
+        self.assertEqual(post.call_count, 2)
+        bad_key = Mock(ok=False, status_code=401, text="unauthorized")
+        with patch.object(main, "OPENROUTER_API_KEY", "k"), patch.object(main, "OPENROUTER_MODELS", ["a", "b"]):
+            with patch.object(main.requests, "post", return_value=bad_key) as post:
+                main.rewrite_with_openrouter("some news text that is long enough to be a story " * 3)
+        self.assertEqual(post.call_count, 1)
+
+
 if __name__ == "__main__":
     unittest.main()

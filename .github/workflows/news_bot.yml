@@ -74,5 +74,15 @@ jobs:
           if [ -f docs/status.json ]; then git add docs/status.json; fi
           if ! git diff --cached --quiet; then
             git commit -m "chore: update seen news cache [skip ci]"
-            git push
+            # Another commit may have landed during the run: rebase (our state files win) and retry,
+            # otherwise the published-news state would be lost and stories could be sent twice.
+            for attempt in 1 2 3 4; do
+              if git pull --rebase -X theirs origin "${GITHUB_REF_NAME}" && git push; then
+                exit 0
+              fi
+              git rebase --abort 2>/dev/null || true
+              sleep $((attempt * 5))
+            done
+            echo "Could not push the state commit after 4 attempts."
+            exit 1
           fi
