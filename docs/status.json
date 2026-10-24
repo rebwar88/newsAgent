@@ -1,11 +1,11 @@
 {
-  "run_id": "40105734274",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40105734274",
-  "started_at": "2026-10-24T15:10:20.366829+00:00",
-  "finished_at": "2026-10-24T15:10:28.483500+00:00",
-  "duration_seconds": 8.1,
+  "run_id": "40106115327",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40106115327",
+  "started_at": "2026-10-24T15:15:21.716213+00:00",
+  "finished_at": "2026-10-24T15:16:21.746230+00:00",
+  "duration_seconds": 60.0,
   "exit_code": 0,
-  "found": 5,
+  "found": 6,
   "published": 1,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "5 items found"
+      "detail": "6 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -34,6 +34,7 @@
     }
   },
   "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -43,11 +44,19 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 5 new items."
+      "message": "Found 6 new items."
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@ClashReport)..."
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "telegram",
@@ -58,55 +67,18 @@
       "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
+  "log": "Checking for new articles...\nFound 6 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini transport issue; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
-    {
-      "id": "eb476f734ab0fda4de63e1c369e5052e",
-      "title": "پزشکیان: این گونه زندگی کردن برازنده مردم ما نیست",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-10-24T14:40:31.707433+00:00",
-      "updated_at": "2026-10-24T15:10:28.441273+00:00",
-      "eligible_at": "2026-10-24T15:15:28.425224+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-24T14:40:31.707433+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-24T14:40:31.711569+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-24T15:10:28.433562+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-24T15:10:28.441273+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "0502e75838f6bbdae555d389b43135f2",
       "title": "پۆلیسی ئاکرێ: بە زووترین کات تۆمەتباری کوشتنی دوو براکە دەستگیر دەکرێت",
       "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-10-24T14:50:26.030954+00:00",
-      "updated_at": "2026-10-24T14:50:26.035003+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-10-24T15:16:21.694925+00:00",
+      "eligible_at": "2026-10-24T15:21:21.677607+00:00",
       "history": [
         {
           "stage": "received",
@@ -119,30 +91,17 @@
           "at": "2026-10-24T14:50:26.035003+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "b71e555f07bb5bb463d14dcb40c4285c",
-      "title": "♦️",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-24T14:55:23.813219+00:00",
-      "updated_at": "2026-10-24T14:55:23.820789+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-10-24T14:55:23.813219+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-10-24T15:16:21.686729+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-10-24T14:55:23.820789+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "stage": "waiting_slot",
+          "at": "2026-10-24T15:16:21.694925+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -171,9 +130,138 @@
           "method": "undecided"
         }
       ]
+    },
+    {
+      "id": "b65f23f9d1ffe0dfb8f0c64c76ba35c5",
+      "title": "A group of armed women in Yemen’s Taiz province declared their readiness to fight the Houthis alongside government-aligned forces.",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-24T15:15:26.463655+00:00",
+      "updated_at": "2026-10-24T15:15:26.471101+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-24T15:15:26.463655+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-24T15:15:26.471101+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "3db4215bc62d9ebbd037212319cc3366",
+      "title": "WATCH: Israeli \"settler\" was filmed cursing at Palestinian business owners as Israeli forces demolished their store in the occupied West Bank city of Hebron. ",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-24T15:15:26.478869+00:00",
+      "updated_at": "2026-10-24T15:15:26.486627+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-24T15:15:26.478869+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-24T15:15:26.486627+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
     }
   ],
   "recent_articles": [
+    {
+      "id": "b71e555f07bb5bb463d14dcb40c4285c",
+      "title": "ئیدیعای ئیسرائیل هیوم",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-10-24T14:55:23.813219+00:00",
+      "updated_at": "2026-10-24T15:16:21.669436+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-24T14:55:23.813219+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-24T14:55:23.820789+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-24T15:15:26.502522+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-24T15:15:26.510549+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-24T15:15:26.525719+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-24T15:16:16.809768+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-24T15:16:16.983153+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-24T15:16:16.991943+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-24T15:16:19.343758+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-24T15:16:19.351667+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-24T15:16:21.669436+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
+        }
+      ]
+    },
     {
       "id": "e5837aedb161334c1af95c268da5cffe",
       "title": "بینەری بن: ژنێک لەکاتی خۆپیشاندانەکانی فەرەنسادا سندوقێکی جلوبەرگی لە فرۆشگایەکی تاڵانکراوی زارا دەرهێنابوو، ب",
@@ -2320,82 +2408,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "fc120b171be5c4a86794984246589b02",
-      "title": "پێكدادانی دوو فڕۆکەی هێزی ئاسمانیی فلیپین و گیانلەدەستدانی چوار فڕۆکەوان",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-24T13:10:25.767068+00:00",
-      "updated_at": "2026-10-24T13:17:16.874339+00:00",
-      "eligible_at": "2026-10-24T13:17:14.296673+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-24T13:10:25.767068+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-24T13:10:25.775315+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-24T13:13:54.305500+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-24T13:13:54.313853+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-24T13:17:14.692289+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-24T13:17:14.696960+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-24T13:17:14.926654+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-24T13:17:14.933978+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-24T13:17:14.943758+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-24T13:17:16.874339+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
   "pending_count": 4,
-  "snapshot_at": "2026-10-24T15:10:28.548640+00:00",
-  "gemini_blocked_until": "2026-10-24T15:10:31.912972+00:00"
+  "snapshot_at": "2026-10-24T15:16:21.813397+00:00",
+  "gemini_blocked_until": "2026-10-24T15:46:16.802022+00:00"
 }
