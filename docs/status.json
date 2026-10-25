@@ -1,9 +1,9 @@
 {
-  "run_id": "40200192566",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40200192566",
-  "started_at": "2026-10-25T14:00:28.145403+00:00",
-  "finished_at": "2026-10-25T14:05:44.605764+00:00",
-  "duration_seconds": 316.5,
+  "run_id": "40200577510",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40200577510",
+  "started_at": "2026-10-25T14:05:56.347225+00:00",
+  "finished_at": "2026-10-25T14:09:50.983285+00:00",
+  "duration_seconds": 234.6,
   "exit_code": 0,
   "found": 15,
   "published": 3,
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "ok",
-      "detail": "Gemini stage reached"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -33,7 +33,10 @@
       "detail": "Completed run. Processed 3 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "OpenRouter google/gemini-2.5-flash failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n{\"id\":\"gen-1792937266-YDNbmHKH8amWbdCUcRKc\",\"object\":\"chat.completion'"
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -46,6 +49,14 @@
     {
       "stage": "selection",
       "message": "Processing item from facebook:Rudaw.net..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "telegram",
@@ -64,18 +75,6 @@
       "message": "Processing item from facebook:profile.php?id=100077778374527..."
     },
     {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 1/2 in 5s."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 2/2 in 15s."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini transport unavailable after retries (ReadTimeout)."
-    },
-    {
       "stage": "telegram",
       "message": "Successfully published!"
     },
@@ -84,7 +83,7 @@
       "message": "Completed run. Processed 3 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 15 new items.\nProcessing item from facebook:Rudaw.net...\nSuccessfully published!\nProcessing item from facebook:diplomatic.media...\nSuccessfully published!\nProcessing item from facebook:profile.php?id=100077778374527...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini transport unavailable after retries (ReadTimeout).\nImage skipped (HTTP 200, type text/html).\nSuccessfully published!\nCompleted run. Processed 3 articles.",
+  "log": "Checking for new articles...\nFound 15 new items.\nProcessing item from facebook:Rudaw.net...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nProcessing item from facebook:diplomatic.media...\nSuccessfully published!\nProcessing item from facebook:profile.php?id=100077778374527...\nImage skipped (HTTP 200, type text/html).\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 3 articles.",
   "articles": [
     {
       "id": "70549deeb23750822ade26a82a27fa29",
@@ -174,25 +173,50 @@
       ]
     },
     {
+      "id": "b7bb88846d57a9cfd7ddca3613891dfc",
+      "title": "نرخی بەرمیلێک نەوتی سپی لە هەرێمی کوردستان گەیشتە ٣٢٥ هەزار دینار",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-25T14:06:05.495323+00:00",
+      "updated_at": "2026-10-25T14:06:05.499524+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T14:06:05.495323+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T14:06:05.499524+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
       "id": "95f538cde6d011ad16ac45329358930c",
       "title": "UK Defence Secretary Wes Streeting warned that Britain must be ready for war within 1,000 days, saying Russia and other adversaries could be capable of attacking by 2030.",
       "source": "Clash Report",
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T14:00:53.263964+00:00",
-      "updated_at": "2026-10-25T14:00:53.271423+00:00",
+      "received_at": "2026-10-25T14:06:05.504052+00:00",
+      "updated_at": "2026-10-25T14:06:05.508440+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-10-25T14:00:53.263964+00:00",
+          "at": "2026-10-25T14:06:05.504052+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.271423+00:00",
+          "at": "2026-10-25T14:06:05.508440+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -205,119 +229,19 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T14:00:53.279044+00:00",
-      "updated_at": "2026-10-25T14:00:53.286519+00:00",
+      "received_at": "2026-10-25T14:06:05.513242+00:00",
+      "updated_at": "2026-10-25T14:06:05.517639+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-10-25T14:00:53.279044+00:00",
+          "at": "2026-10-25T14:06:05.513242+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.286519+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "fb:1567703152223661",
-      "title": "زانا کایانی بۆ رێبوار کەریم: بە سادەیی بۆ خەڵکی روونبکەرەوە، ساڵی داهاتوو کێشەی مووچە دەبێ و گرێبەستەکان دەبنە هەمیشەیی؟",
-      "source": "Rudaw.net",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T14:00:53.293988+00:00",
-      "updated_at": "2026-10-25T14:00:53.301400+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T14:00:53.293988+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.301400+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "fb:1144044491531486",
-      "title": "🔻دەقی یاسای مۆڵەتی درێژخایەنی فەرمانبەران، کە ئەمڕۆ پەرلەمانی عێراق پەسەندی کرد",
-      "source": "Draw-%D8%AF%D8%B1%DB%95%D9%88",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T14:00:53.338989+00:00",
-      "updated_at": "2026-10-25T14:00:53.346665+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T14:00:53.338989+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.346665+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "fb:1505871501676705",
-      "title": "ئەمشەو کاتژمێر 8:30 کوڕ و کچانی کوردستان لە ڕانیەی دەروازەی ڕاپەڕین دەیڵێنەوە",
-      "source": "avamediatv",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T14:00:53.354229+00:00",
-      "updated_at": "2026-10-25T14:00:53.361771+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T14:00:53.354229+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.361771+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "fb:1505877208342801",
-      "title": "پرۆژەیاسای مۆڵەتی درێژخایەنی فەرمانبەران پەسند کرا و :هەرێمی کوردستانیش دەگرێتەوە\"",
-      "source": "avamediatv",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T14:00:53.369370+00:00",
-      "updated_at": "2026-10-25T14:00:53.377053+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T14:00:53.369370+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.377053+00:00",
+          "at": "2026-10-25T14:06:05.517639+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -330,19 +254,131 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T14:00:53.384682+00:00",
-      "updated_at": "2026-10-25T14:00:53.392808+00:00",
+      "received_at": "2026-10-25T14:06:05.521966+00:00",
+      "updated_at": "2026-10-25T14:06:05.526440+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-10-25T14:00:53.384682+00:00",
+          "at": "2026-10-25T14:06:05.521966+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.392808+00:00",
+          "at": "2026-10-25T14:06:05.526440+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "fb:1567728115554498",
+      "title": "رەوتی هەڵوێست 'پێشنیازێکی لەسەر هەرزانکردنی بەنزین و نەوت' داوەتە عەلی زەیدی و د. رێبوار کەریم وردەکارییەکەی باس دەکات",
+      "source": "Rudaw.net",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-25T14:06:05.548558+00:00",
+      "updated_at": "2026-10-25T14:06:05.553413+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T14:06:05.548558+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T14:06:05.553413+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "fb:1144044491531486",
+      "title": "🔻دەقی یاسای مۆڵەتی درێژخایەنی فەرمانبەران، کە ئەمڕۆ پەرلەمانی عێراق پەسەندی کرد",
+      "source": "Draw-%D8%AF%D8%B1%DB%95%D9%88",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-25T14:06:05.566910+00:00",
+      "updated_at": "2026-10-25T14:06:05.571303+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T14:06:05.566910+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T14:06:05.571303+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "fb:1505871501676705",
+      "title": "ئەمشەو کاتژمێر 8:30 کوڕ و کچانی کوردستان لە ڕانیەی دەروازەی ڕاپەڕین دەیڵێنەوە",
+      "source": "avamediatv",
+      "stage": "waiting_slot",
+      "method": "undecided",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-10-25T14:06:05.575758+00:00",
+      "updated_at": "2026-10-25T14:09:50.948237+00:00",
+      "eligible_at": "2026-10-25T14:11:40.028908+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T14:06:05.575758+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T14:06:05.580264+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T14:09:50.943437+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-25T14:09:50.948237+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "fb:1505877208342801",
+      "title": "پرۆژەیاسای مۆڵەتی درێژخایەنی فەرمانبەران پەسند کرا و :هەرێمی کوردستانیش دەگرێتەوە\"",
+      "source": "avamediatv",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-25T14:06:05.584692+00:00",
+      "updated_at": "2026-10-25T14:06:05.589113+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T14:06:05.584692+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T14:06:05.589113+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -357,67 +393,55 @@
       "stage": "published",
       "method": "openrouter",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T14:00:53.323936+00:00",
-      "updated_at": "2026-10-25T14:05:44.553351+00:00",
-      "eligible_at": "2026-10-25T14:04:28.134150+00:00",
+      "received_at": "2026-10-25T14:06:05.557833+00:00",
+      "updated_at": "2026-10-25T14:09:50.933048+00:00",
+      "eligible_at": "2026-10-25T14:09:47.865210+00:00",
       "history": [
         {
           "stage": "received",
-          "at": "2026-10-25T14:00:53.323936+00:00",
+          "at": "2026-10-25T14:06:05.557833+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.331422+00:00",
+          "at": "2026-10-25T14:06:05.562269+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         },
         {
           "stage": "selected",
-          "at": "2026-10-25T14:02:39.052124+00:00",
+          "at": "2026-10-25T14:08:07.870728+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
           "stage": "waiting_slot",
-          "at": "2026-10-25T14:02:39.059988+00:00",
+          "at": "2026-10-25T14:08:07.875625+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_gemini",
-          "at": "2026-10-25T14:04:28.134490+00:00",
-          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_gemini",
-          "at": "2026-10-25T14:04:28.149939+00:00",
-          "reason": "داواکاری بۆ Gemini نێردراوە",
-          "method": "gemini"
-        },
-        {
           "stage": "processing_openrouter",
-          "at": "2026-10-25T14:05:36.465935+00:00",
+          "at": "2026-10-25T14:09:47.875248+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "ready",
-          "at": "2026-10-25T14:05:37.731174+00:00",
+          "at": "2026-10-25T14:09:49.018075+00:00",
           "reason": "دەق ئامادەی ناردنە",
           "method": "openrouter"
         },
         {
           "stage": "sending",
-          "at": "2026-10-25T14:05:37.738910+00:00",
+          "at": "2026-10-25T14:09:49.022646+00:00",
           "reason": "ناردن بۆ تێلیگرام",
           "method": "openrouter"
         },
         {
           "stage": "published",
-          "at": "2026-10-25T14:05:44.553351+00:00",
+          "at": "2026-10-25T14:09:50.933048+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
           "method": "openrouter"
         }
@@ -425,60 +449,60 @@
     },
     {
       "id": "fb:1138099532245859",
-      "title": "پاشەکشەی دیموکراسی، کۆسپ لەبەردەم دۆزی کورد",
+      "title": "پاشەکشەی دیموکراتی، کۆسپی بەردەم دۆزی کورد",
       "source": "پەیجی - diplomatic.media",
       "stage": "published",
       "method": "openrouter",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T14:00:53.400359+00:00",
-      "updated_at": "2026-10-25T14:02:39.035231+00:00",
-      "eligible_at": "2026-10-25T14:02:36.130486+00:00",
+      "received_at": "2026-10-25T14:06:05.530889+00:00",
+      "updated_at": "2026-10-25T14:08:07.860139+00:00",
+      "eligible_at": "2026-10-25T14:07:46.386440+00:00",
       "history": [
         {
           "stage": "received",
-          "at": "2026-10-25T14:00:53.400359+00:00",
+          "at": "2026-10-25T14:06:05.530889+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.407988+00:00",
+          "at": "2026-10-25T14:06:05.535328+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         },
         {
           "stage": "selected",
-          "at": "2026-10-25T14:00:56.141828+00:00",
+          "at": "2026-10-25T14:06:14.089699+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
           "stage": "waiting_slot",
-          "at": "2026-10-25T14:00:56.149918+00:00",
+          "at": "2026-10-25T14:06:14.094640+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         },
         {
           "stage": "processing_openrouter",
-          "at": "2026-10-25T14:02:36.140577+00:00",
+          "at": "2026-10-25T14:07:46.388790+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "ready",
-          "at": "2026-10-25T14:02:37.954450+00:00",
+          "at": "2026-10-25T14:08:06.781530+00:00",
           "reason": "دەق ئامادەی ناردنە",
           "method": "openrouter"
         },
         {
           "stage": "sending",
-          "at": "2026-10-25T14:02:37.962075+00:00",
+          "at": "2026-10-25T14:08:06.786200+00:00",
           "reason": "ناردن بۆ تێلیگرام",
           "method": "openrouter"
         },
         {
           "stage": "published",
-          "at": "2026-10-25T14:02:39.035231+00:00",
+          "at": "2026-10-25T14:08:07.860139+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
           "method": "openrouter"
         }
@@ -486,54 +510,66 @@
     },
     {
       "id": "fb:1567717678888875",
-      "title": "کۆبوونەوەی هاوپەیمانیی بەڕێوەبردنی دەوڵەت و پرسی مووچە",
+      "title": "د. ڕێبوار کەریم: ئەخلاقم ڕێگەم نادات باسی کۆبوونەوەکە بکەم، بەڵام لەبارەی مووچە...",
       "source": "پەیجی - Rudaw.net",
       "stage": "published",
       "method": "openrouter",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T14:00:53.308912+00:00",
-      "updated_at": "2026-10-25T14:00:56.122433+00:00",
+      "received_at": "2026-10-25T14:06:05.539726+00:00",
+      "updated_at": "2026-10-25T14:06:14.073608+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-10-25T14:00:53.308912+00:00",
+          "at": "2026-10-25T14:06:05.539726+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-10-25T14:00:53.316367+00:00",
+          "at": "2026-10-25T14:06:05.544130+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         },
         {
           "stage": "selected",
-          "at": "2026-10-25T14:00:53.423591+00:00",
+          "at": "2026-10-25T14:06:05.601384+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
+          "stage": "waiting_gemini",
+          "at": "2026-10-25T14:06:05.606163+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-25T14:06:05.614950+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
           "stage": "processing_openrouter",
-          "at": "2026-10-25T14:00:53.431564+00:00",
+          "at": "2026-10-25T14:06:11.291039+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "ready",
-          "at": "2026-10-25T14:00:55.341044+00:00",
+          "at": "2026-10-25T14:06:13.252052+00:00",
           "reason": "دەق ئامادەی ناردنە",
           "method": "openrouter"
         },
         {
           "stage": "sending",
-          "at": "2026-10-25T14:00:55.348859+00:00",
+          "at": "2026-10-25T14:06:13.256900+00:00",
           "reason": "ناردن بۆ تێلیگرام",
           "method": "openrouter"
         },
         {
           "stage": "published",
-          "at": "2026-10-25T14:00:56.122433+00:00",
+          "at": "2026-10-25T14:06:14.073608+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
           "method": "openrouter"
         }
@@ -2391,7 +2427,7 @@
       ]
     }
   ],
-  "pending_count": 10,
-  "snapshot_at": "2026-10-25T14:05:44.670180+00:00",
-  "gemini_blocked_until": "2026-10-25T14:03:23.407077+00:00"
+  "pending_count": 11,
+  "snapshot_at": "2026-10-25T14:09:51.036173+00:00",
+  "gemini_blocked_until": "2026-10-25T14:36:11.285499+00:00"
 }
