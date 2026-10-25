@@ -1,12 +1,12 @@
 {
-  "run_id": "40145962630",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40145962630",
-  "started_at": "2026-10-25T00:15:24.417699+00:00",
-  "finished_at": "2026-10-25T00:15:28.743972+00:00",
-  "duration_seconds": 4.3,
+  "run_id": "40146285539",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40146285539",
+  "started_at": "2026-10-25T00:20:19.825851+00:00",
+  "finished_at": "2026-10-25T00:21:19.250637+00:00",
+  "duration_seconds": 59.4,
   "exit_code": 0,
-  "found": 2,
-  "published": 0,
+  "found": 1,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "2 items found"
+      "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,24 +43,41 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 2 new items."
+      "message": "Found 1 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 2 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini transport issue; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "53870475b4596faf26bd68e652d6eac6",
-      "title": "Trump:",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "ترامپ: بۆ گەورەیی، پێویستمان بە گەڕاندنەوەی ئایینە بەهێزتر لە ئێستا",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-25T00:00:39.519600+00:00",
-      "updated_at": "2026-10-25T00:15:28.703746+00:00",
+      "updated_at": "2026-10-25T00:21:19.211000+00:00",
       "eligible_at": "2026-10-25T00:17:28.441535+00:00",
       "history": [
         {
@@ -84,11 +103,51 @@
           "at": "2026-10-25T00:15:28.703746+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T00:20:22.912913+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-25T00:20:22.917588+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-25T00:20:22.927274+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-25T00:21:13.187651+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-25T00:21:14.569812+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-25T00:21:14.573915+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-25T00:21:19.211000+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "c0163202b244e96df8bf407c59ea3e5d",
       "title": "ترامپ: بۆچی هەمیشە دەبێت خەڵک لە وڵاتانی 'گەمژە' وەربگرین؟",
@@ -1971,64 +2030,9 @@
           "method": "openrouter"
         }
       ]
-    },
-    {
-      "id": "25aeccebfb6f8d65c4ce8a9e64db8582",
-      "title": "زیاتر لە 300 تانکەری نەوتی قاچاخ لە سنووری تورکیا گیریان خواردووە",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-24T21:10:21.564312+00:00",
-      "updated_at": "2026-10-24T21:10:24.703141+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-24T21:10:21.564312+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-24T21:10:21.568592+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-24T21:10:21.624120+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-24T21:10:21.628680+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-24T21:10:23.542596+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-24T21:10:23.546933+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-24T21:10:24.703141+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-10-25T00:15:28.806377+00:00",
-  "gemini_blocked_until": "2026-10-25T00:06:33.240577+00:00"
+  "pending_count": 0,
+  "snapshot_at": "2026-10-25T00:21:19.301517+00:00",
+  "gemini_blocked_until": "2026-10-25T00:51:13.183459+00:00"
 }
