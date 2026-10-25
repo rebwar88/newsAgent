@@ -1,12 +1,12 @@
 {
-  "run_id": "40208025902",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40208025902",
-  "started_at": "2026-10-25T15:40:25.059658+00:00",
-  "finished_at": "2026-10-25T15:40:29.816253+00:00",
-  "duration_seconds": 4.8,
+  "run_id": "40208423537",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40208423537",
+  "started_at": "2026-10-25T15:45:23.536717+00:00",
+  "finished_at": "2026-10-25T15:45:53.427436+00:00",
+  "duration_seconds": 29.9,
   "exit_code": 0,
-  "found": 6,
-  "published": 0,
+  "found": 4,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "6 items found"
+      "detail": "4 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,64 +43,35 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 6 new items."
+      "message": "Found 4 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 6 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 4 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
-    {
-      "id": "a5b78cc81aa240e445127696bba6115f",
-      "title": "کت تن حمید مطهری است؛ زخم کاری رفیقان قدیمی بر تن سرخ‌ها",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-10-25T15:15:24.910081+00:00",
-      "updated_at": "2026-10-25T15:36:21.405268+00:00",
-      "eligible_at": "2026-10-25T15:41:21.395830+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T15:15:24.910081+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T15:15:24.917607+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T15:32:17.381912+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T15:32:17.389741+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T15:36:21.400930+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T15:36:21.405268+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "6b2478ca92347106a9c948f842836847",
       "title": "ترامپ: می‌دانیم در کوه کلنگ چه می‌گذرد",
@@ -125,14 +98,53 @@
       ]
     },
     {
-      "id": "849343c15fc7b25e9ddc8539480fb4d6",
-      "title": "ڤلادیمێر پوتین تۆمەتبارکردنی ڕووسیا بە هاندانی خۆپیشاندانەکانی ئەورووپا ڕەت دەکاتەوە",
-      "source": "بەپەلە|Breaking News",
+      "id": "cd8b65b1475d1b5e503e69e8033d283e",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-10-25T15:40:29.736969+00:00",
+      "updated_at": "2026-10-25T15:45:53.385348+00:00",
+      "eligible_at": "2026-10-25T15:50:53.369314+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T15:40:29.736969+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T15:40:29.744461+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T15:45:53.377793+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-25T15:45:53.385348+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "849343c15fc7b25e9ddc8539480fb4d6",
+      "title": "پوتین تۆمەتبارکردنی ڕووسیا بە هاندانی خۆپیشاندانەکانی ئەورووپا ڕەت دەکاتەوە",
+      "source": "تلگرامی - بەپەلە|Breaking News",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-25T15:40:29.722302+00:00",
-      "updated_at": "2026-10-25T15:40:29.767357+00:00",
+      "updated_at": "2026-10-25T15:45:53.360323+00:00",
       "eligible_at": "2026-10-25T15:41:21.395830+00:00",
       "history": [
         {
@@ -158,36 +170,51 @@
           "at": "2026-10-25T15:40:29.767357+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "cd8b65b1475d1b5e503e69e8033d283e",
-      "title": "♦️",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T15:40:29.736969+00:00",
-      "updated_at": "2026-10-25T15:40:29.744461+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-10-25T15:40:29.736969+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-10-25T15:45:28.549247+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T15:40:29.744461+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-10-25T15:45:28.558419+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-25T15:45:28.572578+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-25T15:45:49.843036+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-25T15:45:51.627134+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-25T15:45:51.634369+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-25T15:45:53.360323+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "a30a28f0b9bb1ee76cb6d44c449a7c6f",
       "title": "سەرۆک وەزیرانی عێراق: داواکاریی خۆپیشاندەرانی تشرینم پێگەیشتووە و هەوڵی جێبەجێکردنیان دەدەین",
@@ -2088,64 +2115,9 @@
           "method": "openrouter"
         }
       ]
-    },
-    {
-      "id": "6eaf5b0873150b8c1eb34e7bfe682cf9",
-      "title": "کۆبوونەوەی دەرمانخانەکانی ئێران لە سێیەمین ڕووداوی پرایمدا بە تیشک خستنە سەر گەردیلەی تیرزپاتاید",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T14:25:20.414160+00:00",
-      "updated_at": "2026-10-25T14:25:25.150824+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T14:25:20.414160+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T14:25:20.423547+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T14:25:20.470175+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-25T14:25:20.478388+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-25T14:25:23.808724+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-25T14:25:23.816544+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-25T14:25:25.150824+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-10-25T15:40:29.886396+00:00",
-  "gemini_blocked_until": "2026-10-25T15:40:22.465067+00:00"
+  "pending_count": 2,
+  "snapshot_at": "2026-10-25T15:45:53.491339+00:00",
+  "gemini_blocked_until": "2026-10-25T16:15:49.835125+00:00"
 }
