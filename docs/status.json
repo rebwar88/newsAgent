@@ -1,12 +1,12 @@
 {
-  "run_id": "40202534174",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40202534174",
-  "started_at": "2026-10-25T14:30:21.166655+00:00",
-  "finished_at": "2026-10-25T14:34:09.983793+00:00",
-  "duration_seconds": 228.8,
+  "run_id": "40202922042",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40202922042",
+  "started_at": "2026-10-25T14:35:18.870734+00:00",
+  "finished_at": "2026-10-25T14:38:03.331311+00:00",
+  "duration_seconds": 164.5,
   "exit_code": 0,
   "found": 11,
-  "published": 3,
+  "published": 2,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -30,10 +30,12 @@
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 3 articles."
+      "detail": "Completed run. Processed 2 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -42,14 +44,6 @@
     {
       "stage": "discovery",
       "message": "Found 11 new items."
-    },
-    {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
-    },
-    {
-      "stage": "telegram",
-      "message": "Successfully published!"
     },
     {
       "stage": "selection",
@@ -64,53 +58,24 @@
       "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
     },
     {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
       "stage": "telegram",
       "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 3 articles."
+      "message": "Completed run. Processed 2 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 11 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nSuccessfully published!\nProcessing item from تێلیگرام (@brakingnews24)...\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 3 articles.",
+  "log": "Checking for new articles...\nFound 11 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nSuccessfully published!\nDuplicate of an already published story (ترامپ: پرسیارم ئەوەیە ئایا لەگەڵ ئێران ڕێکدەکەوم یان بۆ هەمی); skipping.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
   "articles": [
-    {
-      "id": "b7bb88846d57a9cfd7ddca3613891dfc",
-      "title": "نرخی بەرمیلێک نەوتی سپی لە هەرێمی کوردستان گەیشتە ٣٢٥ هەزار دینار",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-10-25T14:06:05.495323+00:00",
-      "updated_at": "2026-10-25T14:34:09.947326+00:00",
-      "eligible_at": "2026-10-25T14:36:09.937959+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T14:06:05.495323+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T14:06:05.499524+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T14:34:09.942944+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T14:34:09.947326+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "95f538cde6d011ad16ac45329358930c",
       "title": "UK Defence Secretary Wes Streeting warned that Britain must be ready for war within 1,000 days, saying Russia and other adversaries could be capable of attacking by 2030.",
@@ -215,12 +180,12 @@
       "id": "6e404a92c9cd7b9d747297d38f5b4ff2",
       "title": "عەلی زەیدی: دەبێت تورکیا کڕینی نەوتی قاچاخی هەرێم ڕابگرێت",
       "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-10-25T14:15:24.365247+00:00",
-      "updated_at": "2026-10-25T14:15:24.371890+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-10-25T14:38:03.293270+00:00",
+      "eligible_at": "2026-10-25T14:40:16.612675+00:00",
       "history": [
         {
           "stage": "received",
@@ -232,6 +197,18 @@
           "stage": "waiting_turn",
           "at": "2026-10-25T14:15:24.371890+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T14:38:03.286342+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-25T14:38:03.293270+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -312,25 +289,25 @@
       ]
     },
     {
-      "id": "3b3b665b471be44c0090f914f9de5243",
-      "title": "ترامپ در گفت‌وگو با فاکس‌نیوز مدعی شد: سؤال من در حال حاضر این است که آیا با ایرانی‌ها توافق می‌کنم یا آن‌ها را برای همیشه نابود می‌کنم ",
-      "source": "خبرهای فوری مهم 🔖",
+      "id": "7de25e03b7915c57ff5914d92be58a14",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-25T14:30:24.493798+00:00",
-      "updated_at": "2026-10-25T14:30:24.498133+00:00",
+      "received_at": "2026-10-25T14:35:22.704612+00:00",
+      "updated_at": "2026-10-25T14:35:22.710435+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-10-25T14:30:24.493798+00:00",
+          "at": "2026-10-25T14:35:22.704612+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-10-25T14:30:24.498133+00:00",
+          "at": "2026-10-25T14:35:22.710435+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -338,6 +315,152 @@
     }
   ],
   "recent_articles": [
+    {
+      "id": "ddad132d3bdc0d86241160b5e91e88a1",
+      "title": "پزیشکیان: نەبوونی زانیاری یەکگرتوو بنەمای جیاکارییە لە وڵاتدا",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-10-25T14:35:22.716501+00:00",
+      "updated_at": "2026-10-25T14:38:03.273329+00:00",
+      "eligible_at": "2026-10-25T14:37:54.329757+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T14:35:22.716501+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T14:35:22.722401+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T14:35:54.355445+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-25T14:35:54.361467+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-25T14:37:54.355582+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-25T14:37:54.367151+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-25T14:37:59.994210+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-25T14:38:01.423662+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-25T14:38:01.429560+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-25T14:38:03.273329+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
+        }
+      ]
+    },
+    {
+      "id": "b7bb88846d57a9cfd7ddca3613891dfc",
+      "title": "نرخی بەرمیلێک نەوتی سپی لە هەرێمی کوردستان گەیشتە ٣٢٥ هەزار دینار",
+      "source": "تلگرامی - بەپەلە|Breaking News",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-10-25T14:06:05.495323+00:00",
+      "updated_at": "2026-10-25T14:35:54.323532+00:00",
+      "eligible_at": "2026-10-25T14:35:49.937959+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T14:06:05.495323+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T14:06:05.499524+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T14:34:09.942944+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-25T14:34:09.947326+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T14:35:22.734484+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-25T14:35:22.740726+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-25T14:35:49.971052+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-25T14:35:52.303830+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-25T14:35:52.309821+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-25T14:35:54.323532+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
+        }
+      ]
+    },
     {
       "id": "3e5def14c3a3f22d02d2a9bbb3bfca15",
       "title": "باقایی: ئەمریکا سوورە لەسەر داواکارییە تاکلایەنەکانی",
@@ -2171,149 +2294,9 @@
           "method": "openrouter"
         }
       ]
-    },
-    {
-      "id": "bd7a49abaa5604f342020b98cb4e2863",
-      "title": "عێراق نەوتەکەی بە داشکاندن دەفرۆشێت بەهۆی مەترسییەکانی گەرووی هورمزەوە",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T12:50:26.555578+00:00",
-      "updated_at": "2026-10-25T13:18:24.003876+00:00",
-      "eligible_at": "2026-10-25T13:18:20.805879+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T12:50:26.555578+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T12:50:26.562740+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T13:05:25.161638+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T13:05:25.169245+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T13:10:30.234931+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T13:10:30.239323+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T13:15:29.386043+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T13:15:29.393683+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-25T13:18:20.827407+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-25T13:18:22.393131+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-25T13:18:22.400448+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-25T13:18:24.003876+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
-    },
-    {
-      "id": "c093bb54fc62dad52fe484e7405fa309",
-      "title": "نرخی بەنزینی سوپەر لە ئێران گەیشتە ١٠٣ هەزار تمەن",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T13:15:25.409292+00:00",
-      "updated_at": "2026-10-25T13:15:29.369140+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T13:15:25.409292+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T13:15:25.416885+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T13:15:25.446213+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-25T13:15:25.453955+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-25T13:15:27.320448+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-25T13:15:27.327854+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-25T13:15:29.369140+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
     }
   ],
-  "pending_count": 10,
-  "snapshot_at": "2026-10-25T14:34:10.029875+00:00",
-  "gemini_blocked_until": "2026-10-25T14:36:11.285499+00:00"
+  "pending_count": 9,
+  "snapshot_at": "2026-10-25T14:38:03.388341+00:00",
+  "gemini_blocked_until": "2026-10-25T15:07:59.987495+00:00"
 }
