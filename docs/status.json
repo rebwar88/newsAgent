@@ -1,12 +1,12 @@
 {
-  "run_id": "40215960964",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40215960964",
-  "started_at": "2026-10-25T17:20:21.978137+00:00",
-  "finished_at": "2026-10-25T17:20:25.962998+00:00",
-  "duration_seconds": 4.0,
+  "run_id": "40216366322",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40216366322",
+  "started_at": "2026-10-25T17:25:18.364016+00:00",
+  "finished_at": "2026-10-25T17:26:52.079910+00:00",
+  "duration_seconds": 93.7,
   "exit_code": 0,
-  "found": 4,
-  "published": 0,
+  "found": 8,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,29 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "4 items found"
+      "detail": "8 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Gemini stage reached"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,14 +44,34 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 4 new items."
+      "message": "Found 8 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport unavailable after retries (ReadTimeout)."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 4 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 8 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini transport unavailable after retries (ReadTimeout).\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "3f9565b8a9e982c1d48b41e97309da22",
@@ -126,14 +149,128 @@
       ]
     },
     {
-      "id": "b21e5a5b23a450963eb8a7a1fe81944a",
-      "title": "بازداشت مزدوران مجازی شبکه اینترنشنال در هرمزگان",
-      "source": "خبرهای فوری مهم 🔖",
+      "id": "56007b92b37ab32e444804f5e81ce659",
+      "title": "🔴",
+      "source": "بەپەلە|Breaking News",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-10-25T17:25:21.455180+00:00",
+      "updated_at": "2026-10-25T17:26:52.036524+00:00",
+      "eligible_at": "2026-10-25T17:29:43.448392+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T17:25:21.455180+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T17:25:21.463216+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T17:26:52.028616+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-25T17:26:52.036524+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "7688441fdf32ac630ad2cf6288629393",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-25T17:25:21.471820+00:00",
+      "updated_at": "2026-10-25T17:25:21.479663+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T17:25:21.471820+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T17:25:21.479663+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "8fa1fd0cc478203bbee78091d5266abf",
+      "title": "ستون دود در غرب تبریز ناشی از امحای مهمات عمل‌نکرده",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-25T17:25:21.487369+00:00",
+      "updated_at": "2026-10-25T17:25:21.499540+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T17:25:21.487369+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T17:25:21.499540+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "5540aabec74c7b9c237a6314d77acc8a",
+      "title": "رسانهٔ اسرائیل هیوم: سطح آمادگی نظامی در سراسر اسرائیل افزایش یافته است",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-25T17:25:21.507369+00:00",
+      "updated_at": "2026-10-25T17:25:21.515051+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T17:25:21.507369+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T17:25:21.515051+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "b21e5a5b23a450963eb8a7a1fe81944a",
+      "title": "دەستگیرکردنی بەکرێگیراوانی مەجازی تۆڕی نێودەوڵەتی لە هورمزگان",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-25T17:20:25.891494+00:00",
-      "updated_at": "2026-10-25T17:20:25.920988+00:00",
+      "updated_at": "2026-10-25T17:26:52.011951+00:00",
       "eligible_at": "2026-10-25T17:22:56.518913+00:00",
       "history": [
         {
@@ -159,11 +296,63 @@
           "at": "2026-10-25T17:20:25.920988+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-25T17:25:21.531854+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-25T17:25:21.539735+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-25T17:25:21.605333+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-25T17:26:27.770885+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-25T17:26:49.675383+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-25T17:26:49.683864+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-25T17:26:51.631383+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-25T17:26:51.638940+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-25T17:26:52.011951+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "35e8bf3d8b86fae8e31b7ed3792f1479",
       "title": "بە ئامانجی بەڕێوەبردنی سەرچاوەکانی دراوی بیانی، ڕێکخراوی گەشەپێدانی بازرگانی هاوردەکردنی ئۆتۆمبێلی لە دراوی بو",
@@ -2112,82 +2301,9 @@
           "method": "openrouter"
         }
       ]
-    },
-    {
-      "id": "893c9997acd6a00792f54835a8bf05a4",
-      "title": "ترامپ: جیهان بە چاومان هەڵدێت، تەنانەت چینیش",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T15:00:31.025576+00:00",
-      "updated_at": "2026-10-25T15:32:17.365611+00:00",
-      "eligible_at": "2026-10-25T15:32:11.855598+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T15:00:31.025576+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T15:00:31.030020+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T15:28:51.863968+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T15:28:51.871285+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T15:30:28.608131+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T15:30:28.616549+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-25T15:32:11.868919+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-25T15:32:13.269469+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-25T15:32:13.277337+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-25T15:32:17.365611+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-10-25T17:20:26.025306+00:00",
+  "pending_count": 7,
+  "snapshot_at": "2026-10-25T17:26:52.146386+00:00",
   "gemini_blocked_until": "2026-10-25T17:18:55.326835+00:00"
 }
