@@ -1,12 +1,12 @@
 {
-  "run_id": "40247245752",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40247245752",
-  "started_at": "2026-10-26T00:00:30.573302+00:00",
-  "finished_at": "2026-10-26T00:01:21.939603+00:00",
-  "duration_seconds": 51.4,
+  "run_id": "40247623103",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40247623103",
+  "started_at": "2026-10-26T00:05:16.547175+00:00",
+  "finished_at": "2026-10-26T00:05:33.324105+00:00",
+  "duration_seconds": 16.8,
   "exit_code": 0,
   "found": 2,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -21,25 +21,19 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "blocked",
-      "detail": "Gemini quota exhausted; using safe non-AI fallback."
-    },
-    "telegram": {
       "status": "unknown",
       "detail": "No event recorded"
     },
+    "telegram": {
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
+    },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [
-    "Gemini quota exhausted; using safe non-AI fallback.",
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1792972860-vRA'",
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n{\"id\":\"gen-1792972876-wS1vVJ8qojGIqpsP0leO\",\"object\":\"chat'",
-    "Non-AI fallback rejected: insufficient Sorani text or article content."
-  ],
+  "issues": [],
   "events": [
     {
       "stage": "fetch",
@@ -54,37 +48,94 @@
       "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 1/2 in 5s."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 2/2 in 15s."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini quota exhausted; using safe non-AI fallback."
-    },
-    {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@ClashReport)..."
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 2 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; skipping item.\nTranslation service unreachable; pausing it for 30 minutes.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 2 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
-      "id": "1b63ae1b8c8bc439bff41650fbb326c5",
-      "title": "AtlasIntel CEO Andrei Roman effectively called Brazil’s presidential runoff for President Lula, replying “Sim, ganhou” (“Yes, he won”) when a user asked whether Lula had beaten Flávio Bolsonaro. ",
+      "id": "0f7053a5c645ce9f3548c78f7b309ebd",
+      "title": "NEW: Datafolha projects that Brazil's President Lula has defeated Flávio Bolsonaro and won an unprecedented fourth term, coming back after trailing in the first round. ",
       "source": "Clash Report",
-      "stage": "blocked_content",
+      "stage": "waiting_slot",
       "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-10-25T23:55:19.658173+00:00",
+      "updated_at": "2026-10-26T00:05:33.293228+00:00",
+      "eligible_at": "2026-10-26T00:10:33.283752+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-25T23:55:19.658173+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-25T23:55:19.665268+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-26T00:01:16.797197+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-26T00:01:16.804669+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-26T00:01:21.883876+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-26T00:01:21.891000+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-10-26T00:01:21.897998+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-26T00:05:33.288785+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-26T00:05:33.293228+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "1b63ae1b8c8bc439bff41650fbb326c5",
+      "title": "سەرۆکی ئەتلەس ئینتێڵ: لولا سەرۆکایەتی براوە",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-25T23:35:23.895495+00:00",
-      "updated_at": "2026-10-26T00:01:16.789725+00:00",
+      "updated_at": "2026-10-26T00:05:33.279527+00:00",
       "eligible_at": "2026-10-26T00:00:23.882952+00:00",
       "history": [
         {
@@ -152,66 +203,39 @@
           "at": "2026-10-26T00:01:16.789725+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
-        }
-      ]
-    },
-    {
-      "id": "0f7053a5c645ce9f3548c78f7b309ebd",
-      "title": "NEW: Datafolha projects that Brazil's President Lula has defeated Flávio Bolsonaro and won an unprecedented fourth term, coming back after trailing in the first round. ",
-      "source": "Clash Report",
-      "stage": "blocked_content",
-      "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-      "received_at": "2026-10-25T23:55:19.658173+00:00",
-      "updated_at": "2026-10-26T00:01:21.897998+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T23:55:19.658173+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T23:55:19.665268+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
         },
         {
           "stage": "selected",
-          "at": "2026-10-26T00:01:16.797197+00:00",
+          "at": "2026-10-26T00:05:19.844703+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
+          "method": "translation"
         },
         {
           "stage": "processing_openrouter",
-          "at": "2026-10-26T00:01:16.804669+00:00",
+          "at": "2026-10-26T00:05:19.849553+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
-          "stage": "formatting_source",
-          "at": "2026-10-26T00:01:21.883876+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
+          "stage": "ready",
+          "at": "2026-10-26T00:05:32.873572+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
         },
         {
-          "stage": "translating",
-          "at": "2026-10-26T00:01:21.891000+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
+          "stage": "sending",
+          "at": "2026-10-26T00:05:32.877850+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
         },
         {
-          "stage": "blocked_content",
-          "at": "2026-10-26T00:01:21.897998+00:00",
-          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-          "method": "translation"
+          "stage": "published",
+          "at": "2026-10-26T00:05:33.279527+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "e1e7b452bd5a14ca8db9e2fcfdec861d",
       "title": "ترەمپ دەڵێت لیبیا \"ناتوانێت وەک ڕێڕەوێک بۆ کۆچی نایاسایی بمێنێتەوە و ئەمەش دەبێت ئێستا کۆتایی بێت\"، هاوکات ستا",
@@ -2616,82 +2640,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "b55fabfa91b272829860a08f6667332c",
-      "title": "ناتانیاهۆ سەبارەت بە ئێران",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T21:44:09.661789+00:00",
-      "updated_at": "2026-10-25T21:47:12.877828+00:00",
-      "eligible_at": "2026-10-25T21:47:04.961426+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T21:44:09.661789+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T21:44:09.666056+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T21:45:39.252521+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T21:45:39.257144+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-25T21:47:04.987194+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-25T21:47:06.976139+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-25T21:47:06.980758+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-25T21:47:08.265561+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-25T21:47:08.270110+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-25T21:47:12.877828+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 2,
-  "snapshot_at": "2026-10-26T00:01:22.007892+00:00",
+  "pending_count": 1,
+  "snapshot_at": "2026-10-26T00:05:33.371842+00:00",
   "gemini_blocked_until": "2026-10-26T00:30:59.908097+00:00"
 }
