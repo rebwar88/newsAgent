@@ -1,12 +1,12 @@
 {
-  "run_id": "40255338595",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40255338595",
-  "started_at": "2026-10-26T01:40:17.711884+00:00",
-  "finished_at": "2026-10-26T01:40:21.723465+00:00",
-  "duration_seconds": 4.0,
+  "run_id": "40255739872",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40255739872",
+  "started_at": "2026-10-26T01:45:21.375211+00:00",
+  "finished_at": "2026-10-26T01:46:26.768435+00:00",
+  "duration_seconds": 65.4,
   "exit_code": 0,
-  "found": 2,
-  "published": 0,
+  "found": 3,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,30 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "2 items found"
+      "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"i'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,24 +45,40 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 2 new items."
+      "message": "Found 3 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 2 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "23e5c5a0baf22a5fe4bf67f7ec242f21",
       "title": "Mexican President Sheinbaum:",
       "source": "Clash Report",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-10-26T01:20:26.673513+00:00",
-      "updated_at": "2026-10-26T01:40:21.686722+00:00",
+      "updated_at": "2026-10-26T01:45:46.943422+00:00",
       "eligible_at": "2026-10-26T01:44:23.827698+00:00",
       "history": [
         {
@@ -156,18 +176,87 @@
           "at": "2026-10-26T01:40:21.686722+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-26T01:45:24.712476+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-26T01:45:24.717835+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-26T01:45:46.931862+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-26T01:45:46.937537+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-10-26T01:45:46.943422+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
     {
-      "id": "3ee9c842c67e0fbe19ca46c6bbdc4fce",
-      "title": "Brazilian President Lula:",
+      "id": "6e1dcd0ad928201943294e87c53e0b15",
+      "title": "Flávio Bolsonaro:",
       "source": "Clash Report",
-      "stage": "blocked_content",
-      "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "stage": "waiting_slot",
+      "method": "undecided",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-10-26T01:45:24.696299+00:00",
+      "updated_at": "2026-10-26T01:46:26.728950+00:00",
+      "eligible_at": "2026-10-26T01:51:26.705655+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-26T01:45:24.696299+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-26T01:45:24.700785+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-26T01:46:26.723710+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-26T01:46:26.728950+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "3ee9c842c67e0fbe19ca46c6bbdc4fce",
+      "title": "لولا: تاوانە دیجیتالەکان دەبێت وەک تاوانە ڕاستەقینەکان بەشێوەرێن و کۆمپانیایە گەورەکان ناتوانن بەبێ باژ بدەن و ھەڵبژاردن بگۆڕن",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-26T01:30:28.899169+00:00",
-      "updated_at": "2026-10-26T01:36:19.910382+00:00",
+      "updated_at": "2026-10-26T01:46:26.700660+00:00",
       "eligible_at": null,
       "history": [
         {
@@ -211,11 +300,51 @@
           "at": "2026-10-26T01:36:19.910382+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-26T01:45:46.949079+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-26T01:45:46.954847+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-26T01:45:46.968531+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-26T01:45:47.173487+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-26T01:46:26.268933+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-26T01:46:26.273905+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-26T01:46:26.700660+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "2d37725b8aa67b44d569553b1048b112",
       "title": "دەربارەی لولا لە بەرزیل",
@@ -2728,82 +2857,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "e8603ccabb2500599e9534fe8bf9b8ca",
-      "title": "ئەگەر لە ئێستادا بەرامبەر هەر کەسێک ڕابکەم، دەڵێن بە ٢٠، ٢٥ خاڵ سەردەکەوم",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T21:35:20.887328+00:00",
-      "updated_at": "2026-10-25T22:03:28.916669+00:00",
-      "eligible_at": "2026-10-25T22:03:23.208689+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T21:35:20.887328+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T21:35:20.892325+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T22:02:03.217832+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T22:02:03.225579+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-25T22:03:23.228793+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-25T22:03:24.548992+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-25T22:03:24.556611+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-25T22:03:25.645997+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-25T22:03:25.653424+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-25T22:03:28.916669+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
   "pending_count": 2,
-  "snapshot_at": "2026-10-26T01:40:21.770813+00:00",
-  "gemini_blocked_until": "2026-10-26T01:45:25.598855+00:00"
+  "snapshot_at": "2026-10-26T01:46:26.816672+00:00",
+  "gemini_blocked_until": "2026-10-26T02:15:47.167442+00:00"
 }
