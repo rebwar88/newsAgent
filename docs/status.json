@@ -1,12 +1,12 @@
 {
-  "run_id": "40250861297",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40250861297",
-  "started_at": "2026-10-26T00:45:19.564065+00:00",
-  "finished_at": "2026-10-26T00:45:23.116189+00:00",
-  "duration_seconds": 3.6,
+  "run_id": "40251255119",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40251255119",
+  "started_at": "2026-10-26T00:50:29.748917+00:00",
+  "finished_at": "2026-10-26T00:51:04.217197+00:00",
+  "duration_seconds": 34.5,
   "exit_code": 0,
-  "found": 3,
-  "published": 0,
+  "found": 2,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "3 items found"
+      "detail": "2 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,24 +43,36 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 3 new items."
+      "message": "Found 2 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from facebook:Rudaw.net..."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from facebook:avamediatv..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 2 new items.\nProcessing item from facebook:Rudaw.net...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from facebook:avamediatv...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "fb:1568160568844586",
       "title": "هاندەرێکی ریاڵ مەدریدە و پڕ بە قوڕگی هاوار دەکات: ریاڵ!!",
       "source": "Rudaw.net",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-10-26T00:25:37.289704+00:00",
-      "updated_at": "2026-10-26T00:45:23.073323+00:00",
+      "updated_at": "2026-10-26T00:50:49.654731+00:00",
       "eligible_at": "2026-10-26T00:46:03.137851+00:00",
       "history": [
         {
@@ -96,31 +110,36 @@
           "at": "2026-10-26T00:45:23.073323+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "fb:1506333458297176",
-      "title": "چێنەر بۆ هاندەرە سەرسەختەکەی ڕیاڵ: نا نا ئارام بە خۆت مەسووتێنە",
-      "source": "avamediatv",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-26T00:25:37.349315+00:00",
-      "updated_at": "2026-10-26T00:25:37.401351+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-10-26T00:25:37.349315+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-10-26T00:50:33.607370+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-10-26T00:25:37.401351+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "processing_openrouter",
+          "at": "2026-10-26T00:50:33.613730+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-26T00:50:49.642481+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-26T00:50:49.649000+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-10-26T00:50:49.654731+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
@@ -128,12 +147,12 @@
       "id": "cd6b9e9dc5e2fe993516268ee403b605",
       "title": "TODAY: Vučić is out after 14 years. Lula is in for a fourth term.",
       "source": "Clash Report",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-10-26T00:35:36.160263+00:00",
-      "updated_at": "2026-10-26T00:35:36.167818+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-10-26T00:51:04.176969+00:00",
+      "eligible_at": "2026-10-26T00:56:04.163542+00:00",
       "history": [
         {
           "stage": "received",
@@ -145,6 +164,18 @@
           "stage": "waiting_turn",
           "at": "2026-10-26T00:35:36.167818+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-26T00:51:04.170695+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-26T00:51:04.176969+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -176,6 +207,61 @@
     }
   ],
   "recent_articles": [
+    {
+      "id": "fb:1506333458297176",
+      "title": "هەنگاوێک بۆ سەرئامەرگێرەکەی ڕیاڵ: نەبێت کە خۆت بە ئارام بگریت",
+      "source": "پەیجی - avamediatv",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-10-26T00:25:37.349315+00:00",
+      "updated_at": "2026-10-26T00:51:04.157560+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-26T00:25:37.349315+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-26T00:25:37.401351+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-26T00:50:49.660566+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-26T00:50:49.666618+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-26T00:51:03.117517+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-26T00:51:03.123327+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-26T00:51:04.157560+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
+        }
+      ]
+    },
     {
       "id": "daf9ff33ecd1769be8ffd7ed094d13c9",
       "title": "هەنگاو: لولا، رئوسەری برازیل، دەست بە گوڕانی بردنەوەی خۆی دەکات",
@@ -2580,82 +2666,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "b69ea3f7981a9a18c8c2f4556d727aa1",
-      "title": "ڤوچیچی سربیا دوای داننان بە شکستەکەی لە هەڵبژاردن",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-25T21:30:29.344298+00:00",
-      "updated_at": "2026-10-25T21:56:59.365193+00:00",
-      "eligible_at": "2026-10-25T21:56:57.152061+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-25T21:30:29.344298+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-25T21:30:29.351616+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-25T21:55:31.443042+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-25T21:55:31.447641+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-25T21:56:57.177881+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-25T21:56:57.518176+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-25T21:56:57.522702+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-25T21:56:58.889410+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-25T21:56:58.893890+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-25T21:56:59.365193+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-10-26T00:45:23.180842+00:00",
+  "pending_count": 3,
+  "snapshot_at": "2026-10-26T00:51:04.273111+00:00",
   "gemini_blocked_until": "2026-10-26T01:05:43.601405+00:00"
 }
