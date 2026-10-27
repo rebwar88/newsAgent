@@ -1,12 +1,12 @@
 {
-  "run_id": "40427860079",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40427860079",
-  "started_at": "2026-10-27T00:40:22.583451+00:00",
-  "finished_at": "2026-10-27T00:40:26.383829+00:00",
-  "duration_seconds": 3.8,
+  "run_id": "40428379348",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40428379348",
+  "started_at": "2026-10-27T00:45:20.550770+00:00",
+  "finished_at": "2026-10-27T00:45:56.926863+00:00",
+  "duration_seconds": 36.4,
   "exit_code": 0,
-  "found": 3,
-  "published": 0,
+  "found": 1,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,23 +14,23 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "3 items found"
+      "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [],
@@ -41,24 +41,33 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 3 new items."
+      "message": "Found 1 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "705f0a12afd02d40452c862fa7f6255a",
-      "title": "Trump:",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "ترامب دەیڵێت: جیهان دەچڕێت و ڕەقەی ما هەر ڕێزی باشترە",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-27T00:35:24.933076+00:00",
-      "updated_at": "2026-10-27T00:40:26.343873+00:00",
+      "updated_at": "2026-10-27T00:45:56.859229+00:00",
       "eligible_at": "2026-10-27T00:41:08.079397+00:00",
       "history": [
         {
@@ -84,11 +93,39 @@
           "at": "2026-10-27T00:40:26.343873+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-27T00:45:24.107147+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-27T00:45:24.116496+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-27T00:45:52.872100+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-27T00:45:52.878604+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-27T00:45:56.859229+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "7a06024f8e220a5107aaf38ae3bca804",
       "title": "ترەمپ دەربارەی سەرۆک مەکسیک: «دڵنیایەکی جوانی هەیە، جوانە، جوانە»",
@@ -2337,94 +2374,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "b6f26d50b688a170c27c9bd85fb51bcc",
-      "title": "بینەری بن: موشەکی کروزی ئەمریکی تۆماهۆک لە کاتی شەڕی ئەمریکا و ئیسرائیل لەگەڵ ئێران لە سەرەتای ساڵی ٢٠٢٦دا لە",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-26T20:50:25.606676+00:00",
-      "updated_at": "2026-10-26T20:57:12.997458+00:00",
-      "eligible_at": "2026-10-26T20:57:07.712060+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-26T20:50:25.606676+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-26T20:50:25.611129+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-26T20:53:24.036751+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-26T20:53:24.041066+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-26T20:55:42.006997+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-26T20:55:42.014447+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-26T20:57:07.725774+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-26T20:57:08.129896+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-26T20:57:08.137369+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-26T20:57:09.415766+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-26T20:57:09.422939+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-26T20:57:12.997458+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-10-27T00:40:26.449078+00:00",
+  "pending_count": 0,
+  "snapshot_at": "2026-10-27T00:45:56.984971+00:00",
   "gemini_blocked_until": "2026-10-27T01:05:36.786144+00:00"
 }
