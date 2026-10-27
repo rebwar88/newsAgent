@@ -1,12 +1,12 @@
 {
-  "run_id": "40432443469",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40432443469",
-  "started_at": "2026-10-27T01:25:20.239526+00:00",
-  "finished_at": "2026-10-27T01:25:23.770371+00:00",
-  "duration_seconds": 3.5,
+  "run_id": "40432941040",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40432941040",
+  "started_at": "2026-10-27T01:30:25.910137+00:00",
+  "finished_at": "2026-10-27T01:30:44.312301+00:00",
+  "duration_seconds": 18.4,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,26 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1793064630-8ZWZawinEG0XqX'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,11 +47,19 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "fb:1569329125394397",
@@ -58,8 +69,8 @@
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-10-27T01:00:50.696424+00:00",
-      "updated_at": "2026-10-27T01:20:44.860946+00:00",
-      "eligible_at": "2026-10-27T01:25:44.844827+00:00",
+      "updated_at": "2026-10-27T01:30:44.267088+00:00",
+      "eligible_at": "2026-10-27T01:35:44.250860+00:00",
       "history": [
         {
           "stage": "received",
@@ -84,18 +95,32 @@
           "at": "2026-10-27T01:20:44.860946+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-27T01:30:44.259696+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-27T01:30:44.267088+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
         }
       ]
-    },
+    }
+  ],
+  "recent_articles": [
     {
       "id": "6896aa665b022bb947d50e164e9d8bb8",
-      "title": "Flávio Bolsonaro abandoned his effort to annul Brazil’s election amid fears that he could be imprisoned, according to a Bolsonaro family adviser.",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "فلاڤیۆ بۆلسۆنارۆ وازی لە هەوڵەکانی هێنا بۆ هەڵوەشاندنەوەی هەڵبژاردنەکانی بەڕازیل لەکاتێکدا ترسی ئەوەی هەبووە ز",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-27T01:25:23.710458+00:00",
-      "updated_at": "2026-10-27T01:25:23.733875+00:00",
+      "updated_at": "2026-10-27T01:30:44.243356+00:00",
       "eligible_at": "2026-10-27T01:25:44.844827+00:00",
       "history": [
         {
@@ -121,11 +146,51 @@
           "at": "2026-10-27T01:25:23.733875+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-27T01:30:30.011571+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-27T01:30:30.020099+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-27T01:30:40.841546+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-27T01:30:40.849741+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-27T01:30:42.496703+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-27T01:30:42.504024+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-27T01:30:44.243356+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "fb:1507443531519502",
       "title": "کاردانەوەی چێنەر ساتی ڕاگەیاندنی ناوی هاری کەین وەک باشترین یاریزانی ساڵ",
@@ -2404,82 +2469,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "1593942a8c643ef89b62a3c3af900b16",
-      "title": "لەمەودوا",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-26T20:35:24.749633+00:00",
-      "updated_at": "2026-10-26T21:04:08.882998+00:00",
-      "eligible_at": "2026-10-26T21:04:04.322707+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-26T20:35:24.749633+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-26T20:35:24.757507+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-26T21:02:38.629750+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-26T21:02:38.636329+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-26T21:04:04.348469+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-26T21:04:04.634650+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-26T21:04:04.641015+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-26T21:04:07.024959+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-26T21:04:07.067350+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-26T21:04:08.882998+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 2,
-  "snapshot_at": "2026-10-27T01:25:23.823351+00:00",
+  "pending_count": 1,
+  "snapshot_at": "2026-10-27T01:30:44.377398+00:00",
   "gemini_blocked_until": "2026-10-27T01:40:47.835546+00:00"
 }
