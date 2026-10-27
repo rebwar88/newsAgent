@@ -1,12 +1,12 @@
 {
-  "run_id": "40431460653",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40431460653",
-  "started_at": "2026-10-27T01:15:24.651653+00:00",
-  "finished_at": "2026-10-27T01:15:28.276032+00:00",
-  "duration_seconds": 3.6,
+  "run_id": "40431955821",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40431955821",
+  "started_at": "2026-10-27T01:20:20.045896+00:00",
+  "finished_at": "2026-10-27T01:20:44.907364+00:00",
+  "duration_seconds": 24.9,
   "exit_code": 0,
   "found": 0,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,25 @@
       "detail": "0 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"i'"
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,22 +46,30 @@
       "message": "Found 0 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from facebook:avamediatv..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 0 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 0 new items.\nProcessing item from facebook:avamediatv...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "fb:1569329125394397",
       "title": "کەناڵی ریال مەدرید دوای دیاریکردنی هاری کەین پەخشەکەی راگرت و دیاری دەڵێت: بەخوا عەیبە کەس ئەمە ناکات",
       "source": "Rudaw.net",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-10-27T01:00:50.696424+00:00",
-      "updated_at": "2026-10-27T01:00:50.703382+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-10-27T01:20:44.860946+00:00",
+      "eligible_at": "2026-10-27T01:25:44.844827+00:00",
       "history": [
         {
           "stage": "received",
@@ -72,18 +82,32 @@
           "at": "2026-10-27T01:00:50.703382+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-27T01:20:44.853602+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-27T01:20:44.860946+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
         }
       ]
-    },
+    }
+  ],
+  "recent_articles": [
     {
       "id": "fb:1507443531519502",
       "title": "کاردانەوەی چێنەر ساتی ڕاگەیاندنی ناوی هاری کەین وەک باشترین یاریزانی ساڵ",
-      "source": "avamediatv",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "source": "پەیجی - avamediatv",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-27T01:00:50.724280+00:00",
-      "updated_at": "2026-10-27T01:15:28.239315+00:00",
+      "updated_at": "2026-10-27T01:20:44.837362+00:00",
       "eligible_at": "2026-10-27T01:16:12.291543+00:00",
       "history": [
         {
@@ -121,11 +145,45 @@
           "at": "2026-10-27T01:15:28.239315+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-27T01:20:23.160906+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-27T01:20:23.168816+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-27T01:20:44.049724+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-27T01:20:44.058138+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-27T01:20:44.065025+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-27T01:20:44.837362+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "fb:1569323705394939",
       "title": "هاندەرانی ئێمباپێ ئەمشەو چۆن خەویان لێدەکەوێ؟ دیاری دەڵێت: هاری کەین خەتمی هێرشبەری کردووە",
@@ -2392,82 +2450,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "fb:1569191752074801",
-      "title": "دۆناڵد ترەمپ، سەرۆکی ئەمریکا بە تووندی هێرش دەکاتە سەر نەرویج و بە وڵاتێکی \"پیس و بێبایەخ\" ناوی دەبات و دەڵێت،",
-      "source": "پەیجی - Rudaw.net",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-26T20:55:33.974434+00:00",
-      "updated_at": "2026-10-26T21:02:38.601784+00:00",
-      "eligible_at": "2026-10-26T21:00:28.420233+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-26T20:55:33.974434+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-26T20:55:33.982078+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-26T20:58:48.429462+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-26T20:58:48.436891+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-26T21:02:36.862934+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-26T21:02:36.869678+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-26T21:02:37.446957+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-26T21:02:37.454182+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-26T21:02:37.460384+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-26T21:02:38.601784+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 2,
-  "snapshot_at": "2026-10-27T01:15:28.329295+00:00",
+  "pending_count": 1,
+  "snapshot_at": "2026-10-27T01:20:44.971214+00:00",
   "gemini_blocked_until": "2026-10-27T01:40:47.835546+00:00"
 }
