@@ -1,11 +1,11 @@
 {
-  "run_id": "40441691051",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40441691051",
-  "started_at": "2026-10-27T03:00:28.730570+00:00",
-  "finished_at": "2026-10-27T03:00:32.738128+00:00",
-  "duration_seconds": 4.0,
+  "run_id": "40442163525",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40442163525",
+  "started_at": "2026-10-27T03:05:19.682647+00:00",
+  "finished_at": "2026-10-27T03:07:27.796613+00:00",
+  "duration_seconds": 128.1,
   "exit_code": 0,
-  "found": 0,
+  "found": 1,
   "published": 0,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "0 items found"
+      "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "unknown",
@@ -33,7 +33,12 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n{\"id\":\"gen-1793070443-mBk6Lr4XXU33OykCxcyJ\",\"object\":\"chat'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Translation fallback rejected: output is not clean Sorani."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,15 +46,99 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 0 new items."
+      "message": "Found 1 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from facebook:Rudaw.net..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 0 new items.\nCompleted run. Processed 0 articles.",
-  "articles": [],
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from facebook:Rudaw.net...\nGemini transport issue; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation fallback rejected: output is not clean Sorani.\nCompleted run. Processed 0 articles.",
+  "articles": [
+    {
+      "id": "fb:1569318772062099",
+      "title": "کاردانەوەی دیاری و سامان ببینن دوای دیاریکردنی هاری کەین بە باشترین یاریزانی 2026",
+      "source": "Rudaw.net",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "received_at": "2026-10-27T03:05:32.306777+00:00",
+      "updated_at": "2026-10-27T03:07:27.749719+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-27T03:05:32.306777+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-27T03:05:32.313855+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-27T03:05:32.328581+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-27T03:05:32.335789+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-27T03:05:32.349802+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-27T03:07:22.649241+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-27T03:07:27.620931+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-27T03:07:27.628920+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-10-27T03:07:27.749719+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        }
+      ]
+    }
+  ],
   "recent_articles": [
     {
       "id": "6896aa665b022bb947d50e164e9d8bb8",
@@ -2410,7 +2499,7 @@
       ]
     }
   ],
-  "pending_count": 0,
-  "snapshot_at": "2026-10-27T03:00:32.792241+00:00",
-  "gemini_blocked_until": "2026-10-27T01:40:47.835546+00:00"
+  "pending_count": 1,
+  "snapshot_at": "2026-10-27T03:07:27.860370+00:00",
+  "gemini_blocked_until": "2026-10-27T03:37:22.641084+00:00"
 }
