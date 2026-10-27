@@ -1,12 +1,12 @@
 {
-  "run_id": "40430437510",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40430437510",
-  "started_at": "2026-10-27T01:05:15.601815+00:00",
-  "finished_at": "2026-10-27T01:05:18.951157+00:00",
-  "duration_seconds": 3.3,
+  "run_id": "40430954143",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40430954143",
+  "started_at": "2026-10-27T01:10:22.163342+00:00",
+  "finished_at": "2026-10-27T01:11:12.352467+00:00",
+  "duration_seconds": 50.2,
   "exit_code": 0,
   "found": 0,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,26 @@
       "detail": "0 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '"
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +47,105 @@
       "message": "Found 0 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from facebook:Rudaw.net..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 0 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 0 new items.\nProcessing item from facebook:Rudaw.net...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
-      "id": "fb:1569323705394939",
-      "title": "هاندەرانی ئێمباپێ ئەمشەو چۆن خەویان لێدەکەوێ؟ دیاری دەڵێت: هاری کەین خەتمی هێرشبەری کردووە",
+      "id": "fb:1569329125394397",
+      "title": "کەناڵی ریال مەدرید دوای دیاریکردنی هاری کەین پەخشەکەی راگرت و دیاری دەڵێت: بەخوا عەیبە کەس ئەمە ناکات",
       "source": "Rudaw.net",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-27T01:00:50.696424+00:00",
+      "updated_at": "2026-10-27T01:00:50.703382+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-27T01:00:50.696424+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-27T01:00:50.703382+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "fb:1507443531519502",
+      "title": "کاردانەوەی چێنەر ساتی ڕاگەیاندنی ناوی هاری کەین وەک باشترین یاریزانی ساڵ",
+      "source": "avamediatv",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-10-27T01:00:50.724280+00:00",
+      "updated_at": "2026-10-27T01:11:12.307880+00:00",
+      "eligible_at": "2026-10-27T01:16:12.291543+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-27T01:00:50.724280+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-27T01:00:50.731341+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-27T01:11:12.300585+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-27T01:11:12.307880+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "fb:1569323705394939",
+      "title": "هاندەرانی ئێمباپێ ئەمشەو چۆن خەویان لێدەکەوێ؟ دیاری دەڵێت: هاری کەین خەتمی هێرشبەری کردووە",
+      "source": "پەیجی - Rudaw.net",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-27T01:00:50.682174+00:00",
-      "updated_at": "2026-10-27T01:05:18.915683+00:00",
+      "updated_at": "2026-10-27T01:11:12.284242+00:00",
       "eligible_at": "2026-10-27T01:06:04.068613+00:00",
       "history": [
         {
@@ -96,61 +183,57 @@
           "at": "2026-10-27T01:05:18.915683+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "fb:1569329125394397",
-      "title": "کەناڵی ریال مەدرید دوای دیاریکردنی هاری کەین پەخشەکەی راگرت و دیاری دەڵێت: بەخوا عەیبە کەس ئەمە ناکات",
-      "source": "Rudaw.net",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-27T01:00:50.696424+00:00",
-      "updated_at": "2026-10-27T01:00:50.703382+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-10-27T01:00:50.696424+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-10-27T01:10:26.105785+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-10-27T01:00:50.703382+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-10-27T01:10:26.113619+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-27T01:10:26.127631+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-27T01:10:47.843618+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-27T01:11:11.516456+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-27T01:11:11.524893+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-27T01:11:11.531855+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-27T01:11:12.284242+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
         }
       ]
     },
-    {
-      "id": "fb:1507443531519502",
-      "title": "کاردانەوەی چێنەر ساتی ڕاگەیاندنی ناوی هاری کەین وەک باشترین یاریزانی ساڵ",
-      "source": "avamediatv",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-27T01:00:50.724280+00:00",
-      "updated_at": "2026-10-27T01:00:50.731341+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-27T01:00:50.724280+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-27T01:00:50.731341+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    }
-  ],
-  "recent_articles": [
     {
       "id": "fb:1507441514853037",
       "title": "پێتە لێە کەرەوە؟ مێسی نەبێتەوە لە ڕیزبەندیی پێنجەمی",
@@ -2393,76 +2476,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "1113665d104bb216b02af42c3b7268ec",
-      "title": "𝗕𝗿𝗮𝘇𝗶𝗹 𝗠𝗮𝗿𝗸𝗲𝘁𝘀 𝗖𝗿𝗮𝘁𝗲𝗿 𝗔𝗳𝘁𝗲𝗿 𝗟𝘂𝗹𝗮 θθλλλλληνς، θλλλλλές υλλλλληηλην %",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-26T21:00:35.838169+00:00",
-      "updated_at": "2026-10-26T21:01:14.986005+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-26T21:00:35.838169+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-26T21:00:35.846538+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-26T21:01:11.612253+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-26T21:01:11.622102+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-26T21:01:11.866000+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-26T21:01:11.872576+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-26T21:01:13.221776+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-26T21:01:13.228211+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-26T21:01:14.986005+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-10-27T01:05:19.001698+00:00",
-  "gemini_blocked_until": "2026-10-27T01:05:36.786144+00:00"
+  "pending_count": 2,
+  "snapshot_at": "2026-10-27T01:11:12.415300+00:00",
+  "gemini_blocked_until": "2026-10-27T01:40:47.835546+00:00"
 }
