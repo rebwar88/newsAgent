@@ -1144,8 +1144,8 @@ def main():
             break
         track_article(item, state, "published", "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە")
         dashboard_sync_result = send_news_to_dashboard(item, rewritten_text)
-        if dashboard_sync_result is False:
-            # Durable outbox: WordPress may be offline while Telegram succeeds.
+        if dashboard_sync_result is not True:
+            # Durable outbox: keep the article if WordPress is offline OR the API is not configured yet.
             sync_pending = state.setdefault("dashboard_sync_pending", [])
             sync_pending = [entry for entry in sync_pending if entry.get("id") != item["id"]]
             sync_pending.append({
