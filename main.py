@@ -20,6 +20,9 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_MODELS = [m.strip() for m in os.getenv("OPENROUTER_MODELS", "google/gemini-2.5-flash,openrouter/free").split(",") if m.strip()]
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+DASHBOARD_NEWS_API_URL = os.getenv("DASHBOARD_NEWS_API_URL", "").strip()
+DASHBOARD_NEWS_API_KEY = os.getenv("DASHBOARD_NEWS_API_KEY", "").strip()
+
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
 
@@ -929,6 +932,77 @@ def story_text(prepared):
     return str(prepared)
 
 
+
+def send_news_to_dashboard(item, prepared_text):
+    """Send a Telegram-published article to the configured WordPress archive."""
+    if not DASHBOARD_NEWS_API_URL or not DASHBOARD_NEWS_API_KEY:
+        return None
+    if not isinstance(prepared_text, dict):
+        print("WordPress news sync skipped: prepared article is not structured.")
+        return False
+
+    title = str(prepared_text.get("title", "")).strip()
+    body = str(prepared_text.get("body", "")).strip()
+    if not title or not body:
+        print("WordPress news sync skipped: title/body missing.")
+        return False
+
+    payload = {
+        "id": str(item.get("id", "")).strip(),
+        "title": title,
+        "body": body,
+        "source": str(item.get("source_name") or item.get("source") or "Telegram"),
+        "source_url": str(item.get("link") or ""),
+        "image_url": str(item.get("image") or ""),
+        "published_at": datetime.now(timezone.utc).isoformat(),
+    }
+    if not payload["id"]:
+        print("WordPress news sync skipped: article id missing.")
+        return False
+
+    headers = {
+        "X-WM-News-Key": DASHBOARD_NEWS_API_KEY,
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+    }
+    for attempt in range(3):
+        try:
+            response = requests.post(
+                DASHBOARD_NEWS_API_URL,
+                headers=headers,
+                json=payload,
+                timeout=(5, 15),
+                allow_redirects=False,
+            )
+            if response.status_code in (200, 201):
+                print("WordPress news sync succeeded.")
+                return True
+            print(f"WordPress news sync returned HTTP {response.status_code}.")
+            if response.status_code < 500 and response.status_code != 429:
+                return False
+        except requests.RequestException as exc:
+            print(f"WordPress news sync attempt {attempt + 1}/3 failed ({type(exc).__name__}).")
+        if attempt < 2:
+            time.sleep(2 * (attempt + 1))
+    return False
+
+
+def retry_pending_dashboard_news(state):
+    """Retry durable WordPress sync items independently of Telegram publication."""
+    if not DASHBOARD_NEWS_API_URL or not DASHBOARD_NEWS_API_KEY:
+        return
+    pending = state.setdefault("dashboard_sync_pending", [])
+    if not isinstance(pending, list) or not pending:
+        return
+    remaining = []
+    for entry in pending[-100:]:
+        item = entry.get("item", {})
+        prepared = entry.get("prepared_text", {})
+        if not send_news_to_dashboard(item, prepared):
+            remaining.append(entry)
+    state["dashboard_sync_pending"] = remaining
+    save_publication_state(state)
+
 def main():
     if not PUBLISH_ENABLED:
         print("Safe mode: publication disabled until explicitly enabled.")
@@ -937,6 +1011,7 @@ def main():
     print("Checking for new articles...")
     seen_ids = load_seen_ids()
     state = load_publication_state()
+    retry_pending_dashboard_news(state)
     new_items = fetch_rss_news(seen_ids)
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
@@ -1068,6 +1143,19 @@ def main():
             print("Telegram publication failed; keeping item for retry.")
             break
         track_article(item, state, "published", "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە")
+        dashboard_sync_result = send_news_to_dashboard(item, rewritten_text)
+        if dashboard_sync_result is False:
+            # Durable outbox: WordPress may be offline while Telegram succeeds.
+            sync_pending = state.setdefault("dashboard_sync_pending", [])
+            sync_pending = [entry for entry in sync_pending if entry.get("id") != item["id"]]
+            sync_pending.append({
+                "id": item["id"],
+                "item": item,
+                "prepared_text": rewritten_text,
+                "queued_at": datetime.now(timezone.utc).isoformat(),
+            })
+            state["dashboard_sync_pending"] = sync_pending[-100:]
+            save_publication_state(state)
         recent = state.setdefault("recent_articles", [])
         recent.append({"id": item["id"], "title": rewritten_text.get("title", ""),
                        "source": publication_source(item), "progress": item["progress"]})
