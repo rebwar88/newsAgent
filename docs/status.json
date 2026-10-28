@@ -1,12 +1,12 @@
 {
-  "run_id": "40775193044",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40775193044",
-  "started_at": "2026-10-28T21:50:24.582172+00:00",
-  "finished_at": "2026-10-28T21:50:27.638952+00:00",
-  "duration_seconds": 3.1,
+  "run_id": "40775853558",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40775853558",
+  "started_at": "2026-10-28T21:55:18.725381+00:00",
+  "finished_at": "2026-10-28T21:56:41.177512+00:00",
+  "duration_seconds": 82.5,
   "exit_code": 0,
-  "found": 5,
-  "published": 0,
+  "found": 3,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "5 items found"
+      "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "failed",
+      "detail": "Gemini API returned HTTP 503: {"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,80 +43,114 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 5 new items."
+      "message": "Found 3 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503 after 3 attempts; keeping article for retry."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini API returned HTTP 503: {"
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini HTTP 503 after 3 attempts; keeping article for retry.\nGemini API returned HTTP 503: {\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
-      "id": "84a5327d266278e6e4ab4fd7fe531ff9",
-      "title": "Q: Did you direct Vance to talk to Iran to start peace negotiations?",
+      "id": "7b1f5f9a2a8d6593c22e3088b4197651",
+      "title": "Flávio Bolsonaro Declares Himself Brazil’s True President-Elect From U.S.",
       "source": "Clash Report",
       "stage": "waiting_slot",
-      "method": "translation",
+      "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-10-28T21:15:34.727596+00:00",
-      "updated_at": "2026-10-28T21:50:27.595132+00:00",
-      "eligible_at": "2026-10-28T21:50:32.691337+00:00",
+      "received_at": "2026-10-28T21:45:28.688876+00:00",
+      "updated_at": "2026-10-28T21:56:41.140356+00:00",
+      "eligible_at": "2026-10-28T22:01:41.125540+00:00",
       "history": [
         {
-          "stage": "processing_openrouter",
-          "at": "2026-10-28T21:15:37.623166+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
+          "stage": "received",
+          "at": "2026-10-28T21:45:28.688876+00:00",
+          "reason": "",
+          "method": "undecided"
         },
         {
-          "stage": "formatting_source",
-          "at": "2026-10-28T21:15:38.268206+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-28T21:15:38.277075+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "blocked_content",
-          "at": "2026-10-28T21:15:38.285528+00:00",
-          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-          "method": "translation"
+          "stage": "waiting_turn",
+          "at": "2026-10-28T21:45:28.697135+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
         },
         {
           "stage": "selected",
-          "at": "2026-10-28T21:21:42.175581+00:00",
+          "at": "2026-10-28T21:56:41.134026+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "translation"
+          "method": "undecided"
         },
         {
-          "stage": "processing_openrouter",
-          "at": "2026-10-28T21:21:42.185201+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
+          "stage": "waiting_slot",
+          "at": "2026-10-28T21:56:41.140356+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "ab86961c9f0d6fc07658c7aba4036d6c",
+      "title": "Trump Declines to Back Flávio Bolsonaro's Claim to Be Brazil's President",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-28T21:55:21.660648+00:00",
+      "updated_at": "2026-10-28T21:55:21.666619+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-28T21:55:21.660648+00:00",
+          "reason": "",
+          "method": "undecided"
         },
         {
-          "stage": "formatting_source",
-          "at": "2026-10-28T21:21:42.519587+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-28T21:21:42.528920+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "blocked_content",
-          "at": "2026-10-28T21:21:42.538003+00:00",
-          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-          "method": "translation"
-        },
+          "stage": "waiting_turn",
+          "at": "2026-10-28T21:55:21.666619+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "84a5327d266278e6e4ab4fd7fe531ff9",
+      "title": "* ئایا ڤانستان ئاڕاستە کرد بۆ ئەوەی لەگەڵ ئێران قسە بکات بۆ دەستپێکردنی دانوستانەکانی ئاشتی",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-10-28T21:15:34.727596+00:00",
+      "updated_at": "2026-10-28T21:56:40.110178+00:00",
+      "eligible_at": "2026-10-28T21:50:32.691337+00:00",
+      "history": [
         {
           "stage": "selected",
           "at": "2026-10-28T21:26:35.665288+00:00",
@@ -240,36 +276,63 @@
           "at": "2026-10-28T21:50:27.595132+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-28T21:55:21.679080+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-28T21:55:21.685342+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-28T21:55:21.697604+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-28T21:56:36.097158+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-28T21:56:36.313752+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-28T21:56:36.320594+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-28T21:56:37.020723+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-28T21:56:37.026904+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-28T21:56:40.110178+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
     },
-    {
-      "id": "7b1f5f9a2a8d6593c22e3088b4197651",
-      "title": "Flávio Bolsonaro Declares Himself Brazil’s True President-Elect From U.S.",
-      "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-28T21:45:28.688876+00:00",
-      "updated_at": "2026-10-28T21:45:28.697135+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-28T21:45:28.688876+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-28T21:45:28.697135+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    }
-  ],
-  "recent_articles": [
     {
       "id": "fceea4f93c1743c7bbc13068e7e6d810",
       "title": "بیگ: ڤوچیچ پلانی گوماناوی کودەتای لابردووە دوای پەیوەندییەکانی سەرکردەکانی ئەوروپا، ڕاپۆرتەکە دەڵێت",
@@ -2662,82 +2725,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "1ac5b46abe7e7638ec3d7abed41c4745",
-      "title": "میدیاکانی تورکیا: ڕەجەب تەیب ئەردۆغان، سەرۆککۆماری تورکیا لە پەیوەندییەکی تەلەفۆنیدا لەگەڵ دۆناڵد ترەمپ، سەرۆک",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-28T18:55:27.732676+00:00",
-      "updated_at": "2026-10-28T18:58:27.130673+00:00",
-      "eligible_at": "2026-10-28T18:58:23.357058+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-28T18:55:27.732676+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-28T18:55:27.740413+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-28T18:55:31.938901+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-28T18:55:31.947122+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-28T18:58:23.378556+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-28T18:58:23.666153+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-10-28T18:58:23.674642+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-28T18:58:26.488554+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-28T18:58:26.496654+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-28T18:58:27.130673+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
   "pending_count": 2,
-  "snapshot_at": "2026-10-28T21:50:27.695219+00:00",
+  "snapshot_at": "2026-10-28T21:56:41.226105+00:00",
   "gemini_blocked_until": "2026-10-28T21:50:30.324343+00:00"
 }
