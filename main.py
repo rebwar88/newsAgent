@@ -936,8 +936,7 @@ def story_text(prepared):
 def send_news_to_dashboard(item, prepared_text):
     """Send a Telegram-published article to the configured WordPress archive."""
     if not DASHBOARD_NEWS_API_URL or not DASHBOARD_NEWS_API_KEY:
-        print("WordPress news sync is not configured; keeping publication independent.")
-        return False
+        return None
     if not isinstance(prepared_text, dict):
         print("WordPress news sync skipped: prepared article is not structured.")
         return False
@@ -990,6 +989,8 @@ def send_news_to_dashboard(item, prepared_text):
 
 def retry_pending_dashboard_news(state):
     """Retry durable WordPress sync items independently of Telegram publication."""
+    if not DASHBOARD_NEWS_API_URL or not DASHBOARD_NEWS_API_KEY:
+        return
     pending = state.setdefault("dashboard_sync_pending", [])
     if not isinstance(pending, list) or not pending:
         return
@@ -1142,7 +1143,8 @@ def main():
             print("Telegram publication failed; keeping item for retry.")
             break
         track_article(item, state, "published", "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە")
-        if not send_news_to_dashboard(item, rewritten_text):
+        dashboard_sync_result = send_news_to_dashboard(item, rewritten_text)
+        if dashboard_sync_result is False:
             # Durable outbox: WordPress may be offline while Telegram succeeds.
             sync_pending = state.setdefault("dashboard_sync_pending", [])
             sync_pending = [entry for entry in sync_pending if entry.get("id") != item["id"]]
