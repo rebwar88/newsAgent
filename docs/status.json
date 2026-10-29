@@ -1,12 +1,12 @@
 {
-  "run_id": "40970626871",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40970626871",
-  "started_at": "2026-10-29T23:05:19.093510+00:00",
-  "finished_at": "2026-10-29T23:05:22.331706+00:00",
-  "duration_seconds": 3.2,
+  "run_id": "40971240619",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/40971240619",
+  "started_at": "2026-10-29T23:10:26.287162+00:00",
+  "finished_at": "2026-10-29T23:10:33.989127+00:00",
+  "duration_seconds": 7.7,
   "exit_code": 0,
-  "found": 1,
-  "published": 0,
+  "found": 2,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "1 items found"
+      "detail": "2 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,25 +43,37 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 1 new items."
+      "message": "Found 2 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from facebook:Rudaw.net..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 2 new items.\nProcessing item from facebook:Rudaw.net...\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "fb:1510781681185687",
       "title": "ڕۆیتەرز ئاشکرای کردووە ئێران بەنهێنی چۆن خۆی بۆ ئەگەری هێرشی ئەمریکا و ئیسرائیل ئامادە کردووە و ئاکۆ باسی دەکات",
       "source": "avamediatv",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-10-29T22:50:38.634539+00:00",
-      "updated_at": "2026-10-29T22:50:38.639963+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-10-29T23:10:33.945099+00:00",
+      "eligible_at": "2026-10-29T23:15:33.926777+00:00",
       "history": [
         {
           "stage": "received",
@@ -71,6 +85,18 @@
           "stage": "waiting_turn",
           "at": "2026-10-29T22:50:38.639963+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-29T23:10:33.936765+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-29T23:10:33.945099+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -101,14 +127,66 @@
       ]
     },
     {
-      "id": "fb:1572737695053540",
-      "title": "بە بڕیاری وەزیری تەندروستیی عێراق، تەواوی خزمەتگوزارییە پزیشکییەکان بۆ تووشبووانی شێرپەنجە لە نەخۆشخانە حکومییەکاندا بە خۆڕایی دەبێت.",
-      "source": "Rudaw.net",
-      "stage": "waiting_slot",
+      "id": "8cff34fec1d1c66d40e9d7da93f59aac",
+      "title": "ئەکسیۆس: ئەمریکا هێرشی ئاسمانی کردووەتە سەر سەکۆکانی هەڵدانی مووشەک لە باشووری ئێران",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_turn",
       "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-29T23:05:22.282969+00:00",
+      "updated_at": "2026-10-29T23:05:22.286892+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-29T23:05:22.282969+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-29T23:05:22.286892+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "9ab2fa08f6b036e4ff4aff3814d73fb4",
+      "title": "سی‌ان‌ان:",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-29T23:10:30.524989+00:00",
+      "updated_at": "2026-10-29T23:10:30.532201+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-29T23:10:30.524989+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-29T23:10:30.532201+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "fb:1572737695053540",
+      "title": "بە بڕیاری وەزیری تەندروستیی عێراق، تەواوی خزمەتگوزارییە پزیشکییەکان بۆ تووشبووانی شێرپەنجە لە نەخۆشخانە حکومیی",
+      "source": "پەیجی - Rudaw.net",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-10-29T22:50:38.656281+00:00",
-      "updated_at": "2026-10-29T23:05:22.299106+00:00",
+      "updated_at": "2026-10-29T23:10:32.770308+00:00",
       "eligible_at": "2026-10-29T23:05:54.597819+00:00",
       "history": [
         {
@@ -158,36 +236,57 @@
           "at": "2026-10-29T23:05:22.299106+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "8cff34fec1d1c66d40e9d7da93f59aac",
-      "title": "ئەکسیۆس: ئەمریکا هێرشی ئاسمانی کردووەتە سەر سەکۆکانی هەڵدانی مووشەک لە باشووری ئێران",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-10-29T23:05:22.282969+00:00",
-      "updated_at": "2026-10-29T23:05:22.286892+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-10-29T23:05:22.282969+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-10-29T23:10:30.546741+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-10-29T23:05:22.286892+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-10-29T23:10:30.554003+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-29T23:10:30.568015+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-29T23:10:30.788429+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-29T23:10:31.005767+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-10-29T23:10:31.014488+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-10-29T23:10:31.021422+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-10-29T23:10:32.770308+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "0899a21295dd2fb0d54645d7d7a668c1",
       "title": "میدیای ئێران: دەنگی چوار تەقینەوە لە دوورگەی جاسک بیسترا",
@@ -2286,70 +2385,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "a2b3141a7afc8c8c41262fd4995a7454",
-      "title": "ماکرۆن: شەڕی ئەمریکا و ئێران ناڕەزایەتییەکانی لە فەرەنسا لێکەوتووەتەوە",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-29T17:35:24.153225+00:00",
-      "updated_at": "2026-10-29T17:36:29.423063+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-29T17:35:24.153225+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-29T17:35:24.159115+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-29T17:36:27.642414+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-29T17:36:27.648896+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-29T17:36:28.183310+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-29T17:36:28.190152+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-29T17:36:28.201989+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-29T17:36:29.423063+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
   "pending_count": 4,
-  "snapshot_at": "2026-10-29T23:05:22.373149+00:00",
-  "gemini_blocked_until": "2026-10-29T22:55:31.262659+00:00"
+  "snapshot_at": "2026-10-29T23:10:34.044137+00:00",
+  "gemini_blocked_until": "2026-10-29T23:40:30.780614+00:00"
 }
