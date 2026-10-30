@@ -1,12 +1,12 @@
 {
-  "run_id": "41066545455",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41066545455",
-  "started_at": "2026-10-30T13:50:26.715441+00:00",
-  "finished_at": "2026-10-30T13:54:25.102361+00:00",
-  "duration_seconds": 238.4,
+  "run_id": "41067252007",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41067252007",
+  "started_at": "2026-10-30T13:55:22.839888+00:00",
+  "finished_at": "2026-10-30T14:00:20.911082+00:00",
+  "duration_seconds": 298.1,
   "exit_code": 0,
-  "found": 8,
-  "published": 2,
+  "found": 6,
+  "published": 0,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,27 +14,26 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "8 items found"
+      "detail": "6 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
+      "status": "ok",
+      "detail": "Gemini stage reached"
+    },
+    "telegram": {
       "status": "unknown",
       "detail": "No event recorded"
     },
-    "telegram": {
-      "status": "ok",
-      "detail": "Telegram confirmed publication"
-    },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 2 articles."
+      "detail": "Completed run. Processed 0 articles."
     }
   },
   "issues": [
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -44,34 +43,30 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 8 new items."
-    },
-    {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Hengaw_kurdi)..."
-    },
-    {
-      "stage": "telegram",
-      "message": "Successfully published!"
+      "message": "Found 6 new items."
     },
     {
       "stage": "selection",
       "message": "Processing item from تێلیگرام (@brakingnews24)..."
     },
     {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
     },
     {
-      "stage": "telegram",
-      "message": "Successfully published!"
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport unavailable after retries (ReadTimeout)."
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 2 articles."
+      "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 8 new items.\nProcessing item from تێلیگرام (@Hengaw_kurdi)...\nSuccessfully published!\nDuplicate of an already published story (باراک ڕاڤید، پەیامنێری ئاکسیۆس); skipping.\nProcessing item from تێلیگرام (@brakingnews24)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
+  "log": "Checking for new articles...\nFound 6 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini transport issue; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini transport unavailable after retries (ReadTimeout).\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "4a1e7c21612693b5e835bf2a6ad9227e",
@@ -106,8 +101,8 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-10-30T13:35:23.859809+00:00",
-      "updated_at": "2026-10-30T13:54:22.044679+00:00",
-      "eligible_at": "2026-10-30T13:54:21.222243+00:00",
+      "updated_at": "2026-10-30T14:00:20.864247+00:00",
+      "eligible_at": "2026-10-30T13:57:45.047496+00:00",
       "history": [
         {
           "stage": "received",
@@ -204,6 +199,54 @@
           "at": "2026-10-30T13:54:22.044679+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-30T13:55:25.857515+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-10-30T13:55:25.865009+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-30T13:57:45.060871+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-30T13:57:45.076016+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-30T14:00:20.322566+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-30T14:00:20.848552+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-30T14:00:20.856957+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-10-30T14:00:20.864247+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
@@ -289,6 +332,31 @@
         {
           "stage": "waiting_turn",
           "at": "2026-10-30T13:40:27.760845+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "14049038432f9a2c75d40900f338b57a",
+      "title": "Democrats Recruited Second Dan Sullivan to Confuse Alaska Voters: Report",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-10-30T13:55:25.834528+00:00",
+      "updated_at": "2026-10-30T13:55:25.841980+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-10-30T13:55:25.834528+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-10-30T13:55:25.841980+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -2571,7 +2639,7 @@
       ]
     }
   ],
-  "pending_count": 5,
-  "snapshot_at": "2026-10-30T13:54:25.152340+00:00",
+  "pending_count": 6,
+  "snapshot_at": "2026-10-30T14:00:20.968025+00:00",
   "gemini_blocked_until": "2026-10-30T13:56:18.489596+00:00"
 }
