@@ -947,13 +947,42 @@ def send_news_to_dashboard(item, prepared_text):
         print("WordPress news sync skipped: title/body missing.")
         return False
 
+    # Keep every Telegram album photo and its video when syncing to WordPress.
+    # The legacy image_url field remains for older WordPress integrations.
+    media = []
+    seen_media_urls = set()
+
+    image_urls = item.get("images") if isinstance(item.get("images"), list) else []
+    if item.get("image"):
+        image_urls = [item.get("image")] + image_urls
+
+    for image_url in image_urls[:10]:
+        media_url = str(image_url or "").strip()
+        if media_url.startswith("https://") and media_url not in seen_media_urls:
+            media.append({
+                "type": "image",
+                "url": media_url,
+                "alt": title,
+            })
+            seen_media_urls.add(media_url)
+
+    video_url = str(item.get("video") or item.get("video_url") or "").strip()
+    if video_url.startswith("https://") and video_url not in seen_media_urls:
+        media.append({
+            "type": "video",
+            "url": video_url,
+            "alt": title,
+        })
+        seen_media_urls.add(video_url)
+
     payload = {
         "id": str(item.get("id", "")).strip(),
         "title": title,
         "body": body,
         "source": str(item.get("source_name") or item.get("source") or "Telegram"),
         "source_url": str(item.get("link") or ""),
-        "image_url": str(item.get("image") or ""),
+        "image_url": str(item.get("image") or (image_urls[0] if image_urls else "")),
+        "media": media,
         "published_at": datetime.now(timezone.utc).isoformat(),
     }
     if not payload["id"]:
