@@ -998,7 +998,7 @@ def send_news_to_dashboard(item, prepared_text):
                 DASHBOARD_NEWS_API_URL,
                 headers=headers,
                 json=payload,
-                timeout=(5, 15),
+                timeout=(5, 90),
                 allow_redirects=False,
             )
             if response.status_code in (200, 201):
