@@ -933,6 +933,29 @@ def story_text(prepared):
 
 
 
+def dashboard_media_items(item, title):
+    """Build a compact, deduplicated WordPress media manifest from the original source item."""
+    media = []
+    seen_media_urls = set()
+
+    image_urls = item.get("images") if isinstance(item.get("images"), list) else []
+    if item.get("image"):
+        image_urls = [item.get("image")] + image_urls
+
+    for image_url in image_urls[:10]:
+        media_url = str(image_url or "").strip()
+        if media_url.startswith("https://") and media_url not in seen_media_urls:
+            media.append({"type": "image", "url": media_url, "alt": title})
+            seen_media_urls.add(media_url)
+
+    video_url = str(item.get("video") or item.get("video_url") or "").strip()
+    if video_url.startswith("https://") and video_url not in seen_media_urls:
+        media.append({"type": "video", "url": video_url, "alt": title})
+        seen_media_urls.add(video_url)
+
+    return media
+
+
 def send_news_to_dashboard(item, prepared_text):
     """Send a Telegram-published article to the configured WordPress archive."""
     if not DASHBOARD_NEWS_API_URL or not DASHBOARD_NEWS_API_KEY:
@@ -947,33 +970,8 @@ def send_news_to_dashboard(item, prepared_text):
         print("WordPress news sync skipped: title/body missing.")
         return False
 
-    # Keep every Telegram album photo and its video when syncing to WordPress.
-    # The legacy image_url field remains for older WordPress integrations.
-    media = []
-    seen_media_urls = set()
-
-    image_urls = item.get("images") if isinstance(item.get("images"), list) else []
-    if item.get("image"):
-        image_urls = [item.get("image")] + image_urls
-
-    for image_url in image_urls[:10]:
-        media_url = str(image_url or "").strip()
-        if media_url.startswith("https://") and media_url not in seen_media_urls:
-            media.append({
-                "type": "image",
-                "url": media_url,
-                "alt": title,
-            })
-            seen_media_urls.add(media_url)
-
-    video_url = str(item.get("video") or item.get("video_url") or "").strip()
-    if video_url.startswith("https://") and video_url not in seen_media_urls:
-        media.append({
-            "type": "video",
-            "url": video_url,
-            "alt": title,
-        })
-        seen_media_urls.add(video_url)
+    # Keep the Telegram album and video with the WordPress news item.
+    media = dashboard_media_items(item, title)
 
     payload = {
         "id": str(item.get("id", "")).strip(),
