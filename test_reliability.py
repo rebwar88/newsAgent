@@ -8,6 +8,34 @@ import main
 
 
 class ReliabilityTests(unittest.TestCase):
+    def test_dashboard_sync_keeps_every_album_image_and_video(self):
+        item = {
+            "image": "https://cdn.example.org/one.jpg",
+            "images": [
+                "https://cdn.example.org/one.jpg",
+                "https://cdn.example.org/two.jpg",
+                "https://cdn.example.org/three.jpg",
+            ],
+            "video": "https://cdn.example.org/news.mp4",
+        }
+        media = main.dashboard_media_items(item, "هەواڵی تاقیکردنەوە")
+        self.assertEqual([entry["type"] for entry in media], ["image", "image", "image", "video"])
+        self.assertEqual(len({entry["url"] for entry in media}), 4)
+        self.assertTrue(all(entry["alt"] == "هەواڵی تاقیکردنەوە" for entry in media))
+
+    def test_dashboard_sync_ignores_non_https_media(self):
+        item = {
+            "image": "http://cdn.example.org/one.jpg",
+            "images": ["javascript:alert(1)", "https://cdn.example.org/valid.jpg"],
+            "video": "http://cdn.example.org/news.mp4",
+        }
+        media = main.dashboard_media_items(item, "هەواڵی تاقیکردنەوە")
+        self.assertEqual(media, [{
+            "type": "image",
+            "url": "https://cdn.example.org/valid.jpg",
+            "alt": "هەواڵی تاقیکردنەوە",
+        }])
+
     def test_openrouter_requires_key(self):
         with patch.object(main, "OPENROUTER_API_KEY", None):
             with patch.object(main.requests, "post") as post:
