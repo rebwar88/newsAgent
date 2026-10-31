@@ -1,9 +1,9 @@
 {
-  "run_id": "41250285011",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41250285011",
-  "started_at": "2026-10-31T22:55:19.358895+00:00",
-  "finished_at": "2026-10-31T22:55:26.931162+00:00",
-  "duration_seconds": 7.6,
+  "run_id": "41250638344",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41250638344",
+  "started_at": "2026-10-31T23:00:32.540032+00:00",
+  "finished_at": "2026-10-31T23:00:38.750512+00:00",
+  "duration_seconds": 6.2,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "unknown",
@@ -34,6 +34,7 @@
     }
   },
   "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -50,11 +51,15 @@
       "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; skipping item.\nTranslation service unreachable; pausing it for 30 minutes.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "85339ade2e65fd5902ba20a29a34632b",
@@ -64,7 +69,7 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-10-31T22:55:22.430430+00:00",
-      "updated_at": "2026-10-31T22:55:26.888391+00:00",
+      "updated_at": "2026-10-31T23:00:38.697475+00:00",
       "eligible_at": null,
       "history": [
         {
@@ -106,6 +111,48 @@
         {
           "stage": "blocked_content",
           "at": "2026-10-31T22:55:26.888391+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-10-31T23:00:35.955760+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-10-31T23:00:35.966607+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-10-31T23:00:35.985729+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-10-31T23:00:36.212949+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-10-31T23:00:38.677224+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-10-31T23:00:38.688085+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-10-31T23:00:38.697475+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
@@ -4171,6 +4218,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-10-31T22:55:26.980433+00:00",
-  "gemini_blocked_until": "2026-10-31T22:57:14.450692+00:00"
+  "snapshot_at": "2026-10-31T23:00:38.811326+00:00",
+  "gemini_blocked_until": "2026-10-31T23:30:36.201994+00:00"
 }
