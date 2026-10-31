@@ -972,6 +972,8 @@ def send_news_to_dashboard(item, prepared_text):
 
     # Keep the Telegram album and video with the WordPress news item.
     media = dashboard_media_items(item, title)
+    image_urls = item.get("images") if isinstance(item.get("images"), list) else []
+    first_image_url = str(item.get("image") or (image_urls[0] if image_urls else "")).strip()
 
     payload = {
         "id": str(item.get("id", "")).strip(),
@@ -979,7 +981,7 @@ def send_news_to_dashboard(item, prepared_text):
         "body": body,
         "source": str(item.get("source_name") or item.get("source") or "Telegram"),
         "source_url": str(item.get("link") or ""),
-        "image_url": str(item.get("image") or (image_urls[0] if image_urls else "")),
+        "image_url": first_image_url,
         "media": media,
         "published_at": datetime.now(timezone.utc).isoformat(),
     }
@@ -1170,7 +1172,12 @@ def main():
             print("Telegram publication failed; keeping item for retry.")
             break
         track_article(item, state, "published", "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە")
-        dashboard_sync_result = send_news_to_dashboard(item, rewritten_text)
+        try:
+            dashboard_sync_result = send_news_to_dashboard(item, rewritten_text)
+        except Exception as exc:
+            # A WordPress sync failure must never undo a confirmed Telegram publication.
+            print(f"WordPress news sync failed safely ({type(exc).__name__}); queueing retry.")
+            dashboard_sync_result = False
         if dashboard_sync_result is False:
             # Durable outbox: WordPress may be offline while Telegram succeeds.
             sync_pending = state.setdefault("dashboard_sync_pending", [])
