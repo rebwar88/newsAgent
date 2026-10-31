@@ -8,6 +8,33 @@ import main
 
 
 class ReliabilityTests(unittest.TestCase):
+    def test_dashboard_sync_payload_uses_first_image_without_name_error(self):
+        item = {
+            "id": "telegram:123",
+            "image": "",
+            "images": ["https://cdn.example.org/first.jpg", "https://cdn.example.org/second.jpg"],
+        }
+        prepared = {"title": "سەردێڕ", "body": "دەقی هەواڵ"}
+        response = Mock(status_code=201)
+        with patch.object(main, "DASHBOARD_NEWS_API_URL", "https://example.org/wp-json/wm/v1/telegram-news"), \
+             patch.object(main, "DASHBOARD_NEWS_API_KEY", "secret"), \
+             patch.object(main.requests, "post", return_value=response) as post:
+            self.assertTrue(main.send_news_to_dashboard(item, prepared))
+        payload = post.call_args.kwargs["json"]
+        self.assertEqual(payload["image_url"], "https://cdn.example.org/first.jpg")
+        self.assertEqual(len(payload["media"]), 2)
+
+    def test_dashboard_sync_payload_handles_no_images(self):
+        item = {"id": "telegram:124"}
+        prepared = {"title": "سەردێڕ", "body": "دەقی هەواڵ"}
+        response = Mock(status_code=201)
+        with patch.object(main, "DASHBOARD_NEWS_API_URL", "https://example.org/wp-json/wm/v1/telegram-news"), \
+             patch.object(main, "DASHBOARD_NEWS_API_KEY", "secret"), \
+             patch.object(main.requests, "post", return_value=response) as post:
+            self.assertTrue(main.send_news_to_dashboard(item, prepared))
+        self.assertEqual(post.call_args.kwargs["json"]["image_url"], "")
+        self.assertEqual(post.call_args.kwargs["json"]["media"], [])
+
     def test_dashboard_sync_keeps_every_album_image_and_video(self):
         item = {
             "image": "https://cdn.example.org/one.jpg",
