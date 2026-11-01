@@ -1,12 +1,12 @@
 {
-  "run_id": "41323622291",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41323622291",
-  "started_at": "2026-11-01T15:55:20.564007+00:00",
-  "finished_at": "2026-11-01T15:55:23.841041+00:00",
-  "duration_seconds": 3.3,
+  "run_id": "41324048546",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41324048546",
+  "started_at": "2026-11-01T16:00:33.221325+00:00",
+  "finished_at": "2026-11-01T16:01:33.762886+00:00",
+  "duration_seconds": 60.5,
   "exit_code": 0,
-  "found": 3,
-  "published": 0,
+  "found": 6,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,29 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "3 items found"
+      "detail": "6 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,25 +44,41 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 3 new items."
+      "message": "Found 6 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 6 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini transport issue; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "4e2cd1d636a7d822c2b1324d47dbe107",
       "title": "فارس: تصاویر ماهواره‌ای پهلوگیری یک نفتکش مرتبط با ایران در بنادر چین را تأیید کرد / این نفتکش ۳.۵ ماه پیش ایران را ترک کرده بود /نفتکش رویت شده از نوع VLCC است و ۲ میلیون بشکه نفت را به چین رسانده است",
       "source": "خبرهای فوری مهم 🔖",
-      "stage": "blocked_content",
+      "stage": "waiting_slot",
       "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-01T15:15:31.910997+00:00",
-      "updated_at": "2026-11-01T15:50:38.250912+00:00",
-      "eligible_at": "2026-11-01T15:50:35.415044+00:00",
+      "updated_at": "2026-11-01T16:01:33.714477+00:00",
+      "eligible_at": "2026-11-01T16:04:53.694439+00:00",
       "history": [
         {
           "stage": "received",
@@ -222,6 +241,18 @@
           "at": "2026-11-01T15:50:38.250912+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-01T16:01:33.706014+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-01T16:01:33.714477+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
         }
       ]
     },
@@ -251,14 +282,116 @@
       ]
     },
     {
-      "id": "8c67e47591961a0e9540dc6e01f24035",
-      "title": "حمید علیدوستی درگذشت",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_slot",
+      "id": "ce2ec2359a87d6285a0c91b32b6f1353",
+      "title": "پزشکیان: اگر در مقوله آب و برق و... صرفه‌جویی کنیم، حقوق کارمندان افزایش پیدا می‌کند",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
       "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T15:50:31.658779+00:00",
+      "updated_at": "2026-11-01T15:50:31.666433+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T15:50:31.658779+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T15:50:31.666433+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "08572e56ea010b675b42d720b79811c8",
+      "title": "بافڵ جەلال تاڵەبانی پێشوازیی لە مەحمود سەنگاوی کرد و دەڵێت: لە شاخەوە تاوەکو گەرمیان، تەمەنێک لە سەنگەری پاراستنی خاک و گەلدا.. هەمیشە بە شانازییەوە لە مێژووی پڕ لە فیداکاریی هەڤاڵ مەحمود سەنگاوی دەڕوانین",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T16:00:37.623946+00:00",
+      "updated_at": "2026-11-01T16:00:37.631850+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T16:00:37.623946+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T16:00:37.631850+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "ab68187e7aaadb0e053e133f21c7814f",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T16:00:37.639921+00:00",
+      "updated_at": "2026-11-01T16:00:37.647784+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T16:00:37.639921+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T16:00:37.647784+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "02a836fb2252fef928475c71bb6e4aa1",
+      "title": "پزشکیان: آرا‌م‌آرام مسئلۀ بنزین و گازوئیل را اصلاح می‌کنیم و پولش را روی کالابرگ و معیشت مردم می‌گذاریم",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T16:00:37.658680+00:00",
+      "updated_at": "2026-11-01T16:00:37.666490+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T16:00:37.658680+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T16:00:37.666490+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "8c67e47591961a0e9540dc6e01f24035",
+      "title": "حامید عەلیدۆستی کۆچی دوایی کرد",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-01T15:45:27.671453+00:00",
-      "updated_at": "2026-11-01T15:55:23.810250+00:00",
+      "updated_at": "2026-11-01T16:01:32.551184+00:00",
       "eligible_at": "2026-11-01T15:55:41.636581+00:00",
       "history": [
         {
@@ -296,36 +429,63 @@
           "at": "2026-11-01T15:55:23.810250+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "ce2ec2359a87d6285a0c91b32b6f1353",
-      "title": "پزشکیان: اگر در مقوله آب و برق و... صرفه‌جویی کنیم، حقوق کارمندان افزایش پیدا می‌کند",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-01T15:50:31.658779+00:00",
-      "updated_at": "2026-11-01T15:50:31.666433+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-01T15:50:31.658779+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-01T16:00:37.682965+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T15:50:31.666433+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-11-01T16:00:37.691433+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-01T16:00:37.706929+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-01T16:01:27.980883+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-01T16:01:28.466141+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-01T16:01:28.475167+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-01T16:01:30.693855+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-01T16:01:30.701838+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-01T16:01:32.551184+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "243baace8343d8ed3ed482ca69808915",
       "title": "باڵیۆزخانەی پاکستان لە تاران: هەواڵی هێرشکردنە سەر باڵیۆزی ئەم وڵاتە لە ئێران ڕاست نییە و بێ بنەمایە",
@@ -2490,76 +2650,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "3a2252e8303d199cf134f1187d3468e2",
-      "title": "وەزارەتی سامانە سرووشتییەکانی هەرێمی کوردستان: نەوتەکەی بەغداد بگات، دابەشی دەکەین",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-01T13:25:23.510715+00:00",
-      "updated_at": "2026-11-01T13:31:14.793008+00:00",
-      "eligible_at": "2026-11-01T13:31:13.918136+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-01T13:25:23.510715+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T13:25:23.520638+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T13:30:37.702592+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T13:30:37.710342+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-01T13:31:13.924345+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-01T13:31:14.177983+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-01T13:31:14.187123+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-01T13:31:14.194413+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-01T13:31:14.793008+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-01T15:55:23.881436+00:00",
-  "gemini_blocked_until": "2026-11-01T15:55:36.234528+00:00"
+  "pending_count": 6,
+  "snapshot_at": "2026-11-01T16:01:33.821052+00:00",
+  "gemini_blocked_until": "2026-11-01T16:31:27.972783+00:00"
 }
