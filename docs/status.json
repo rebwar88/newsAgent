@@ -1,11 +1,11 @@
 {
-  "run_id": "41341209293",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41341209293",
-  "started_at": "2026-11-01T19:20:24.314618+00:00",
-  "finished_at": "2026-11-01T19:20:33.085866+00:00",
-  "duration_seconds": 8.8,
+  "run_id": "41341625442",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41341625442",
+  "started_at": "2026-11-01T19:25:23.362001+00:00",
+  "finished_at": "2026-11-01T19:25:39.961201+00:00",
+  "duration_seconds": 16.6,
   "exit_code": 0,
-  "found": 5,
+  "found": 6,
   "published": 1,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "5 items found"
+      "detail": "6 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -34,7 +34,7 @@
     }
   },
   "issues": [
-    "Non-AI fallback rejected: insufficient Sorani text or article content."
+    "Gemini quota exhausted; using safe non-AI fallback."
   ],
   "events": [
     {
@@ -43,11 +43,19 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 5 new items."
+      "message": "Found 6 new items."
     },
     {
       "stage": "selection",
       "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "telegram",
@@ -58,57 +66,8 @@
       "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
+  "log": "Checking for new articles...\nFound 6 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
-    {
-      "id": "339c7c8ec1c96c364902bfb044ad0cbb",
-      "title": "دونالد ترامپ: وای، این خبر بزرگی است! هِیلی استیونز، نماینده کنگره و دموکراتی که احترام زیادی برای او قائل هستند و در انتخابات مقدماتی حزب دموکرات با اختلاف اندکی به عبدالمحمد السید باخت و دموکرات‌ها در جریان رقابت‌های ا",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-11-01T18:50:30.040886+00:00",
-      "updated_at": "2026-11-01T19:15:43.970680+00:00",
-      "eligible_at": "2026-11-01T19:20:43.951308+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-01T18:50:30.040886+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T18:50:30.048216+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T19:10:32.090345+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T19:10:32.098926+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T19:15:43.962551+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T19:15:43.970680+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "521224a1248ed39831b8e3d42253d66c",
       "title": "🔹",
@@ -209,14 +168,78 @@
       ]
     },
     {
-      "id": "63b887ca30ad70e8efd504e1067b26ae",
-      "title": "گفت‌وگوی اختصاصی شبکه الجزیره با سید عباس عراقچی",
+      "id": "9e18eeaf3cbb50f37ee0d6befb4f4369",
+      "title": "متکی، نماینده مجلس: البته می‌توانیم این موضوع را مورد بررسی قرار دهیم که از ان‌پی‌تی خارج شویم و به سراغ بمب هسته‌ای هم نرویم",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T19:25:27.053470+00:00",
+      "updated_at": "2026-11-01T19:25:27.059904+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T19:25:27.053470+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T19:25:27.059904+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "503e37c73b282edd210fa4ff55d1636c",
+      "title": "متکی، نماینده مجلس: پس فردا انتخابات آمریکا است و از این رو آمریکا نمی‌تواند به ایران حمله کند و از جهتی دیگر تمام فکر ترامپ متمرکز بر روی آرا است",
       "source": "خبرهای فوری مهم 🔖",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-01T19:25:27.067149+00:00",
+      "updated_at": "2026-11-01T19:25:39.913420+00:00",
+      "eligible_at": "2026-11-01T19:29:39.896156+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T19:25:27.067149+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T19:25:27.073724+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-01T19:25:39.906631+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-01T19:25:39.913420+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "63b887ca30ad70e8efd504e1067b26ae",
+      "title": "گفت‌وگوی اختصاصی شبکه الجزیره با سید عباس عراقچی",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-01T19:20:28.657515+00:00",
-      "updated_at": "2026-11-01T19:20:33.037548+00:00",
+      "updated_at": "2026-11-01T19:25:38.566032+00:00",
       "eligible_at": "2026-11-01T19:24:33.016987+00:00",
       "history": [
         {
@@ -242,11 +265,57 @@
           "at": "2026-11-01T19:20:33.037548+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-01T19:25:27.087169+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-01T19:25:27.095014+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-01T19:25:27.107793+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-01T19:25:37.368773+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-01T19:25:37.816502+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-01T19:25:37.827914+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-01T19:25:37.834813+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-01T19:25:38.566032+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "c79297e5521e4828e0175353a419aee1",
       "title": "چاوپێکەوتنێکی تایبەتی کەناڵی جەزیرە لەگەڵ سەید عەباس ئاراغچی",
@@ -2381,82 +2450,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "67fedf089acc1e616f5090fbac3d5d2e",
-      "title": "زێلێنسکی",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-01T17:20:26.235989+00:00",
-      "updated_at": "2026-11-01T17:42:19.209263+00:00",
-      "eligible_at": "2026-11-01T17:42:09.121536+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-01T17:20:26.235989+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T17:20:26.240225+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T17:40:36.823026+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T17:40:36.829232+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-01T17:42:09.123896+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-01T17:42:09.683841+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-01T17:42:09.690165+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-01T17:42:10.956835+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-01T17:42:10.962967+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-01T17:42:19.209263+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
   "pending_count": 5,
-  "snapshot_at": "2026-11-01T19:20:33.140298+00:00",
-  "gemini_blocked_until": "2026-11-01T19:21:04.156378+00:00"
+  "snapshot_at": "2026-11-01T19:25:40.014348+00:00",
+  "gemini_blocked_until": "2026-11-01T19:55:37.361226+00:00"
 }
