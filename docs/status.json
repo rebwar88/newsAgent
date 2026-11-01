@@ -1,11 +1,11 @@
 {
-  "run_id": "41346748134",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41346748134",
-  "started_at": "2026-11-01T20:25:23.095659+00:00",
-  "finished_at": "2026-11-01T20:28:20.584418+00:00",
-  "duration_seconds": 177.5,
+  "run_id": "41347171596",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41347171596",
+  "started_at": "2026-11-01T20:30:26.684437+00:00",
+  "finished_at": "2026-11-01T20:34:08.811894+00:00",
+  "duration_seconds": 222.1,
   "exit_code": 0,
-  "found": 9,
+  "found": 10,
   "published": 2,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "9 items found"
+      "detail": "10 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -34,7 +34,7 @@
     }
   },
   "issues": [
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Gemini quota exhausted; using safe non-AI fallback.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -44,11 +44,23 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 9 new items."
+      "message": "Found 10 new items."
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "telegram",
@@ -56,7 +68,7 @@
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
       "stage": "telegram",
@@ -67,7 +79,7 @@
       "message": "Completed run. Processed 2 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 9 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
+  "log": "Checking for new articles...\nFound 10 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini transport issue; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nVideo skipped (HTTP 500, type text/html).\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
   "articles": [
     {
       "id": "4914bd51a36c4d0b63095fe5dddd39e7",
@@ -123,12 +135,12 @@
       "id": "0759d94ae90ca4aa3b145061c94fed51",
       "title": "العربیه: ایران توقف جنگ در تمام جبهه‌ها را مهم‌ترین پیش‌شرط برای ورود به مذاکرات هسته‌ای تعیین کرده است",
       "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-01T20:15:29.944949+00:00",
-      "updated_at": "2026-11-01T20:15:29.960801+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-01T20:34:08.770771+00:00",
+      "eligible_at": "2026-11-01T20:35:57.849300+00:00",
       "history": [
         {
           "stage": "received",
@@ -140,6 +152,18 @@
           "stage": "waiting_turn",
           "at": "2026-11-01T20:15:29.960801+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-01T20:34:08.765809+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-01T20:34:08.770771+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -165,43 +189,6 @@
           "stage": "waiting_turn",
           "at": "2026-11-01T20:25:27.618686+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "01db569a79a98679dd7bb0c67b40e663",
-      "title": "Iran’s Foreign Minister Abbas Araghchi:",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-11-01T20:25:27.626315+00:00",
-      "updated_at": "2026-11-01T20:28:20.536010+00:00",
-      "eligible_at": "2026-11-01T20:31:11.945098+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-01T20:25:27.626315+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T20:25:27.633711+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T20:28:20.527930+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T20:28:20.536010+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -255,9 +242,292 @@
           "method": "undecided"
         }
       ]
+    },
+    {
+      "id": "d16518b78f4fd567d5723a161adeab64",
+      "title": "Iran’s Foreign Minister Abbas Araghchi:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T20:30:30.383724+00:00",
+      "updated_at": "2026-11-01T20:30:30.388287+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T20:30:30.383724+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T20:30:30.388287+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "d6f024bfe082ce2118ac842256058691",
+      "title": "Iran’s Foreign Minister Abbas Araghchi:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T20:30:30.392860+00:00",
+      "updated_at": "2026-11-01T20:30:30.397528+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T20:30:30.392860+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T20:30:30.397528+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "2f3fa673568104116823b36b8f7e31d3",
+      "title": "Abdul El-Sayed:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T20:30:30.402085+00:00",
+      "updated_at": "2026-11-01T20:30:30.406626+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T20:30:30.402085+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T20:30:30.406626+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "fafd2031e4013d20f6b54fd5fe20c9c7",
+      "title": "Iran’s Foreign Minister Abbas Araghchi:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T20:30:30.413498+00:00",
+      "updated_at": "2026-11-01T20:30:30.418113+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T20:30:30.413498+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T20:30:30.418113+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "0f8b5d7bcba0076b602ce52885f895e0",
+      "title": "باراک راوید خبرنگار اکسیوس: یک دیپلمات که در مذاکرات ایران و آمریکا مشارکت دارد، به من گفت ایرانی‌ها بامداد یکشنبه دوحه را ترک کردند",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-01T20:30:30.422841+00:00",
+      "updated_at": "2026-11-01T20:30:30.446104+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T20:30:30.422841+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T20:30:30.446104+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
     }
   ],
   "recent_articles": [
+    {
+      "id": "01db569a79a98679dd7bb0c67b40e663",
+      "title": "عەباس ئاراغچی وەزیری دەرەوەی ئێران",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-01T20:25:27.626315+00:00",
+      "updated_at": "2026-11-01T20:34:08.094226+00:00",
+      "eligible_at": "2026-11-01T20:34:04.790282+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T20:25:27.626315+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T20:25:27.633711+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-01T20:28:20.527930+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-01T20:28:20.536010+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-01T20:32:24.797769+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-01T20:32:24.802527+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-01T20:34:04.800605+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-01T20:34:05.745765+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-01T20:34:05.750536+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-01T20:34:07.103484+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-01T20:34:07.108116+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-01T20:34:08.094226+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
+        }
+      ]
+    },
+    {
+      "id": "27741cc0e1a2ae4163f5e61262c470b0",
+      "title": "لەسەر پرسی مۆلیدە؛ ئەنجوومەنی پارێزگای کەرکووک داوای دانیشتنێکی بەپەلە دەکات",
+      "source": "تلگرامی - بەپەلە|Breaking News",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-01T20:30:30.374174+00:00",
+      "updated_at": "2026-11-01T20:32:23.732949+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T20:30:30.374174+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T20:30:30.378958+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-01T20:30:30.455734+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-01T20:30:30.460590+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-01T20:30:30.486639+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-01T20:32:20.849946+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-01T20:32:21.744539+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-01T20:32:21.750271+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-01T20:32:21.754728+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-01T20:32:23.732949+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
+        }
+      ]
+    },
     {
       "id": "8e5c5b2ba8c09f15c3deb9612fc484a9",
       "title": "ئاراغچی: ئێمە پشتیوانیکردنی گروپەکانی بەرخۆدان بە لاوازی خۆمان نازانین ئەوە بڕیار لەسەر گروپە چەکدارەکانی عێرا",
@@ -2379,155 +2649,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "3e560c718c78e66103d2b7d78e49a6d2",
-      "title": "ئەکسیۆس: ١",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-01T18:40:30.640516+00:00",
-      "updated_at": "2026-11-01T18:41:05.306523+00:00",
-      "eligible_at": "2026-11-01T18:41:00.886761+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-01T18:40:30.640516+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T18:40:30.648172+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T18:40:30.724948+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T18:40:30.732958+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-01T18:41:00.887049+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-01T18:41:01.178369+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-01T18:41:01.187379+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-01T18:41:03.244339+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-01T18:41:03.252349+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-01T18:41:05.306523+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
-    },
-    {
-      "id": "91a4d2233baacc0d722d9b7e976000e4",
-      "title": "کەناڵی عیبری ١٥: هەندێک پێشکەوتن لە دانوستانەکانی نێوان ئەمریکا و ئێراندا بەدیهاتووە، بەڵام هێشتا ئاستەنگ هەیە",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-01T18:35:24.238912+00:00",
-      "updated_at": "2026-11-01T18:39:00.401204+00:00",
-      "eligible_at": "2026-11-01T18:38:56.895483+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-01T18:35:24.238912+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T18:35:24.246416+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T18:36:05.478160+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T18:36:05.485995+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-01T18:38:56.916933+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-01T18:38:57.677707+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-01T18:38:57.685673+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-01T18:39:00.028474+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-01T18:39:00.036162+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-01T18:39:00.401204+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 7,
-  "snapshot_at": "2026-11-01T20:28:20.641225+00:00",
-  "gemini_blocked_until": "2026-11-01T20:28:04.268777+00:00"
+  "pending_count": 11,
+  "snapshot_at": "2026-11-01T20:34:08.855071+00:00",
+  "gemini_blocked_until": "2026-11-01T21:02:20.838736+00:00"
 }
