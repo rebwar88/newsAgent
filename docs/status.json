@@ -1,12 +1,12 @@
 {
-  "run_id": "41275206130",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41275206130",
-  "started_at": "2026-11-01T05:00:32.470113+00:00",
-  "finished_at": "2026-11-01T05:00:37.096397+00:00",
-  "duration_seconds": 4.6,
+  "run_id": "41275526553",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41275526553",
+  "started_at": "2026-11-01T05:05:23.313296+00:00",
+  "finished_at": "2026-11-01T05:06:10.586692+00:00",
+  "duration_seconds": 47.3,
   "exit_code": 0,
   "found": 3,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,26 @@
       "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,11 +47,19 @@
       "message": "Found 3 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "177a0519d5fa41f5fbe3e015d537b016",
@@ -76,14 +87,53 @@
       ]
     },
     {
-      "id": "fe2c5e660bbd0705865a4cbd172f98e2",
-      "title": "ترامپ ادعاهای جدیدی دربارهٔ توافق با ایران مطرح کرد  ",
-      "source": "خبرهای فوری مهم 🔖",
+      "id": "e5e86b46f41584fcd4248dc908f0f3be",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-01T05:00:37.008697+00:00",
+      "updated_at": "2026-11-01T05:06:10.530225+00:00",
+      "eligible_at": "2026-11-01T05:11:10.507875+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-01T05:00:37.008697+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-01T05:00:37.017521+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-01T05:06:10.520550+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-01T05:06:10.530225+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "fe2c5e660bbd0705865a4cbd172f98e2",
+      "title": "ترامپ ئیدیعای نوێی سەبارەت بەو ڕێککەوتنە لەگەڵ ئێران کرد",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-01T04:50:27.456851+00:00",
-      "updated_at": "2026-11-01T05:00:37.048273+00:00",
+      "updated_at": "2026-11-01T05:06:09.449701+00:00",
       "eligible_at": "2026-11-01T05:01:18.321060+00:00",
       "history": [
         {
@@ -121,36 +171,51 @@
           "at": "2026-11-01T05:00:37.048273+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "e5e86b46f41584fcd4248dc908f0f3be",
-      "title": "♦️",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-01T05:00:37.008697+00:00",
-      "updated_at": "2026-11-01T05:00:37.017521+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-01T05:00:37.008697+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-01T05:05:27.462465+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T05:00:37.017521+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "processing_openrouter",
+          "at": "2026-11-01T05:05:27.472745+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-01T05:06:07.114088+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-01T05:06:07.124303+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-01T05:06:08.936813+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-01T05:06:08.945978+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-01T05:06:09.449701+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "40a4228aaed9590c4d559ac8b9c79d8c",
       "title": "تریتا پارسی",
@@ -3557,88 +3622,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "c97466d9da38293ed9cfaff5326a34a2",
-      "title": "اسرائیل طرح‌های حمله به ایران را آماده می‌کند؛ فشار آمریکا خطر حمله را افزایش می‌دهد",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-10-31T18:35:25.444136+00:00",
-      "updated_at": "2026-10-31T18:51:12.948323+00:00",
-      "eligible_at": "2026-10-31T18:51:10.558949+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-10-31T18:35:25.444136+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-10-31T18:35:25.453465+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-31T18:49:10.570709+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-31T18:49:10.579055+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-10-31T18:50:26.173606+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-10-31T18:50:26.178978+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-10-31T18:51:10.573471+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-10-31T18:51:11.179861+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-10-31T18:51:11.186293+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-10-31T18:51:11.191287+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-10-31T18:51:12.948323+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-11-01T05:00:37.153807+00:00",
+  "pending_count": 2,
+  "snapshot_at": "2026-11-01T05:06:10.648870+00:00",
   "gemini_blocked_until": "2026-11-01T05:25:44.675800+00:00"
 }
