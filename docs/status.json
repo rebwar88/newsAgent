@@ -1,12 +1,12 @@
 {
-  "run_id": "41374530473",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41374530473",
-  "started_at": "2026-11-02T01:50:26.423081+00:00",
-  "finished_at": "2026-11-02T01:50:44.142554+00:00",
-  "duration_seconds": 17.7,
+  "run_id": "41374921248",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41374921248",
+  "started_at": "2026-11-02T01:55:07.596249+00:00",
+  "finished_at": "2026-11-02T01:55:49.494822+00:00",
+  "duration_seconds": 41.9,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -21,23 +21,19 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "blocked",
-      "detail": "Gemini quota exhausted; using safe non-AI fallback."
-    },
-    "telegram": {
       "status": "unknown",
       "detail": "No event recorded"
     },
+    "telegram": {
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
+    },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [
-    "Gemini quota exhausted; using safe non-AI fallback.",
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1793584230-KN6Ka0UQM0yiza'",
-    "Non-AI fallback rejected: insufficient Sorani text or article content."
-  ],
+  "issues": [],
   "events": [
     {
       "stage": "fetch",
@@ -52,25 +48,26 @@
       "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
     },
     {
-      "stage": "gemini",
-      "message": "Gemini quota exhausted; using safe non-AI fallback."
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; skipping item.\nTranslation service unreachable; pausing it for 30 minutes.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "261c2fe1dfed5daf1f6ae72ac4ab22d7",
-      "title": "انفجار ۲ فروند نفتکش متخلف در مسیر غیرمجاز تنگه هرمز  روابط عمومی نیروی دریایی سپاه پاسداران انقلاب اسلامی: ",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "blocked_content",
-      "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "title": "تێکچوونی دوو فڕۆندە نەفتکشی سەرکەوتوو لە ڕێگای نادروستی تەنگەی هۆرمز",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-02T01:50:29.932459+00:00",
-      "updated_at": "2026-11-02T01:50:44.101386+00:00",
+      "updated_at": "2026-11-02T01:55:47.944669+00:00",
       "eligible_at": null,
       "history": [
         {
@@ -126,11 +123,39 @@
           "at": "2026-11-02T01:50:44.101386+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-02T01:55:11.360815+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-02T01:55:11.369541+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-02T01:55:47.465681+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-02T01:55:47.473372+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-02T01:55:47.944669+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "6750b2606555747a8f6ae90ad24dc646",
       "title": "سەرۆکی ئەمریکا: لە ئۆپراسیۆنێکدا دامەزراوە ئەتۆمییەکانی ئێرانمان بە تەواوی لەناوبرد",
@@ -2895,82 +2920,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "bca7982954af81abf5987746b74bb6a6",
-      "title": "جۆرجیا میلۆنی، سەرۆکوەزیرانی ئیتاڵیا دەڵێت، ڕەنگە پاڵپشتیکردنی بۆ ئۆکرانیا لە ڕووی سیاسییەوە خەرجی بکات، بەڵام",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-01T21:25:25.363167+00:00",
-      "updated_at": "2026-11-01T21:27:23.584760+00:00",
-      "eligible_at": "2026-11-01T21:27:21.151533+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-01T21:25:25.363167+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T21:25:25.370715+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T21:25:25.401841+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T21:25:25.409691+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-01T21:27:21.166445+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-01T21:27:21.394891+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-01T21:27:21.404058+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-01T21:27:22.164788+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-01T21:27:22.172620+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-01T21:27:23.584760+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-02T01:50:44.190692+00:00",
+  "pending_count": 0,
+  "snapshot_at": "2026-11-02T01:55:49.550371+00:00",
   "gemini_blocked_until": "2026-11-02T02:20:30.175008+00:00"
 }
