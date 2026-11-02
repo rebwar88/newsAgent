@@ -1,12 +1,12 @@
 {
-  "run_id": "41382059092",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41382059092",
-  "started_at": "2026-11-02T03:15:24.819559+00:00",
-  "finished_at": "2026-11-02T03:15:28.372761+00:00",
-  "duration_seconds": 3.6,
+  "run_id": "41382532729",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41382532729",
+  "started_at": "2026-11-02T03:20:27.069844+00:00",
+  "finished_at": "2026-11-02T03:21:36.218483+00:00",
+  "duration_seconds": 69.1,
   "exit_code": 0,
-  "found": 0,
-  "published": 0,
+  "found": 1,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "0 items found"
+      "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,16 +43,99 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 0 new items."
+      "message": "Found 1 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 0 new items.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini transport issue; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
   "articles": [],
   "recent_articles": [
+    {
+      "id": "54f688f4283b1ff4954b7c25f6d7e33e",
+      "title": "سازمان عملیات تجارت دریایی بریتانیا: نفتکش در 72 مایل شرق رأسالخَفجی هدف دو پرتابه شد",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-02T03:20:31.200582+00:00",
+      "updated_at": "2026-11-02T03:21:34.901932+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-02T03:20:31.200582+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-02T03:20:31.208223+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-02T03:20:31.223803+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-02T03:20:31.231664+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-02T03:20:31.246479+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-02T03:21:21.463609+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-02T03:21:34.270624+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-02T03:21:34.278211+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-02T03:21:34.901932+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
+        }
+      ]
+    },
     {
       "id": "b5311693508871b70e3ec28c00efe998",
       "title": "پەڕەی یەکەم ڕۆژنامەکانی ئەمڕۆ، ١١ ئابان ١٤٠٥",
@@ -2809,88 +2894,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "ae993f36d3ba3731d0d24829db986298",
-      "title": "ئیتامار بن گڤیر وەزیری ئاسایشی نیشتمانی ئیسرائیل لە ٧ی تشرینی یەکەم",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-01T21:25:25.378613+00:00",
-      "updated_at": "2026-11-01T21:40:38.085699+00:00",
-      "eligible_at": "2026-11-01T21:40:23.275943+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-01T21:25:25.378613+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-01T21:25:25.386257+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T21:37:53.287781+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-01T21:37:53.295794+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-01T21:40:31.641404+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-01T21:40:31.649244+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-01T21:40:32.520508+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-01T21:40:32.529110+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-01T21:40:33.830745+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-01T21:40:33.838330+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-01T21:40:38.085699+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
   "pending_count": 0,
-  "snapshot_at": "2026-11-02T03:15:28.420525+00:00",
-  "gemini_blocked_until": "2026-11-02T02:20:30.175008+00:00"
+  "snapshot_at": "2026-11-02T03:21:36.274947+00:00",
+  "gemini_blocked_until": "2026-11-02T03:51:21.454850+00:00"
 }
