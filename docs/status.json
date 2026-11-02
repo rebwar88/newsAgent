@@ -1,12 +1,12 @@
 {
-  "run_id": "41415940970",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41415940970",
-  "started_at": "2026-11-02T08:50:25.876073+00:00",
-  "finished_at": "2026-11-02T08:53:59.260939+00:00",
-  "duration_seconds": 213.4,
+  "run_id": "41416123038",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41416123038",
+  "started_at": "2026-11-02T08:54:19.863780+00:00",
+  "finished_at": "2026-11-02T08:57:39.692427+00:00",
+  "duration_seconds": 199.8,
   "exit_code": 0,
-  "found": 14,
-  "published": 3,
+  "found": 15,
+  "published": 4,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "14 items found"
+      "detail": "15 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "failed",
-      "detail": "Gemini API returned HTTP 503: {"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -34,6 +34,8 @@
     }
   },
   "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
@@ -45,11 +47,15 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 14 new items."
+      "message": "Found 15 new items."
     },
     {
       "stage": "selection",
       "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "telegram",
@@ -88,22 +94,30 @@
       "message": "Successfully published!"
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 3 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 14 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini transport issue; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini HTTP 503 after 3 attempts; keeping article for retry.\nGemini API returned HTTP 503: {\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 3 articles.",
+  "log": "Checking for new articles...\nFound 15 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@entekhab_ir)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 4 articles.",
   "articles": [
     {
       "id": "a1fd97273af81d78647828dc9e6c1117",
       "title": "دبیر شورای‌عالی امنیت ملی: معلوم نیست بعد از آغاز جنگی در آینده دیگر در NPT بمانیم  دبیر شورای عالی امنیت ملی: ",
       "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-02T08:05:28.076058+00:00",
-      "updated_at": "2026-11-02T08:05:28.084129+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-02T08:57:39.635488+00:00",
+      "eligible_at": "2026-11-02T08:58:39.613692+00:00",
       "history": [
         {
           "stage": "received",
@@ -115,6 +129,18 @@
           "stage": "waiting_turn",
           "at": "2026-11-02T08:05:28.084129+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-02T08:57:39.626668+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-02T08:57:39.635488+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -214,31 +240,6 @@
         {
           "stage": "waiting_turn",
           "at": "2026-11-02T08:15:28.821996+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "e115561b4d3866a4d34513a6c932fe86",
-      "title": "خۆپیشاندانەکە کاری خۆی کرد و نرخی ئەمپێڕ کەمکرایەوە",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-02T08:20:32.059106+00:00",
-      "updated_at": "2026-11-02T08:20:32.064244+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-02T08:20:32.059106+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-02T08:20:32.064244+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -495,43 +496,6 @@
       ]
     },
     {
-      "id": "b6e7b2278d36f2e978a8f6f22622eaae",
-      "title": "♦️",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-11-02T08:40:45.811584+00:00",
-      "updated_at": "2026-11-02T08:53:59.209368+00:00",
-      "eligible_at": "2026-11-02T08:54:59.187094+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-02T08:40:45.811584+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-02T08:40:45.820128+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-02T08:53:59.199904+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-02T08:53:59.209368+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
       "id": "e8ac92bd1cc96a2ee75f4e9c69a565f3",
       "title": "بقایی: موضوع خروج اورانیوم ۶۰ درصد غنی شده به کشور ثالث در مذاکرات دوحه مطرح نشده و موافقت هم نخواهیم کرد ",
       "source": "خبرهای فوری مهم 🔖",
@@ -688,19 +652,19 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-02T08:50:30.596703+00:00",
-      "updated_at": "2026-11-02T08:50:30.605324+00:00",
+      "received_at": "2026-11-02T08:54:23.928969+00:00",
+      "updated_at": "2026-11-02T08:54:23.937900+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-02T08:50:30.596703+00:00",
+          "at": "2026-11-02T08:54:23.928969+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-02T08:50:30.605324+00:00",
+          "at": "2026-11-02T08:54:23.937900+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -713,19 +677,19 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-02T08:50:30.613921+00:00",
-      "updated_at": "2026-11-02T08:50:30.622533+00:00",
+      "received_at": "2026-11-02T08:54:23.946989+00:00",
+      "updated_at": "2026-11-02T08:54:23.960262+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-02T08:50:30.613921+00:00",
+          "at": "2026-11-02T08:54:23.946989+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-02T08:50:30.622533+00:00",
+          "at": "2026-11-02T08:54:23.960262+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -738,19 +702,69 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-02T08:50:30.631179+00:00",
-      "updated_at": "2026-11-02T08:50:30.639792+00:00",
+      "received_at": "2026-11-02T08:54:23.969139+00:00",
+      "updated_at": "2026-11-02T08:54:23.977933+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-02T08:50:30.631179+00:00",
+          "at": "2026-11-02T08:54:23.969139+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-02T08:50:30.639792+00:00",
+          "at": "2026-11-02T08:54:23.977933+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "c1c4d15ebc4f145c9309e6fc06711a1c",
+      "title": "🎬",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-02T08:54:23.986513+00:00",
+      "updated_at": "2026-11-02T08:54:23.995204+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-02T08:54:23.986513+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-02T08:54:23.995204+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "82cf755c99c81cf781c3b055b7794319",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-02T08:54:24.003844+00:00",
+      "updated_at": "2026-11-02T08:54:24.012372+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-02T08:54:24.003844+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-02T08:54:24.012372+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -763,19 +777,19 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-02T08:50:30.648445+00:00",
-      "updated_at": "2026-11-02T08:50:30.657016+00:00",
+      "received_at": "2026-11-02T08:54:24.021070+00:00",
+      "updated_at": "2026-11-02T08:54:24.029722+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-02T08:50:30.648445+00:00",
+          "at": "2026-11-02T08:54:24.021070+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-02T08:50:30.657016+00:00",
+          "at": "2026-11-02T08:54:24.029722+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -784,6 +798,79 @@
   ],
   "recent_articles": [
     {
+      "id": "b6e7b2278d36f2e978a8f6f22622eaae",
+      "title": "وتەبێژی وەزارەتی دەرەوە",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-02T08:40:45.811584+00:00",
+      "updated_at": "2026-11-02T08:57:39.093031+00:00",
+      "eligible_at": "2026-11-02T08:57:35.122798+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-02T08:40:45.811584+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-02T08:40:45.820128+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-02T08:56:35.135719+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-02T08:56:35.144713+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-02T08:57:35.152894+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-02T08:57:35.685510+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-02T08:57:35.694539+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-02T08:57:37.251666+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-02T08:57:37.261898+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-02T08:57:39.093031+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
+        }
+      ]
+    },
+    {
       "id": "414714507b980ff466c7c32318339b57",
       "title": "زێلێنسکی",
       "source": "تلگرامی - Clash Report",
@@ -791,8 +878,8 @@
       "method": "translation",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-02T08:37:08.515679+00:00",
-      "updated_at": "2026-11-02T08:53:58.538625+00:00",
-      "eligible_at": "2026-11-02T08:53:53.671409+00:00",
+      "updated_at": "2026-11-02T08:56:34.568029+00:00",
+      "eligible_at": "2026-11-02T08:56:31.009996+00:00",
       "history": [
         {
           "stage": "received",
@@ -808,49 +895,49 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-02T08:52:53.684110+00:00",
+          "at": "2026-11-02T08:55:31.025242+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
           "stage": "waiting_slot",
-          "at": "2026-11-02T08:52:53.693447+00:00",
+          "at": "2026-11-02T08:55:31.034739+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         },
         {
           "stage": "processing_openrouter",
-          "at": "2026-11-02T08:53:53.700574+00:00",
+          "at": "2026-11-02T08:56:31.026739+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "formatting_source",
-          "at": "2026-11-02T08:53:54.020714+00:00",
+          "at": "2026-11-02T08:56:31.567582+00:00",
           "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
           "method": "source"
         },
         {
           "stage": "translating",
-          "at": "2026-11-02T08:53:54.029814+00:00",
+          "at": "2026-11-02T08:56:31.577069+00:00",
           "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
           "method": "translation"
         },
         {
           "stage": "ready",
-          "at": "2026-11-02T08:53:55.268030+00:00",
+          "at": "2026-11-02T08:56:31.698531+00:00",
           "reason": "دەق ئامادەی ناردنە",
           "method": "translation"
         },
         {
           "stage": "sending",
-          "at": "2026-11-02T08:53:55.277249+00:00",
+          "at": "2026-11-02T08:56:31.707415+00:00",
           "reason": "ناردن بۆ تێلیگرام",
           "method": "translation"
         },
         {
           "stage": "published",
-          "at": "2026-11-02T08:53:58.538625+00:00",
+          "at": "2026-11-02T08:56:34.568029+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
           "method": "translation"
         }
@@ -864,8 +951,8 @@
       "method": "translation",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-02T08:05:28.060133+00:00",
-      "updated_at": "2026-11-02T08:52:53.026086+00:00",
-      "eligible_at": "2026-11-02T08:51:36.214967+00:00",
+      "updated_at": "2026-11-02T08:55:30.620140+00:00",
+      "eligible_at": "2026-11-02T08:55:29.051717+00:00",
       "history": [
         {
           "stage": "received",
@@ -881,61 +968,49 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-02T08:50:36.227870+00:00",
+          "at": "2026-11-02T08:54:29.069701+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
           "stage": "waiting_slot",
-          "at": "2026-11-02T08:50:36.236975+00:00",
+          "at": "2026-11-02T08:54:29.080676+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_gemini",
-          "at": "2026-11-02T08:51:36.228597+00:00",
-          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_gemini",
-          "at": "2026-11-02T08:51:36.246559+00:00",
-          "reason": "داواکاری بۆ Gemini نێردراوە",
-          "method": "gemini"
-        },
-        {
           "stage": "processing_openrouter",
-          "at": "2026-11-02T08:52:48.741936+00:00",
+          "at": "2026-11-02T08:55:29.080722+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "formatting_source",
-          "at": "2026-11-02T08:52:49.841752+00:00",
+          "at": "2026-11-02T08:55:29.593726+00:00",
           "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
           "method": "source"
         },
         {
           "stage": "translating",
-          "at": "2026-11-02T08:52:49.851326+00:00",
+          "at": "2026-11-02T08:55:29.603578+00:00",
           "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
           "method": "translation"
         },
         {
           "stage": "ready",
-          "at": "2026-11-02T08:52:52.389672+00:00",
+          "at": "2026-11-02T08:55:30.093793+00:00",
           "reason": "دەق ئامادەی ناردنە",
           "method": "translation"
         },
         {
           "stage": "sending",
-          "at": "2026-11-02T08:52:52.398691+00:00",
+          "at": "2026-11-02T08:55:30.103531+00:00",
           "reason": "ناردن بۆ تێلیگرام",
           "method": "translation"
         },
         {
           "stage": "published",
-          "at": "2026-11-02T08:52:53.026086+00:00",
+          "at": "2026-11-02T08:55:30.620140+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
           "method": "translation"
         }
@@ -949,7 +1024,7 @@
       "method": "translation",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-02T08:37:08.610033+00:00",
-      "updated_at": "2026-11-02T08:50:35.605238+00:00",
+      "updated_at": "2026-11-02T08:54:27.489057+00:00",
       "eligible_at": "2026-11-02T08:50:12.687201+00:00",
       "history": [
         {
@@ -978,43 +1053,55 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-02T08:50:30.674964+00:00",
+          "at": "2026-11-02T08:54:24.047892+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
+          "stage": "waiting_gemini",
+          "at": "2026-11-02T08:54:24.057400+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-02T08:54:24.074637+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
           "stage": "processing_openrouter",
-          "at": "2026-11-02T08:50:30.683985+00:00",
+          "at": "2026-11-02T08:54:24.229104+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "formatting_source",
-          "at": "2026-11-02T08:50:31.060390+00:00",
+          "at": "2026-11-02T08:54:24.774080+00:00",
           "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
           "method": "source"
         },
         {
           "stage": "translating",
-          "at": "2026-11-02T08:50:31.070048+00:00",
+          "at": "2026-11-02T08:54:24.783811+00:00",
           "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
           "method": "translation"
         },
         {
           "stage": "ready",
-          "at": "2026-11-02T08:50:32.673939+00:00",
+          "at": "2026-11-02T08:54:24.927304+00:00",
           "reason": "دەق ئامادەی ناردنە",
           "method": "translation"
         },
         {
           "stage": "sending",
-          "at": "2026-11-02T08:50:32.682882+00:00",
+          "at": "2026-11-02T08:54:24.936126+00:00",
           "reason": "ناردن بۆ تێلیگرام",
           "method": "translation"
         },
         {
           "stage": "published",
-          "at": "2026-11-02T08:50:35.605238+00:00",
+          "at": "2026-11-02T08:54:27.489057+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
           "method": "translation"
         }
@@ -2977,94 +3064,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "3294c2bdb554041839e42b320fd3473e",
-      "title": "بەقایی: بنەمای دانوستانەکانی ئێران و ئەمریکا پلانی ٧ هەنگاوی ئێرانە کە ئێستا پاڵەپەستۆی بۆ دانراوە",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-02T07:35:27.345632+00:00",
-      "updated_at": "2026-11-02T07:57:36.808801+00:00",
-      "eligible_at": "2026-11-02T07:57:32.102132+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-02T07:35:27.345632+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-02T07:35:27.354133+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-02T07:53:15.856595+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-02T07:53:15.865874+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-02T07:55:32.116767+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-02T07:55:32.125862+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-02T07:57:32.125207+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-02T07:57:34.640454+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-02T07:57:34.650023+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-02T07:57:36.439166+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-02T07:57:36.448340+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-02T07:57:36.808801+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
   "pending_count": 27,
-  "snapshot_at": "2026-11-02T08:53:59.318930+00:00",
-  "gemini_blocked_until": "2026-11-02T08:07:31.689916+00:00"
+  "snapshot_at": "2026-11-02T08:57:39.752019+00:00",
+  "gemini_blocked_until": "2026-11-02T09:24:24.218859+00:00"
 }
