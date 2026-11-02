@@ -1,9 +1,9 @@
 {
-  "run_id": "41540564123",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41540564123",
-  "started_at": "2026-11-02T22:50:26.790657+00:00",
-  "finished_at": "2026-11-02T22:50:33.750899+00:00",
-  "duration_seconds": 7.0,
+  "run_id": "41541234296",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41541234296",
+  "started_at": "2026-11-02T22:55:21.998514+00:00",
+  "finished_at": "2026-11-02T22:55:26.082647+00:00",
+  "duration_seconds": 4.1,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "unknown",
@@ -34,6 +34,7 @@
     }
   },
   "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -50,11 +51,15 @@
       "message": "Processing item from تێلیگرام (@entekhab_ir)..."
     },
     {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "bcc13d78d05eeb4164c868b4a402a51d",
@@ -64,33 +69,9 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-02T22:30:33.864830+00:00",
-      "updated_at": "2026-11-02T22:50:33.704872+00:00",
+      "updated_at": "2026-11-02T22:55:26.036001+00:00",
       "eligible_at": null,
       "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-02T22:30:33.864830+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-02T22:30:33.873179+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-02T22:30:34.189430+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-02T22:30:34.197994+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
         {
           "stage": "formatting_source",
           "at": "2026-11-02T22:30:35.440163+00:00",
@@ -226,6 +207,48 @@
         {
           "stage": "blocked_content",
           "at": "2026-11-02T22:50:33.704872+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-02T22:55:24.972175+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-02T22:55:24.979871+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-02T22:55:24.993594+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-02T22:55:25.185394+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-02T22:55:26.021586+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-02T22:55:26.029282+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-02T22:55:26.036001+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
@@ -2383,6 +2406,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-02T22:50:33.813474+00:00",
-  "gemini_blocked_until": "2026-11-02T22:52:19.745169+00:00"
+  "snapshot_at": "2026-11-02T22:55:26.138537+00:00",
+  "gemini_blocked_until": "2026-11-02T23:25:25.177719+00:00"
 }
