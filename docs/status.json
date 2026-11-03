@@ -1,12 +1,12 @@
 {
-  "run_id": "41550250366",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41550250366",
-  "started_at": "2026-11-03T00:05:21.749791+00:00",
-  "finished_at": "2026-11-03T00:05:24.866734+00:00",
-  "duration_seconds": 3.1,
+  "run_id": "41550885795",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41550885795",
+  "started_at": "2026-11-03T00:10:25.783822+00:00",
+  "finished_at": "2026-11-03T00:11:11.104829+00:00",
+  "duration_seconds": 45.3,
   "exit_code": 0,
   "found": 2,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,20 +17,20 @@
       "detail": "2 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [],
@@ -44,35 +44,31 @@
       "message": "Found 2 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 2 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 2 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "4c914c0aa57c95e0e833123bbf5f7b87",
       "title": "Trump is weighing three options on Iran, with his advisers divided over the next steps. ",
       "source": "Clash Report",
-      "stage": "blocked_content",
+      "stage": "waiting_slot",
       "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-02T23:25:26.720460+00:00",
-      "updated_at": "2026-11-02T23:55:27.894309+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-03T00:11:11.047823+00:00",
+      "eligible_at": "2026-11-03T00:16:11.027667+00:00",
       "history": [
-        {
-          "stage": "selected",
-          "at": "2026-11-02T23:30:32.152124+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "translation"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-02T23:30:32.159801+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
         {
           "stage": "formatting_source",
           "at": "2026-11-02T23:30:33.847584+00:00",
@@ -240,26 +236,34 @@
           "at": "2026-11-02T23:55:27.894309+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-03T00:11:11.040212+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-03T00:11:11.047823+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
         }
       ]
-    },
+    }
+  ],
+  "recent_articles": [
     {
       "id": "e6af66d299ce63e413e9a39690c4ab65",
-      "title": "ویتکاف اعلام کرد:",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_slot",
-      "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "ئەمریکا لە ١٠ و ١١ی تەشرینی دووەم لە ئەبۆدەبی نێوان ڕووسیا و ئۆکرانیا داوەڕێگەی دەکات",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-02T23:40:28.957377+00:00",
-      "updated_at": "2026-11-03T00:05:24.815361+00:00",
+      "updated_at": "2026-11-03T00:11:09.884073+00:00",
       "eligible_at": "2026-11-03T00:06:13.209846+00:00",
       "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-02T23:40:28.957377+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
         {
           "stage": "waiting_turn",
           "at": "2026-11-02T23:40:28.964301+00:00",
@@ -409,11 +413,39 @@
           "at": "2026-11-03T00:05:24.815361+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-03T00:10:29.642996+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-03T00:10:29.652249+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-03T00:11:09.330026+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-03T00:11:09.338052+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-03T00:11:09.884073+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "6feec4aa327cd71f794d1b5fa86ee265",
       "title": "ئەمریکا نێوەندگیری دانوستانەکانی ئاشتی ئۆکرانیا و ڕووسیا دەکات لە ئەبوزەبی لە 10-11ی ئەم مانگە و تیایدا گرنگی",
@@ -2614,82 +2646,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "c07fe7a9e74a16e493f775c9032f4611",
-      "title": "بلومبێرگ",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-02T20:15:34.732373+00:00",
-      "updated_at": "2026-11-02T20:16:26.916394+00:00",
-      "eligible_at": "2026-11-02T20:16:22.443830+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-02T20:15:34.732373+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-02T20:15:34.739757+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-02T20:15:34.799487+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-02T20:15:34.807262+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-02T20:16:22.461587+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-02T20:16:22.696829+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-02T20:16:22.705625+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-02T20:16:24.716327+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-02T20:16:24.723995+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-02T20:16:26.916394+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 2,
-  "snapshot_at": "2026-11-03T00:05:24.929153+00:00",
+  "pending_count": 1,
+  "snapshot_at": "2026-11-03T00:11:11.160835+00:00",
   "gemini_blocked_until": "2026-11-03T00:30:45.156340+00:00"
 }
