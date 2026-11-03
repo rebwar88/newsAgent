@@ -1,9 +1,9 @@
 {
-  "run_id": "41736263131",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41736263131",
-  "started_at": "2026-11-03T23:05:21.663027+00:00",
-  "finished_at": "2026-11-03T23:05:24.561544+00:00",
-  "duration_seconds": 2.9,
+  "run_id": "41736964898",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41736964898",
+  "started_at": "2026-11-03T23:10:24.077403+00:00",
+  "finished_at": "2026-11-03T23:10:28.198378+00:00",
+  "duration_seconds": 4.1,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -17,8 +17,8 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
@@ -33,7 +33,9 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +46,25 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "7f16afbe9159006f4e5e764d76d33b01",
       "title": "Trump has declared November 1–7, 2026, Anti-Communism Week.",
       "source": "Clash Report",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-03T22:40:31.668459+00:00",
-      "updated_at": "2026-11-03T23:05:24.515251+00:00",
+      "updated_at": "2026-11-03T23:10:28.151619+00:00",
       "eligible_at": "2026-11-03T23:05:48.513672+00:00",
       "history": [
         {
@@ -185,6 +191,36 @@
           "stage": "waiting_slot",
           "at": "2026-11-03T23:05:24.515251+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-03T23:10:26.979667+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-03T23:10:26.988203+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-03T23:10:28.134920+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-03T23:10:28.143867+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-03T23:10:28.151619+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
       ]
@@ -2989,6 +3025,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-03T23:05:24.619740+00:00",
+  "snapshot_at": "2026-11-03T23:10:28.255122+00:00",
   "gemini_blocked_until": "2026-11-03T23:30:37.001631+00:00"
 }
