@@ -1,9 +1,9 @@
 {
-  "run_id": "41730620968",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41730620968",
-  "started_at": "2026-11-03T22:25:23.914089+00:00",
-  "finished_at": "2026-11-03T22:25:28.383444+00:00",
-  "duration_seconds": 4.5,
+  "run_id": "41731348258",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41731348258",
+  "started_at": "2026-11-03T22:30:32.020265+00:00",
+  "finished_at": "2026-11-03T22:30:37.072344+00:00",
+  "duration_seconds": 5.1,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -17,12 +17,12 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "unknown",
@@ -33,7 +33,10 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,12 +47,88 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nCompleted run. Processed 0 articles.",
-  "articles": [],
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
+  "articles": [
+    {
+      "id": "049a6380903cb88efce278b1fe169dca",
+      "title": "Trump:",
+      "source": "Clash Report",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "received_at": "2026-11-03T22:30:36.436624+00:00",
+      "updated_at": "2026-11-03T22:30:37.023321+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-03T22:30:36.436624+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-03T22:30:36.444417+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-03T22:30:36.460260+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-03T22:30:36.468161+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-03T22:30:36.483401+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-03T22:30:36.737354+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-03T22:30:37.006756+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-03T22:30:37.015708+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-03T22:30:37.023321+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        }
+      ]
+    }
+  ],
   "recent_articles": [
     {
       "id": "046b422e6aac920de68a5b314eba7d95",
@@ -2836,7 +2915,7 @@
       ]
     }
   ],
-  "pending_count": 0,
-  "snapshot_at": "2026-11-03T22:25:28.441427+00:00",
-  "gemini_blocked_until": "2026-11-03T22:10:39.530106+00:00"
+  "pending_count": 1,
+  "snapshot_at": "2026-11-03T22:30:37.128646+00:00",
+  "gemini_blocked_until": "2026-11-03T23:00:36.728303+00:00"
 }
