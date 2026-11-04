@@ -1,12 +1,12 @@
 {
-  "run_id": "41760059053",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41760059053",
-  "started_at": "2026-11-04T02:20:26.069970+00:00",
-  "finished_at": "2026-11-04T02:20:29.044164+00:00",
-  "duration_seconds": 3.0,
+  "run_id": "41760610424",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41760610424",
+  "started_at": "2026-11-04T02:25:21.652942+00:00",
+  "finished_at": "2026-11-04T02:26:22.612355+00:00",
+  "duration_seconds": 61.0,
   "exit_code": 0,
   "found": 3,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,27 @@
       "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1793759125-HyaMNFHPFZERtL1iRn9h\",\"ob'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Translation fallback rejected: output is not clean Sorani."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +48,33 @@
       "message": "Found 3 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation fallback rejected: output is not clean Sorani.\nProcessing item from تێلیگرام (@ClashReport)...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "ff1b79cc73e04a8f16c74b4a799560fe",
       "title": "BREAKING: Decision Desk HQ projects that the Democrats will win the House of Representatives.",
       "source": "Clash Report",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-04T02:15:26.428806+00:00",
-      "updated_at": "2026-11-04T02:20:29.000399+00:00",
+      "updated_at": "2026-11-04T02:25:36.131106+00:00",
       "eligible_at": "2026-11-04T02:21:10.968076+00:00",
       "history": [
         {
@@ -114,18 +130,87 @@
           "at": "2026-11-04T02:20:29.000399+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-04T02:25:25.377232+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-04T02:25:25.384273+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-04T02:25:34.936727+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-04T02:25:34.943366+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-04T02:25:36.131106+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
     {
-      "id": "49c4afca44087e77096c3e569a595fd2",
-      "title": "The White House has released Trump’s schedule for Wednesday, November 4, with no events open to the press currently listed.",
+      "id": "05502854a1ef996a1c010a72249aee8a",
+      "title": "Democrat Keisha Lance Bottoms wins Georgia’s gubernatorial election, NBC News projects.",
       "source": "Clash Report",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-04T02:20:28.969319+00:00",
+      "updated_at": "2026-11-04T02:26:22.574208+00:00",
+      "eligible_at": "2026-11-04T02:31:22.557872+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-04T02:20:28.969319+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-04T02:20:28.976913+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-04T02:26:22.567945+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-04T02:26:22.574208+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "49c4afca44087e77096c3e569a595fd2",
+      "title": "دەروازەی سپی بەرنامەی ترەمپ بۆ چوارشەممە، ٤ی تشرینی دووەم بڵاو دەکات بێ بۆنەیەک بۆ رووناکەوان",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-04T02:20:28.953511+00:00",
-      "updated_at": "2026-11-04T02:20:28.961235+00:00",
+      "updated_at": "2026-11-04T02:26:19.998855+00:00",
       "eligible_at": null,
       "history": [
         {
@@ -139,36 +224,39 @@
           "at": "2026-11-04T02:20:28.961235+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "05502854a1ef996a1c010a72249aee8a",
-      "title": "Democrat Keisha Lance Bottoms wins Georgia’s gubernatorial election, NBC News projects.",
-      "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-04T02:20:28.969319+00:00",
-      "updated_at": "2026-11-04T02:20:28.976913+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-04T02:20:28.969319+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-04T02:25:36.137295+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-04T02:20:28.976913+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "processing_openrouter",
+          "at": "2026-11-04T02:25:36.143688+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-04T02:26:11.703307+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-04T02:26:11.709471+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-04T02:26:19.998855+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "88b1a6a4fa2fcc1a39445c21577c6be9",
       "title": "پیت بوتیگێگ",
@@ -3023,70 +3111,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "d6208de1d5a71cf115eb60950f1ca358",
-      "title": "کەناڵی ١٢ی ئیسرائیل: حزبوڵڵای عێراق خۆی یەکلایی کردووەتەوە، ئەگەر ئێران بۆردومان بکرێت، لە بەرژەوەندیی ئەو وڵا",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-03T20:45:31.255851+00:00",
-      "updated_at": "2026-11-03T20:46:19.753389+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-03T20:45:31.255851+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-03T20:45:31.266155+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-03T20:46:16.342282+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-03T20:46:16.353423+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-03T20:46:16.913910+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-03T20:46:16.925380+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-03T20:46:16.935822+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-03T20:46:19.753389+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-11-04T02:20:29.099961+00:00",
+  "pending_count": 2,
+  "snapshot_at": "2026-11-04T02:26:22.659121+00:00",
   "gemini_blocked_until": "2026-11-04T02:26:01.853475+00:00"
 }
