@@ -1,12 +1,12 @@
 {
-  "run_id": "41761161776",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41761161776",
-  "started_at": "2026-11-04T02:30:26.739797+00:00",
-  "finished_at": "2026-11-04T02:30:30.012915+00:00",
-  "duration_seconds": 3.3,
+  "run_id": "41761704049",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41761704049",
+  "started_at": "2026-11-04T02:35:21.304460+00:00",
+  "finished_at": "2026-11-04T02:35:52.104513+00:00",
+  "duration_seconds": 30.8,
   "exit_code": 0,
   "found": 3,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,30 @@
       "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1793759724-fMnvCLPRTDc2Dz'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Translation fallback rejected: output is not clean Sorani.",
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1793759737-UJW7Dp36ZXafqB'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +51,37 @@
       "message": "Found 3 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation fallback rejected: output is not clean Sorani.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "ff1b79cc73e04a8f16c74b4a799560fe",
       "title": "BREAKING: Decision Desk HQ projects that the Democrats will win the House of Representatives.",
       "source": "Clash Report",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-04T02:15:26.428806+00:00",
-      "updated_at": "2026-11-04T02:30:29.971530+00:00",
+      "updated_at": "2026-11-04T02:35:36.847818+00:00",
       "eligible_at": "2026-11-04T02:31:22.557872+00:00",
       "history": [
         {
@@ -156,18 +179,99 @@
           "at": "2026-11-04T02:30:29.971530+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-04T02:35:24.451175+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-04T02:35:24.458095+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-04T02:35:24.474493+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-04T02:35:24.687627+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-04T02:35:35.565271+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-04T02:35:35.572163+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-04T02:35:36.847818+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
     {
-      "id": "05502854a1ef996a1c010a72249aee8a",
-      "title": "Democrat Keisha Lance Bottoms wins Georgia’s gubernatorial election, NBC News projects.",
+      "id": "41f75c5b4f6f911090d137691cb653df",
+      "title": "FBI agents visited an Alaska voter who said he may have mistakenly voted for the wrong Dan Sullivan in the Senate election. ",
       "source": "Clash Report",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-04T02:30:29.952703+00:00",
+      "updated_at": "2026-11-04T02:35:52.037203+00:00",
+      "eligible_at": "2026-11-04T02:40:51.979494+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-04T02:30:29.952703+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-04T02:30:29.957170+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-04T02:35:52.007619+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-04T02:35:52.037203+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "05502854a1ef996a1c010a72249aee8a",
+      "title": "بەپێی پڕۆژەکانی کەناڵی ئێن بی سی نیوز، دیموکرات کیشا لانس بۆتۆمس لە هەڵبژاردنی پارێزگاری جۆرجیادا سەرکەوتنی بە",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-04T02:20:28.969319+00:00",
-      "updated_at": "2026-11-04T02:26:22.574208+00:00",
+      "updated_at": "2026-11-04T02:35:50.775724+00:00",
       "eligible_at": "2026-11-04T02:31:22.557872+00:00",
       "history": [
         {
@@ -193,36 +297,51 @@
           "at": "2026-11-04T02:26:22.574208+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "41f75c5b4f6f911090d137691cb653df",
-      "title": "FBI agents visited an Alaska voter who said he may have mistakenly voted for the wrong Dan Sullivan in the Senate election. ",
-      "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-04T02:30:29.952703+00:00",
-      "updated_at": "2026-11-04T02:30:29.957170+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-04T02:30:29.952703+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-04T02:35:36.854189+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-04T02:30:29.957170+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "processing_openrouter",
+          "at": "2026-11-04T02:35:36.860658+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-04T02:35:47.813495+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-04T02:35:47.825082+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-04T02:35:49.139021+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-04T02:35:49.145257+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-04T02:35:50.775724+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "49c4afca44087e77096c3e569a595fd2",
       "title": "دەروازەی سپی بەرنامەی ترەمپ بۆ چوارشەممە، ٤ی تشرینی دووەم بڵاو دەکات بێ بۆنەیەک بۆ رووناکەوان",
@@ -3071,70 +3190,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "994b925a1460a473aa099a1d1ee0319b",
-      "title": "سکای نیووز: ئەمشەو لە هەندێ لە شارەکانی ئیسرائیل خەڵک لە ترسی دەستپێکردنەوەی شەڕ لەگەڵ ئێران، ئامادەکاری دەکەن",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-03T20:50:36.425491+00:00",
-      "updated_at": "2026-11-03T20:51:00.664820+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-03T20:50:36.425491+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-03T20:50:36.437418+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-03T20:50:55.905995+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-03T20:50:55.914543+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-03T20:50:58.581211+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-03T20:50:58.590667+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-03T20:50:58.598908+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-03T20:51:00.664820+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-11-04T02:30:30.056088+00:00",
-  "gemini_blocked_until": "2026-11-04T02:26:01.853475+00:00"
+  "pending_count": 2,
+  "snapshot_at": "2026-11-04T02:35:52.152775+00:00",
+  "gemini_blocked_until": "2026-11-04T03:05:24.680594+00:00"
 }
