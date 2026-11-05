@@ -1,12 +1,12 @@
 {
-  "run_id": "41997534347",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41997534347",
-  "started_at": "2026-11-05T08:50:26.661365+00:00",
-  "finished_at": "2026-11-05T08:53:09.116130+00:00",
-  "duration_seconds": 162.5,
+  "run_id": "41998164444",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/41998164444",
+  "started_at": "2026-11-05T08:55:32.248214+00:00",
+  "finished_at": "2026-11-05T08:57:11.822102+00:00",
+  "duration_seconds": 99.6,
   "exit_code": 0,
-  "found": 8,
-  "published": 2,
+  "found": 9,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "8 items found"
+      "detail": "9 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "failed",
+      "detail": "Gemini API returned HTTP 503: {"
     },
     "telegram": {
       "status": "ok",
@@ -30,12 +30,11 @@
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 2 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Apify request failed (HTTP 402).",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -45,23 +44,27 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 8 new items."
+      "message": "Found 9 new items."
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@ClashReport)..."
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
     },
     {
-      "stage": "telegram",
-      "message": "Successfully published!"
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
     },
     {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 2/2 in 15s."
     },
     {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+      "stage": "gemini",
+      "message": "Gemini HTTP 503 after 3 attempts; keeping article for retry."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini API returned HTTP 503: {"
     },
     {
       "stage": "telegram",
@@ -69,34 +72,22 @@
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 2 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 8 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
+  "log": "Checking for new articles...\nFound 9 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini transport issue; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini HTTP 503 after 3 attempts; keeping article for retry.\nGemini API returned HTTP 503: {\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "566ff55fcfe1b5dbaa9ddc9a268c7a12",
       "title": "کارەبا ٢٤ کاتژمێرییەکە لە هەولێر نەماوە",
       "source": "بەپەلە|Breaking News",
-      "stage": "blocked_content",
+      "stage": "waiting_slot",
       "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-05T08:00:38.955052+00:00",
-      "updated_at": "2026-11-05T08:47:49.268634+00:00",
-      "eligible_at": "2026-11-05T08:46:22.740433+00:00",
+      "updated_at": "2026-11-05T08:57:11.769354+00:00",
+      "eligible_at": "2026-11-05T08:59:41.746887+00:00",
       "history": [
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-05T08:10:35.945200+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-05T08:10:45.971225+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
         {
           "stage": "translating",
           "at": "2026-11-05T08:10:45.978003+00:00",
@@ -264,31 +255,18 @@
           "at": "2026-11-05T08:47:49.268634+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
-        }
-      ]
-    },
-    {
-      "id": "24e103b9137a6806a0fbca4f78ab70ac",
-      "title": "UKMTO reports that a tanker was struck by two unidentified projectiles 50 nautical miles north of Qatar.",
-      "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-05T08:25:28.730717+00:00",
-      "updated_at": "2026-11-05T08:25:28.750003+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-05T08:25:28.730717+00:00",
-          "reason": "",
-          "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-05T08:25:28.750003+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "selected",
+          "at": "2026-11-05T08:57:11.760490+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-05T08:57:11.769354+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
         }
       ]
     },
@@ -404,14 +382,116 @@
       ]
     },
     {
-      "id": "4a12e56a3a18c68ff1faba371abf515f",
-      "title": "♦️",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_slot",
+      "id": "bf1a9aae8cd9d378e7c08c33aa2619bc",
+      "title": "هەموان چاویان لە بڕیارەکانی ناو ئەم باڵەخانەیەن",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_turn",
       "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-05T08:50:29.558519+00:00",
+      "updated_at": "2026-11-05T08:50:29.567152+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-05T08:50:29.558519+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-05T08:50:29.567152+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "e201ab56457e365dcc034b573ebdd4aa",
+      "title": "Iran's Ghalibaf:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-05T08:55:35.150101+00:00",
+      "updated_at": "2026-11-05T08:55:35.158389+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-05T08:55:35.150101+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-05T08:55:35.158389+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "29469acea67ceb2838752bd0c8560601",
+      "title": "ونس:  ",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-05T08:55:35.167002+00:00",
+      "updated_at": "2026-11-05T08:55:35.175733+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-05T08:55:35.167002+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-05T08:55:35.175733+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "1f80c2544425020282f7fb9115736b8c",
+      "title": "چهار دلیل شکست جمهوری‌خواهان از زبان ونس  جی‌دی ونس، معاون رئیس‌جمهور آمریکا: ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-05T08:55:35.184298+00:00",
+      "updated_at": "2026-11-05T08:55:35.192859+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-05T08:55:35.184298+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-05T08:55:35.192859+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "4a12e56a3a18c68ff1faba371abf515f",
+      "title": "کاردانەوەی تاکەر کارلسۆن بەرامبەر بە شکستی کۆمارییەکان",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-05T08:45:28.903944+00:00",
-      "updated_at": "2026-11-05T08:53:09.069681+00:00",
+      "updated_at": "2026-11-05T08:57:11.031991+00:00",
       "eligible_at": "2026-11-05T08:56:00.475903+00:00",
       "history": [
         {
@@ -437,36 +517,63 @@
           "at": "2026-11-05T08:53:09.069681+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "bf1a9aae8cd9d378e7c08c33aa2619bc",
-      "title": "هەموان چاویان لە بڕیارەکانی ناو ئەم باڵەخانەیەن",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-05T08:50:29.558519+00:00",
-      "updated_at": "2026-11-05T08:50:29.567152+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-05T08:50:29.558519+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-05T08:55:35.210716+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-05T08:50:29.567152+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-11-05T08:55:35.219785+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-05T08:55:35.236707+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-05T08:57:04.420935+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-05T08:57:07.297976+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-05T08:57:07.307621+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-05T08:57:09.509387+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-05T08:57:09.518068+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-05T08:57:11.031991+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "287cf634b68b7eaded12ea43b5ff0607",
       "title": "ئاکسیۆس: بەڕێوەبەری سی ئای ئەی و وەزیری گەنجینەی ئەمریکا دەیانەوێت درێژە بە گەمارۆی سەر ئێران بدەن",
@@ -2991,70 +3098,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "f888737c0b987648d6e6ea190c076349",
-      "title": "ئەم گەنجە بە ناوی ئاکار زەینە، کە وەستای بۆیاخکردنە و تەمەنی 32 ساڵە، دوو ڕۆژ لەمەوبەر لە کاتی کارکردن لە ماڵێ",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-05T06:05:22.295623+00:00",
-      "updated_at": "2026-11-05T06:12:55.942914+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-05T06:05:22.295623+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-05T06:05:22.301829+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-05T06:12:23.683698+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-05T06:12:23.691183+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-05T06:12:54.041849+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-05T06:12:54.053609+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-05T06:12:54.060464+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-05T06:12:55.942914+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 7,
-  "snapshot_at": "2026-11-05T08:53:09.172410+00:00",
+  "pending_count": 8,
+  "snapshot_at": "2026-11-05T08:57:11.881350+00:00",
   "gemini_blocked_until": "2026-11-05T08:11:56.304493+00:00"
 }
