@@ -1,11 +1,11 @@
 {
-  "run_id": "42309422222",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42309422222",
-  "started_at": "2026-11-06T23:05:24.737393+00:00",
-  "finished_at": "2026-11-06T23:05:27.795198+00:00",
-  "duration_seconds": 3.1,
+  "run_id": "42309996631",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42309996631",
+  "started_at": "2026-11-06T23:10:25.997431+00:00",
+  "finished_at": "2026-11-06T23:10:35.748867+00:00",
+  "duration_seconds": 9.8,
   "exit_code": 0,
-  "found": 4,
+  "found": 5,
   "published": 0,
   "stages": {
     "fetch": {
@@ -14,11 +14,11 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "4 items found"
+      "detail": "5 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
@@ -33,7 +33,11 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,24 +45,36 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 4 new items."
+      "message": "Found 5 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 4 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; skipping item.\nTranslation service unreachable; pausing it for 30 minutes.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nDuplicate of an already published story (فڕۆکەیەکی بێفڕۆکەوانی MQ9 سەر بە سوپای تیرۆریستی ئەمریکا ڕێگ); skipping.\nDuplicate of an already published story (بینەری بن); skipping.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "9d600984ca46104c9c726cc209400cd0",
       "title": "JD Vance is leading behind-the-scenes efforts to secure a new ceasefire with Iran and restart nuclear negotiations. ",
       "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-06T22:55:24.774021+00:00",
-      "updated_at": "2026-11-06T23:05:27.743061+00:00",
+      "updated_at": "2026-11-06T23:10:34.848445+00:00",
       "eligible_at": "2026-11-06T23:06:32.943518+00:00",
       "history": [
         {
@@ -108,6 +124,36 @@
           "at": "2026-11-06T23:05:27.743061+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-06T23:10:30.579147+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-06T23:10:30.587838+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-06T23:10:30.994415+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-06T23:10:31.003870+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-06T23:10:34.848445+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
@@ -115,11 +161,11 @@
       "id": "97d64079cd6ad9b8947eaefd2d5d74d9",
       "title": "U.S. Central Command official to Al Jazeera:",
       "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-06T23:00:39.121491+00:00",
-      "updated_at": "2026-11-06T23:00:39.129428+00:00",
+      "updated_at": "2026-11-06T23:10:35.636974+00:00",
       "eligible_at": null,
       "history": [
         {
@@ -133,6 +179,36 @@
           "at": "2026-11-06T23:00:39.129428+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-06T23:10:35.269371+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-06T23:10:35.278258+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-06T23:10:35.619781+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-06T23:10:35.628497+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-06T23:10:35.636974+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
@@ -140,11 +216,11 @@
       "id": "160da2fec986efcf67d4c690acb83566",
       "title": "Iran’s military says it shot down a U.S. MQ-9 drone over Qeshm Island using its air defense systems.",
       "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-06T23:05:27.691864+00:00",
-      "updated_at": "2026-11-06T23:05:27.700314+00:00",
+      "updated_at": "2026-11-06T23:10:35.260741+00:00",
       "eligible_at": null,
       "history": [
         {
@@ -158,31 +234,36 @@
           "at": "2026-11-06T23:05:27.700314+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "5dbbe4aa8b7b14933f3a360ad61e71cc",
-      "title": "روابط عمومی ارتش: دقایقی قبل، ",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-06T23:05:27.708868+00:00",
-      "updated_at": "2026-11-06T23:05:27.717085+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-06T23:05:27.708868+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-06T23:10:34.857424+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-06T23:05:27.717085+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "processing_openrouter",
+          "at": "2026-11-06T23:10:34.866306+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-06T23:10:35.242908+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-06T23:10:35.252142+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-06T23:10:35.260741+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     }
@@ -3297,7 +3378,7 @@
       ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-06T23:05:27.854170+00:00",
+  "pending_count": 3,
+  "snapshot_at": "2026-11-06T23:10:35.806130+00:00",
   "gemini_blocked_until": "2026-11-06T23:15:36.679305+00:00"
 }
