@@ -1,12 +1,12 @@
 {
-  "run_id": "42356801402",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42356801402",
-  "started_at": "2026-11-07T08:45:25.725632+00:00",
-  "finished_at": "2026-11-07T08:45:30.065104+00:00",
-  "duration_seconds": 4.3,
+  "run_id": "42357150422",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42357150422",
+  "started_at": "2026-11-07T08:50:24.476266+00:00",
+  "finished_at": "2026-11-07T08:51:23.512747+00:00",
+  "duration_seconds": 59.0,
   "exit_code": 0,
-  "found": 5,
-  "published": 0,
+  "found": 4,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,29 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "5 items found"
+      "detail": "4 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,40 +44,31 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 5 new items."
+      "message": "Found 4 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 4 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini transport issue; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
-    {
-      "id": "8d71f353b2a8d36ae9a9c19733df97af",
-      "title": "♦️",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-07T08:20:26.664455+00:00",
-      "updated_at": "2026-11-07T08:20:26.669054+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-07T08:20:26.664455+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-07T08:20:26.669054+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "cf5f4f771fd1597d8ca2fc97aab60db0",
       "title": "📆",
@@ -101,14 +95,78 @@
       ]
     },
     {
-      "id": "b2e26c82ab2688fd4af45516c6ccc984",
+      "id": "0550774f635a6c0dd2e663396e3b975d",
       "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-07T08:43:47.442530+00:00",
+      "updated_at": "2026-11-07T08:43:47.446698+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-07T08:43:47.442530+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-07T08:43:47.446698+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "cabed7760602717b47030b4e24eee4aa",
+      "title": "قوه قضائیه: حکم اعدام عنصر گروهک تروریستی جیش‌الظلم اجرا شد",
       "source": "پایگاه خبری انتخاب",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-07T08:50:27.680325+00:00",
+      "updated_at": "2026-11-07T08:51:23.465304+00:00",
+      "eligible_at": "2026-11-07T08:56:23.447742+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-07T08:50:27.680325+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-07T08:50:27.685794+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-07T08:51:23.458633+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-07T08:51:23.465304+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "b2e26c82ab2688fd4af45516c6ccc984",
+      "title": "فاینانشیاڵ تایمز",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-07T08:35:25.750685+00:00",
-      "updated_at": "2026-11-07T08:45:30.024090+00:00",
+      "updated_at": "2026-11-07T08:51:21.963630+00:00",
       "eligible_at": "2026-11-07T08:48:49.767478+00:00",
       "history": [
         {
@@ -146,36 +204,63 @@
           "at": "2026-11-07T08:45:30.024090+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "0550774f635a6c0dd2e663396e3b975d",
-      "title": "♦️",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-07T08:43:47.442530+00:00",
-      "updated_at": "2026-11-07T08:43:47.446698+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-07T08:43:47.442530+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-07T08:50:27.697638+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-07T08:43:47.446698+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-11-07T08:50:27.703827+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-07T08:50:27.715635+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-07T08:51:18.006217+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-07T08:51:18.264170+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-07T08:51:18.270663+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-07T08:51:20.241409+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-07T08:51:20.247175+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-07T08:51:21.963630+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "538e55567d4fc570aa688f4719d6029b",
       "title": "مستەفا فەلاح، شۆفێری ماتۆڕی دیلیڤەرییە و بەهۆی کۆبوونەوەی باراناو لەبەردەم فڕۆکەخانەی کەرکووک و پێکدادانی لەگە",
@@ -2432,7 +2517,7 @@
       ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-07T08:45:30.112870+00:00",
-  "gemini_blocked_until": "2026-11-07T07:56:33.528538+00:00"
+  "pending_count": 3,
+  "snapshot_at": "2026-11-07T08:51:23.561511+00:00",
+  "gemini_blocked_until": "2026-11-07T09:21:17.991372+00:00"
 }
