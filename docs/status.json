@@ -1,9 +1,9 @@
 {
-  "run_id": "42426654807",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42426654807",
-  "started_at": "2026-11-07T23:45:23.280220+00:00",
-  "finished_at": "2026-11-07T23:45:26.684943+00:00",
-  "duration_seconds": 3.4,
+  "run_id": "42427027060",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42427027060",
+  "started_at": "2026-11-07T23:50:26.077703+00:00",
+  "finished_at": "2026-11-07T23:50:31.192703+00:00",
+  "duration_seconds": 5.1,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -17,8 +17,8 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
@@ -33,7 +33,10 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Translation fallback rejected: output is not clean Sorani."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +47,25 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation fallback rejected: output is not clean Sorani.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "14d1a60a224390f45c117c4e21008b2c",
       "title": "NEW: Hackers who claim to have breached Russia’s statistics agency have published death-certificate data that points to at least 412,576 Russian military deaths since the full-scale invasion of Ukraine.",
       "source": "Clash Report",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-07T23:25:23.542792+00:00",
-      "updated_at": "2026-11-07T23:45:26.648752+00:00",
+      "updated_at": "2026-11-07T23:50:31.145205+00:00",
       "eligible_at": "2026-11-07T23:45:35.758186+00:00",
       "history": [
         {
@@ -167,6 +174,36 @@
           "stage": "waiting_slot",
           "at": "2026-11-07T23:45:26.648752+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-07T23:50:28.821731+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-07T23:50:28.829597+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-07T23:50:29.986837+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-07T23:50:29.994645+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-07T23:50:31.145205+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
       ]
@@ -2299,6 +2336,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-07T23:45:26.731359+00:00",
+  "snapshot_at": "2026-11-07T23:50:31.247961+00:00",
   "gemini_blocked_until": "2026-11-07T23:51:20.525620+00:00"
 }
