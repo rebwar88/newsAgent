@@ -1,11 +1,11 @@
 {
-  "run_id": "42385135014",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42385135014",
-  "started_at": "2026-11-07T15:11:16.511662+00:00",
-  "finished_at": "2026-11-07T15:11:20.449138+00:00",
-  "duration_seconds": 3.9,
+  "run_id": "42385461987",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42385461987",
+  "started_at": "2026-11-07T15:15:25.265277+00:00",
+  "finished_at": "2026-11-07T15:15:32.246143+00:00",
+  "duration_seconds": 7.0,
   "exit_code": 0,
-  "found": 4,
+  "found": 5,
   "published": 0,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "4 items found"
+      "detail": "5 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "unknown",
@@ -33,7 +33,11 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,24 +45,36 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 4 new items."
+      "message": "Found 5 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
     },
     {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 4 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@entekhab_ir)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nDuplicate of an already published story (ڕوحوڵڵا قادری کەنگەوەری لە دیبەیتێکدا لەگەڵ فێریدوون مەجلیسی); skipping.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "e99aa99bebcc557a9c535575d63721a7",
       "title": "هواپیمای دولتی ایران از تهران راهی پاکستان شد",
       "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-07T14:50:30.603192+00:00",
-      "updated_at": "2026-11-07T15:11:20.417030+00:00",
+      "updated_at": "2026-11-07T15:15:29.914641+00:00",
       "eligible_at": "2026-11-07T15:15:43.946949+00:00",
       "history": [
         {
@@ -198,6 +214,48 @@
           "at": "2026-11-07T15:11:20.417030+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-07T15:15:28.737088+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-07T15:15:28.744373+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-07T15:15:28.758510+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-07T15:15:28.966427+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-07T15:15:29.899411+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-07T15:15:29.907556+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-07T15:15:29.914641+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
@@ -227,25 +285,62 @@
       ]
     },
     {
-      "id": "92e9e350870c1a89315d863dedff5926",
-      "title": "فریدون مجلسی در مناظره با روح‌الله قادری کنگاوری:",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
+      "id": "cda8d20ac1b50f2d60f9d76e7f1fa521",
+      "title": "صدراعظم آلمان: مهاجران مسلمانی که هولوکاست را قبول ندارند باید کشور ما را ترک کنند",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-07T15:11:20.401288+00:00",
-      "updated_at": "2026-11-07T15:11:20.405006+00:00",
-      "eligible_at": null,
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-07T15:15:28.700433+00:00",
+      "updated_at": "2026-11-07T15:15:32.201357+00:00",
+      "eligible_at": "2026-11-07T15:15:43.946949+00:00",
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-07T15:11:20.401288+00:00",
+          "at": "2026-11-07T15:15:28.700433+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-07T15:11:20.405006+00:00",
+          "at": "2026-11-07T15:15:28.707714+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-07T15:15:32.193721+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-07T15:15:32.201357+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "2eaea7da54e2faa6d65c1c33e0696be7",
+      "title": "محسن رضایی: شما هم جنگ را باختید و هم انتخابات را. ونس شکست را پذیرفته، روبیو در آستانه خروج است، هگست به‌زودی برکنار می‌شود و فرمانده سنتکام هم حالا پادکستر شده است! حالا دقیقا در واشنگتن باید این پیام را به گوش چه کسی ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-07T15:15:28.715232+00:00",
+      "updated_at": "2026-11-07T15:15:28.722596+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-07T15:15:28.715232+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-07T15:15:28.722596+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -2378,7 +2473,7 @@
       ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-11-07T15:11:20.488010+00:00",
-  "gemini_blocked_until": "2026-11-07T15:14:56.191652+00:00"
+  "pending_count": 4,
+  "snapshot_at": "2026-11-07T15:15:32.301460+00:00",
+  "gemini_blocked_until": "2026-11-07T15:45:28.958520+00:00"
 }
