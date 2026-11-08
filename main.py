@@ -1039,6 +1039,8 @@ def retry_pending_dashboard_news(state):
 def sync_pending_aggregator_news(state, new_items):
     """Push original collected source items to PayamNewsAggregator, independently of Telegram."""
     if not PAYAM_AGGREGATOR_INGEST_URL or not PAYAM_AGGREGATOR_INGEST_TOKEN:
+        if AGGREGATOR_SYNC_ONLY:
+            raise RuntimeError("Aggregator sync-only mode requires PAYAM_AGGREGATOR_INGEST_URL and PAYAM_AGGREGATOR_INGEST_TOKEN.")
         return
     endpoint = urlparse(PAYAM_AGGREGATOR_INGEST_URL)
     if endpoint.scheme != "https" or not endpoint.netloc:
@@ -1144,12 +1146,12 @@ def main():
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
     new_items.extend(fetch_facebook_via_apify(seen_ids, state))
-    sync_pending_aggregator_news(state, new_items)
     dropped = prune_pending(state, seen_ids)
     if dropped:
         print(f"Dropped {dropped} stale or blocked articles from the queue.")
         save_seen_ids(seen_ids)
     pending = merge_pending(state, new_items, seen_ids)
+    sync_pending_aggregator_news(state, pending)
     for queued in pending:
         if "topics" not in queued:
             queued["topics"] = editorial.match_topics(queued.get("title", "") + "\n" + queued.get("content", ""))
