@@ -1118,7 +1118,22 @@ def sync_pending_aggregator_news(state, new_items):
                         ))
                     print(f"PayamNewsAggregator sync accepted {len(batch)} source items.")
                     continue
-            print(f"PayamNewsAggregator sync returned HTTP {response.status_code}; items remain queued.")
+            if response.status_code == 422:
+                try:
+                    error_data = response.json()
+                    validation_errors = error_data.get("errors", {})
+                    if isinstance(validation_errors, dict):
+                        details = "; ".join(
+                            f"{field}: {', '.join(str(message) for message in messages) if isinstance(messages, list) else str(messages)}"
+                            for field, messages in validation_errors.items()
+                        )
+                    else:
+                        details = str(error_data.get("message") or error_data)[:1500]
+                except ValueError:
+                    details = response.text[:1500]
+                print(f"PayamNewsAggregator sync returned HTTP 422; validation details: {details[:1500]}; items remain queued.")
+            else:
+                print(f"PayamNewsAggregator sync returned HTTP {response.status_code}; items remain queued.")
         except (requests.RequestException, ValueError) as exc:
             print(f"PayamNewsAggregator sync failed ({type(exc).__name__}); items remain queued.")
             break
