@@ -1107,8 +1107,13 @@ def sync_pending_aggregator_news(state, new_items):
                 timeout=(5, 30),
                 allow_redirects=False,
             )
-            if response.status_code == 200:
+            try:
                 result = response.json()
+            except ValueError:
+                body = (response.text or "").replace("\\r", " ").replace("\\n", " ")[:1500]
+                print(f"PayamNewsAggregator returned non-JSON response (HTTP {response.status_code}); body: {body}; items remain queued.")
+                break
+            if response.status_code == 200 and isinstance(result, dict):
                 if result.get("accepted") == len(batch):
                     for item in batch:
                         acknowledged.add((
@@ -1118,9 +1123,13 @@ def sync_pending_aggregator_news(state, new_items):
                         ))
                     print(f"PayamNewsAggregator sync accepted {len(batch)} source items.")
                     continue
-            print(f"PayamNewsAggregator sync returned HTTP {response.status_code}; items remain queued.")
-        except (requests.RequestException, ValueError) as exc:
-            print(f"PayamNewsAggregator sync failed ({type(exc).__name__}); items remain queued.")
+            if response.status_code == 422:
+                details = result.get("errors", result) if isinstance(result, dict) else result
+                print(f"PayamNewsAggregator validation failed (HTTP 422): {str(details)[:1500]}; items remain queued.")
+            else:
+                print(f"PayamNewsAggregator sync returned HTTP {response.status_code}: {str(result)[:1500]}; items remain queued.")
+        except requests.RequestException as exc:
+            print(f"PayamNewsAggregator sync failed ({type(exc).__name__}: {exc}); items remain queued.")
             break
 
     state["aggregator_sync_pending"] = [
