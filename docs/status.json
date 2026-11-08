@@ -1,9 +1,9 @@
 {
-  "run_id": "42430033274",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42430033274",
-  "started_at": "2026-11-08T00:30:30.050869+00:00",
-  "finished_at": "2026-11-08T00:30:33.516251+00:00",
-  "duration_seconds": 3.5,
+  "run_id": "42430410768",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42430410768",
+  "started_at": "2026-11-08T00:35:22.964603+00:00",
+  "finished_at": "2026-11-08T00:35:44.886530+00:00",
+  "duration_seconds": 21.9,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -17,8 +17,8 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
@@ -33,7 +33,10 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "AI text rejected: insufficient Sorani orthography.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +47,25 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; skipping item.\nTranslation service unreachable; pausing it for 30 minutes.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "7c3f8bdbe014ef9c432027777fc0fe99",
       "title": "Dana White says he is flying to DC “right now” to meet President Trump on Monday to discuss his press secretary offer.",
       "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-08T00:30:33.442381+00:00",
-      "updated_at": "2026-11-08T00:30:33.467764+00:00",
+      "updated_at": "2026-11-08T00:35:44.839880+00:00",
       "eligible_at": "2026-11-08T00:30:49.383203+00:00",
       "history": [
         {
@@ -84,6 +91,36 @@
           "at": "2026-11-08T00:30:33.467764+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-08T00:35:27.043421+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-08T00:35:27.051279+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-08T00:35:41.167575+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-08T00:35:41.174984+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-08T00:35:44.839880+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     }
@@ -2389,6 +2426,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-08T00:30:33.570113+00:00",
+  "snapshot_at": "2026-11-08T00:35:44.942701+00:00",
   "gemini_blocked_until": "2026-11-08T00:55:26.451470+00:00"
 }
