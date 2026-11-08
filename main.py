@@ -22,6 +22,9 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 DASHBOARD_NEWS_API_URL = os.getenv("DASHBOARD_NEWS_API_URL", "").strip()
 DASHBOARD_NEWS_API_KEY = os.getenv("DASHBOARD_NEWS_API_KEY", "").strip()
+PAYAM_AGGREGATOR_INGEST_URL = os.getenv("PAYAM_AGGREGATOR_INGEST_URL", "").strip()
+PAYAM_AGGREGATOR_INGEST_TOKEN = os.getenv("PAYAM_AGGREGATOR_INGEST_TOKEN", "").strip()
+AGGREGATOR_SYNC_ONLY = os.getenv("AGGREGATOR_SYNC_ONLY", "false").lower() == "true"
 
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 PUBLISH_ENABLED = os.getenv("PUBLISH_ENABLED", "false").lower() == "true"
@@ -1032,19 +1035,116 @@ def retry_pending_dashboard_news(state):
     state["dashboard_sync_pending"] = remaining
     save_publication_state(state)
 
+
+def sync_pending_aggregator_news(state, new_items):
+    """Push original collected source items to PayamNewsAggregator, independently of Telegram."""
+    if not PAYAM_AGGREGATOR_INGEST_URL or not PAYAM_AGGREGATOR_INGEST_TOKEN:
+        return
+    endpoint = urlparse(PAYAM_AGGREGATOR_INGEST_URL)
+    if endpoint.scheme != "https" or not endpoint.netloc:
+        print("Payam aggregator sync skipped: endpoint must be an HTTPS URL.")
+        return
+
+    queue = state.setdefault("aggregator_sync_pending", [])
+    if not isinstance(queue, list):
+        queue = []
+    queued_keys = {
+        (str(entry.get("source_type", "")), str(entry.get("source_name", "")), str(entry.get("id", "")))
+        for entry in queue if isinstance(entry, dict)
+    }
+
+    for item in new_items:
+        if not isinstance(item, dict) or not item.get("id") or not item.get("content"):
+            continue
+        key = (str(item.get("source_type") or "unknown"),
+               str(item.get("source_name") or item.get("source") or "نەناسراو"),
+               str(item.get("id")))
+        if key not in queued_keys:
+            queue.append(item)
+            queued_keys.add(key)
+
+    # Keep retries bounded per run; remaining entries stay in the durable state file.
+    batch_limit = min(len(queue), 50)
+    acknowledged = set()
+    for offset in range(0, batch_limit, 25):
+        batch = queue[offset:offset + 25]
+        payload_items = []
+        for item in batch:
+            published = item.get("source_published_at")
+            if published:
+                try:
+                    published = datetime.fromisoformat(str(published).replace("Z", "+00:00")).isoformat()
+                except ValueError:
+                    published = None
+            link = str(item.get("link") or "").strip()
+            if not link.startswith(("https://", "http://")):
+                link = None
+            payload_items.append({
+                "id": str(item.get("id", "")),
+                "source_type": str(item.get("source_type") or "unknown")[:40],
+                "source_name": str(item.get("source_name") or item.get("source") or "نەناسراو")[:190],
+                "title": str(item.get("title") or "")[:700],
+                "content": str(item.get("content") or "")[:200000],
+                "link": link,
+                "author": str(item.get("author") or "")[:190] or None,
+                "source_published_at": published,
+            })
+
+        headers = {
+            "Authorization": "Bearer " + PAYAM_AGGREGATOR_INGEST_TOKEN,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+        try:
+            response = requests.post(
+                PAYAM_AGGREGATOR_INGEST_URL,
+                headers=headers,
+                json={"items": payload_items},
+                timeout=(5, 30),
+                allow_redirects=False,
+            )
+            if response.status_code == 200:
+                result = response.json()
+                if result.get("accepted") == len(batch):
+                    for item in batch:
+                        acknowledged.add((
+                            str(item.get("source_type") or "unknown"),
+                            str(item.get("source_name") or item.get("source") or "نەناسراو"),
+                            str(item.get("id", "")),
+                        ))
+                    print(f"PayamNewsAggregator sync accepted {len(batch)} source items.")
+                    continue
+            print(f"PayamNewsAggregator sync returned HTTP {response.status_code}; items remain queued.")
+        except (requests.RequestException, ValueError) as exc:
+            print(f"PayamNewsAggregator sync failed ({type(exc).__name__}); items remain queued.")
+            break
+
+    state["aggregator_sync_pending"] = [
+        item for item in queue
+        if (
+            str(item.get("source_type") or "unknown"),
+            str(item.get("source_name") or item.get("source") or "نەناسراو"),
+            str(item.get("id", "")),
+        ) not in acknowledged
+    ]
+
+
+
 def main():
-    if not PUBLISH_ENABLED:
+    if not PUBLISH_ENABLED and not AGGREGATOR_SYNC_ONLY:
         print("Safe mode: publication disabled until explicitly enabled.")
         return
     started = time.monotonic()
     print("Checking for new articles...")
     seen_ids = load_seen_ids()
     state = load_publication_state()
-    retry_pending_dashboard_news(state)
+    if not AGGREGATOR_SYNC_ONLY:
+        retry_pending_dashboard_news(state)
     new_items = fetch_rss_news(seen_ids)
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
     new_items.extend(fetch_facebook_via_apify(seen_ids, state))
+    sync_pending_aggregator_news(state, new_items)
     dropped = prune_pending(state, seen_ids)
     if dropped:
         print(f"Dropped {dropped} stale or blocked articles from the queue.")
@@ -1060,6 +1160,9 @@ def main():
     save_publication_state(state)
     print(f"Found {len(new_items)} new items.")
     print(f"Pending queue: {len(pending)} articles.")
+    if AGGREGATOR_SYNC_ONLY:
+        print("Aggregator sync-only run complete; Telegram publishing was skipped.")
+        return
 
     # Spread publications within a five-minute trigger window. Leave time for
     # telemetry and the state commit; never increase Gemini calls with backlog.
