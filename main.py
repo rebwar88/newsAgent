@@ -24,6 +24,7 @@ DASHBOARD_NEWS_API_URL = os.getenv("DASHBOARD_NEWS_API_URL", "").strip()
 DASHBOARD_NEWS_API_KEY = os.getenv("DASHBOARD_NEWS_API_KEY", "").strip()
 PAYAM_AGGREGATOR_INGEST_URL = os.getenv("PAYAM_AGGREGATOR_INGEST_URL", "").strip()
 PAYAM_AGGREGATOR_INGEST_TOKEN = os.getenv("PAYAM_AGGREGATOR_INGEST_TOKEN", "").strip()
+PAYAM_AGGREGATOR_ALLOW_LOCAL_HTTP = os.getenv("PAYAM_AGGREGATOR_ALLOW_LOCAL_HTTP", "false").lower() == "true"
 AGGREGATOR_SYNC_ONLY = os.getenv("AGGREGATOR_SYNC_ONLY", "false").lower() == "true"
 
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
@@ -1043,8 +1044,9 @@ def sync_pending_aggregator_news(state, new_items):
             raise RuntimeError("Aggregator sync-only mode requires PAYAM_AGGREGATOR_INGEST_URL and PAYAM_AGGREGATOR_INGEST_TOKEN.")
         return
     endpoint = urlparse(PAYAM_AGGREGATOR_INGEST_URL)
-    if endpoint.scheme != "https" or not endpoint.netloc:
-        print("Payam aggregator sync skipped: endpoint must be an HTTPS URL.")
+    local_http = endpoint.scheme == "http" and endpoint.hostname in ("localhost", "127.0.0.1", "::1") and PAYAM_AGGREGATOR_ALLOW_LOCAL_HTTP
+    if not endpoint.netloc or (endpoint.scheme != "https" and not local_http):
+        print("Payam aggregator sync skipped: use HTTPS, or explicitly allow HTTP only for localhost testing.")
         return
 
     queue = state.setdefault("aggregator_sync_pending", [])
