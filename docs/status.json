@@ -1,9 +1,9 @@
 {
-  "run_id": "42428897316",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42428897316",
-  "started_at": "2026-11-08T00:15:21.420723+00:00",
-  "finished_at": "2026-11-08T00:15:24.496518+00:00",
-  "duration_seconds": 3.1,
+  "run_id": "42429278788",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42429278788",
+  "started_at": "2026-11-08T00:20:25.873777+00:00",
+  "finished_at": "2026-11-08T00:20:39.878642+00:00",
+  "duration_seconds": 14.0,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -17,8 +17,8 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
@@ -33,7 +33,10 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1794097229-bG5BLn4A22nlmM'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +47,25 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "271b040d22d95d3f7d9bbe014c785878",
       "title": "Hawkish outside advisers have called Trump since Election Day, urging him to resume attacks on Iran. ",
       "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-08T00:15:24.453947+00:00",
-      "updated_at": "2026-11-08T00:15:24.469058+00:00",
+      "updated_at": "2026-11-08T00:20:39.825522+00:00",
       "eligible_at": "2026-11-08T00:15:41.431486+00:00",
       "history": [
         {
@@ -84,6 +91,36 @@
           "at": "2026-11-08T00:15:24.469058+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-08T00:20:29.270494+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-08T00:20:29.278048+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-08T00:20:39.812168+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-08T00:20:39.819276+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-08T00:20:39.825522+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     }
@@ -2347,6 +2384,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-08T00:15:24.534893+00:00",
+  "snapshot_at": "2026-11-08T00:20:39.935983+00:00",
   "gemini_blocked_until": "2026-11-08T00:25:25.782495+00:00"
 }
