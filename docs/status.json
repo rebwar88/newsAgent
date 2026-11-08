@@ -1,12 +1,12 @@
 {
-  "run_id": "42429278788",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42429278788",
-  "started_at": "2026-11-08T00:20:25.873777+00:00",
-  "finished_at": "2026-11-08T00:20:39.878642+00:00",
-  "duration_seconds": 14.0,
+  "run_id": "42429650675",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42429650675",
+  "started_at": "2026-11-08T00:25:21.876832+00:00",
+  "finished_at": "2026-11-08T00:25:49.435741+00:00",
+  "duration_seconds": 27.6,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -21,21 +21,20 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1794097229-bG5BLn4A22nlmM'",
-    "Non-AI fallback rejected: insufficient Sorani text or article content."
+    "Gemini quota exhausted; using safe non-AI fallback."
   ],
   "events": [
     {
@@ -51,21 +50,30 @@
       "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "271b040d22d95d3f7d9bbe014c785878",
-      "title": "Hawkish outside advisers have called Trump since Election Day, urging him to resume attacks on Iran. ",
-      "source": "Clash Report",
-      "stage": "blocked_content",
-      "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "title": "مشاوڕە توندڕووە دەرەکییەکان لە دوای ھەڵبژاردنەوە پەیوەندی بە ترامپ هەناوە، داوای دووبارە هێنانی تێکچوون لەسەر ئێران دەکەن",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-08T00:15:24.453947+00:00",
-      "updated_at": "2026-11-08T00:20:39.825522+00:00",
+      "updated_at": "2026-11-08T00:25:47.896116+00:00",
       "eligible_at": "2026-11-08T00:15:41.431486+00:00",
       "history": [
         {
@@ -121,11 +129,51 @@
           "at": "2026-11-08T00:20:39.825522+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-08T00:25:26.161561+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-08T00:25:26.169474+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-08T00:25:26.183416+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-08T00:25:26.459544+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-08T00:25:45.822556+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-08T00:25:45.829679+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-08T00:25:47.896116+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "14d1a60a224390f45c117c4e21008b2c",
       "title": "هەکرەکان داتای مەرگنامەی ٤١٢،٥٧٦ سوپای ڕووسی بڵاو دەکەن",
@@ -2314,76 +2362,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "d79a551f0d291b35af2aad0f7b503a4f",
-      "title": "ئەرمینیا: هیچ هەنگاوێک لە دژی ئێران ناگرینەبەر",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-07T20:25:22.025397+00:00",
-      "updated_at": "2026-11-07T20:30:36.641933+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-07T20:25:22.025397+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-07T20:25:22.032922+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-07T20:30:33.626709+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-07T20:30:33.636576+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-07T20:30:34.433561+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-07T20:30:34.444921+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-07T20:30:36.143583+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-07T20:30:36.153252+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-07T20:30:36.641933+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-08T00:20:39.935983+00:00",
-  "gemini_blocked_until": "2026-11-08T00:25:25.782495+00:00"
+  "pending_count": 0,
+  "snapshot_at": "2026-11-08T00:25:49.492062+00:00",
+  "gemini_blocked_until": "2026-11-08T00:55:26.451470+00:00"
 }
