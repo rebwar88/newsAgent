@@ -13,7 +13,26 @@ Never commit the token or put it in the URL.
 
 ## Safe test
 
-Use Actions → Automated News Workflow → Run workflow and enable **aggregator_sync_only**. This collects current items, sends them to the panel, and exits before the Telegram publication loop. Normal scheduled runs keep their existing Telegram behavior and will also send newly collected items when the two secrets are configured.
+### Local panel on the same computer
+
+1. Start the panel locally with `php artisan serve --host=127.0.0.1 --port=8000`.
+2. Install the newsAgent Python requirements in a local clone of this repository.
+3. In PowerShell, set the panel URL, matching token, and the explicit loopback-only HTTP opt-in:
+
+   ```powershell
+   $env:PAYAM_AGGREGATOR_INGEST_URL = 'http://127.0.0.1:8000/api/v1/agent/news'
+   $env:PAYAM_AGGREGATOR_INGEST_TOKEN = '<same token as panel .env>'
+   $env:PAYAM_AGGREGATOR_ALLOW_LOCAL_HTTP = 'true'
+   $env:AGGREGATOR_SYNC_ONLY = 'true'
+   $env:PUBLISH_ENABLED = 'false'
+   python main.py
+   ```
+
+   This sends source items from the local agent process and skips Telegram publication. It may collect only items not already in the agent's seen cache, plus items still waiting in its pending queue.
+
+### GitHub Actions
+
+GitHub-hosted Actions cannot reach a developer's `localhost`. For a GitHub Actions test, deploy the panel to a non-production HTTPS URL, configure the two Actions secrets above, then open Actions → Automated News Workflow → Run workflow and enable **aggregator_sync_only**. This collects current pending items, sends them to the panel, and exits before the Telegram publication loop. Normal scheduled runs keep their existing Telegram behavior and will also send newly collected items when the two secrets are configured.
 
 The agent keeps failed ingestion items in `publication_state.json` and retries them on later runs. The panel accepts batches idempotently using source identity plus the agent item ID.
 
