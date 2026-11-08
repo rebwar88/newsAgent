@@ -1,12 +1,12 @@
 {
-  "run_id": "42535077012",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42535077012",
-  "started_at": "2026-11-08T23:25:23.628125+00:00",
-  "finished_at": "2026-11-08T23:25:26.795674+00:00",
-  "duration_seconds": 3.2,
+  "run_id": "42535467024",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42535467024",
+  "started_at": "2026-11-08T23:30:28.815105+00:00",
+  "finished_at": "2026-11-08T23:30:38.100402+00:00",
+  "duration_seconds": 9.3,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,24 +17,25 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [
-    "PayamNewsAggregator sync failed (ConnectionError: HTTPSConnectionPool(host='delivery-hometown-fuji-spelling.trycloudflare.com', port=443): Max retries exceeded with url: /api/v1/agent/news (Caused by NameResolutionError(\"HTTPSConnection(host='deliver"
+    "PayamNewsAggregator sync failed (ConnectionError: HTTPSConnectionPool(host='delivery-hometown-fuji-spelling.trycloudflare.com', port=443): Max retries exceeded with url: /api/v1/agent/news (Caused by NameResolutionError(\"HTTPSConnection(host='deliver",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
     {
@@ -46,21 +47,30 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nImage skipped (HTTP 500, type text/html).\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "bd25eb5b3792b0b1bd4eaf9a6bcb1d79",
-      "title": "New York City Mayor Zohran Mamdani is seeking to unite progressives behind a left-wing candidate for the 2028 U.S. presidential election. ",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "زۆهران مەمدانی سەرۆکی شارەوانی شاری نیویۆرک هەوڵدەدات پێشکەوتنخوازان لە پشت کاندیدێکی چەپەوە بۆ هەڵبژاردنی سەر",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-08T23:20:26.244203+00:00",
-      "updated_at": "2026-11-08T23:25:26.696275+00:00",
+      "updated_at": "2026-11-08T23:30:36.361375+00:00",
       "eligible_at": "2026-11-08T23:25:30.667782+00:00",
       "history": [
         {
@@ -98,11 +108,51 @@
           "at": "2026-11-08T23:25:26.696275+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-08T23:30:33.133817+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-08T23:30:33.168858+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-08T23:30:33.757553+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-08T23:30:33.792252+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-08T23:30:35.080846+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-08T23:30:35.114102+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-08T23:30:36.361375+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "ec71048fad32fc7092b12d965372b5ff",
       "title": "مارکۆ ڕوبیۆ سەبارەت بە ئێران",
@@ -2255,88 +2305,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "d7ab6f195d635254389cf19da28ccc34",
-      "title": "تۆمارە سەربازییە تازە بڵاوکراوەکانی ئیسرائیل ئاشکرای دەکەن کە سەرۆکوەزیرانی پێشووی ئیسرائیل دەیڤید بن گوریون ل",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-08T20:25:24.751073+00:00",
-      "updated_at": "2026-11-08T20:45:32.840512+00:00",
-      "eligible_at": "2026-11-08T20:44:59.997870+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-08T20:25:24.751073+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-08T20:25:24.768429+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-08T20:43:34.321887+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-08T20:43:34.354338+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-08T20:45:29.253324+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-08T20:45:29.282841+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-08T20:45:29.729070+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-08T20:45:29.754705+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-08T20:45:30.995384+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-08T20:45:31.021110+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-08T20:45:32.840512+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-08T23:25:26.864826+00:00",
+  "pending_count": 0,
+  "snapshot_at": "2026-11-08T23:30:38.175707+00:00",
   "gemini_blocked_until": "2026-11-08T23:30:44.069735+00:00"
 }
