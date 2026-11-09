@@ -1087,6 +1087,10 @@ def sync_pending_aggregator_news(state, new_items):
             image_url = item.get("image_url") or item.get("image") or (image_candidates[0] if image_candidates else None)
             if not isinstance(image_url, str) or not image_url.startswith(("https://", "http://")):
                 image_url = None
+            audio_candidates = item.get("audios") if isinstance(item.get("audios"), list) else []
+            audio_url = item.get("audio_url") or item.get("audio") or (audio_candidates[0] if audio_candidates else None)
+            if not isinstance(audio_url, str) or not audio_url.startswith(("https://", "http://")):
+                audio_url = None
             payload_items.append({
                 "id": str(item.get("id", "")),
                 "source_type": str(item.get("source_type") or "unknown")[:40],
@@ -1095,6 +1099,7 @@ def sync_pending_aggregator_news(state, new_items):
                 "content": str(item.get("content") or "")[:200000],
                 "link": link,
                 "image_url": image_url,
+                "audio_url": audio_url,
                 "author": str(item.get("author") or "")[:190] or None,
                 "source_published_at": published,
             })
