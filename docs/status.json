@@ -1,12 +1,12 @@
 {
-  "run_id": "42563082877",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42563082877",
-  "started_at": "2026-11-09T04:40:22.351208+00:00",
-  "finished_at": "2026-11-09T04:40:26.942620+00:00",
-  "duration_seconds": 4.6,
+  "run_id": "42563512780",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42563512780",
+  "started_at": "2026-11-09T04:45:23.614200+00:00",
+  "finished_at": "2026-11-09T04:45:33.651962+00:00",
+  "duration_seconds": 10.0,
   "exit_code": 0,
   "found": 3,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,24 +17,26 @@
       "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [
-    "PayamNewsAggregator sync failed (ConnectionError: HTTPSConnectionPool(host='delivery-hometown-fuji-spelling.trycloudflare.com', port=443): Max retries exceeded with url: /api/v1/agent/news (Caused by NameResolutionError(\"HTTPSConnection(host='deliver"
+    "PayamNewsAggregator sync failed (ConnectionError: HTTPSConnectionPool(host='delivery-hometown-fuji-spelling.trycloudflare.com', port=443): Max retries exceeded with url: /api/v1/agent/news (Caused by NameResolutionError(\"HTTPSConnection(host='deliver",
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
     {
@@ -46,37 +48,24 @@
       "message": "Found 3 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
-    {
-      "id": "44024dae9831354025146dabdae3ccc4",
-      "title": "ادعای ترامپ: اگر نیاز باشد کوه‌کلنگ را در ۵ دقیقه نابود خواهیم کرد!",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-09T04:10:27.817194+00:00",
-      "updated_at": "2026-11-09T04:10:27.848698+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-09T04:10:27.817194+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-09T04:10:27.848698+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "da237591e42ea140a7ad1763d733220a",
       "title": "آب‌گرفتگی شدید در اتوبان چمران، ورودی بزرگراه همت؛ تردد خودروها در میان آب ",
@@ -103,14 +92,53 @@
       ]
     },
     {
-      "id": "ed6ef3c05869e26550673176bbfb862b",
-      "title": "ادعای ترامپ: سایت هسته‌ای کوه کلنگ هیچ‌گونه فعالیتی ندارد",
-      "source": "خبرهای فوری مهم 🔖",
+      "id": "e2d9b0aa304ac88f91006f1e41338a5d",
+      "title": "عراقچی خطاب به امریکا: پیشنهاد دو روزه ما روی میز است؛ مطالبات آن از جمله پایان جنگ در همه جبهه‌ها را بپذیرید و نتایج آن را ببینید",
+      "source": "پایگاه خبری انتخاب",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-09T04:35:24.970012+00:00",
+      "updated_at": "2026-11-09T04:45:33.534844+00:00",
+      "eligible_at": "2026-11-09T04:50:33.448932+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-09T04:35:24.970012+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-09T04:35:25.011359+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-09T04:45:33.495360+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-09T04:45:33.534844+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "ed6ef3c05869e26550673176bbfb862b",
+      "title": "بانگەشەی ترەمپ: پێگەی ئەتۆمی کۆه کلانگ هیچ چالاکیەکی نییە",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-09T04:20:27.218050+00:00",
-      "updated_at": "2026-11-09T04:40:26.849519+00:00",
+      "updated_at": "2026-11-09T04:45:32.150147+00:00",
       "eligible_at": "2026-11-09T04:40:27.018199+00:00",
       "history": [
         {
@@ -160,36 +188,63 @@
           "at": "2026-11-09T04:40:26.849519+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "e2d9b0aa304ac88f91006f1e41338a5d",
-      "title": "عراقچی خطاب به امریکا: پیشنهاد دو روزه ما روی میز است؛ مطالبات آن از جمله پایان جنگ در همه جبهه‌ها را بپذیرید و نتایج آن را ببینید",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-09T04:35:24.970012+00:00",
-      "updated_at": "2026-11-09T04:35:25.011359+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-09T04:35:24.970012+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-09T04:45:26.873692+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-09T04:35:25.011359+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-11-09T04:45:26.952177+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-09T04:45:27.029451+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-09T04:45:27.428825+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-09T04:45:30.072698+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-09T04:45:30.113096+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-09T04:45:31.639667+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-09T04:45:31.678630+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-09T04:45:32.150147+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "26361da718d9ec877811f2b592613e1c",
       "title": "۱۸ آبان ۱۴۰۵؛ از حضور ۸ ساعته هیئت عراقی در تهران و ابلاغ پیام آمریکا به مقامات ایرانی تا ادعای ترامپ پیرامون",
@@ -2474,100 +2529,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "a144eeb674bd49bd6ce5e90637d0e852",
-      "title": "ئاژانسی فرانس پرێس: لە هێرشی ئەنساروڵای یەمەندا هێرش کرایە سەر ناوەندی دارایی شا عەبدوڵڵا لە ڕیاز و بینایەکی س",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-09T01:00:36.615890+00:00",
-      "updated_at": "2026-11-09T01:06:44.540288+00:00",
-      "eligible_at": "2026-11-09T01:05:19.861633+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-09T01:00:36.615890+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-09T01:00:36.652324+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-09T01:03:30.813765+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-09T01:03:30.850454+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-09T01:05:22.552228+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_gemini",
-          "at": "2026-11-09T01:05:22.572792+00:00",
-          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_gemini",
-          "at": "2026-11-09T01:05:22.615384+00:00",
-          "reason": "داواکاری بۆ Gemini نێردراوە",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-09T01:06:12.951966+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-09T01:06:42.483775+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-09T01:06:42.504801+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-09T01:06:44.037603+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-09T01:06:44.058062+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-09T01:06:44.540288+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-09T04:40:27.003802+00:00",
-  "gemini_blocked_until": "2026-11-09T04:40:28.834213+00:00"
+  "pending_count": 2,
+  "snapshot_at": "2026-11-09T04:45:33.721570+00:00",
+  "gemini_blocked_until": "2026-11-09T05:15:27.388740+00:00"
 }
