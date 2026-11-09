@@ -1,9 +1,9 @@
 {
-  "run_id": "42552196391",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42552196391",
-  "started_at": "2026-11-09T02:40:25.198450+00:00",
-  "finished_at": "2026-11-09T02:40:53.899583+00:00",
-  "duration_seconds": 28.7,
+  "run_id": "42552637370",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42552637370",
+  "started_at": "2026-11-09T02:45:21.860835+00:00",
+  "finished_at": "2026-11-09T02:46:45.553109+00:00",
+  "duration_seconds": 83.7,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "unknown",
@@ -35,6 +35,7 @@
   },
   "issues": [
     "PayamNewsAggregator sync failed (ConnectionError: HTTPSConnectionPool(host='delivery-hometown-fuji-spelling.trycloudflare.com', port=443): Max retries exceeded with url: /api/v1/agent/news (Caused by NameResolutionError(\"HTTPSConnection(host='deliver",
+    "Gemini quota exhausted; using safe non-AI fallback.",
     "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
@@ -52,11 +53,19 @@
       "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
     },
     {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini transport issue; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "94a384f27a56bd18d25f9ecff8b4da39",
@@ -66,7 +75,7 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-09T02:35:27.771348+00:00",
-      "updated_at": "2026-11-09T02:40:53.788694+00:00",
+      "updated_at": "2026-11-09T02:46:45.481079+00:00",
       "eligible_at": "2026-11-09T02:35:41.794833+00:00",
       "history": [
         {
@@ -120,6 +129,48 @@
         {
           "stage": "blocked_content",
           "at": "2026-11-09T02:40:53.788694+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-09T02:45:25.220338+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-09T02:45:25.242958+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-09T02:45:25.287779+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-09T02:46:15.577261+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-09T02:46:45.434001+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-09T02:46:45.456732+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-09T02:46:45.481079+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
@@ -2403,6 +2454,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-09T02:40:53.971916+00:00",
-  "gemini_blocked_until": "2026-11-09T02:40:30.947781+00:00"
+  "snapshot_at": "2026-11-09T02:46:45.605381+00:00",
+  "gemini_blocked_until": "2026-11-09T03:16:15.555277+00:00"
 }
