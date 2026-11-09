@@ -1,12 +1,12 @@
 {
-  "run_id": "42654552374",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42654552374",
-  "started_at": "2026-11-09T16:25:21.634011+00:00",
-  "finished_at": "2026-11-09T16:25:35.473262+00:00",
-  "duration_seconds": 13.8,
+  "run_id": "42655424086",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/42655424086",
+  "started_at": "2026-11-09T16:30:30.576299+00:00",
+  "finished_at": "2026-11-09T16:31:21.008772+00:00",
+  "duration_seconds": 50.4,
   "exit_code": 0,
-  "found": 3,
-  "published": 0,
+  "found": 5,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "3 items found"
+      "detail": "5 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "PayamNewsAggregator sync failed (ReadTimeout: HTTPSConnectionPool(host='lightslategrey-ibex-825511.hostingersite.com', port=443): Read timed out. (read timeout=30)); items remain queued."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,14 +43,22 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 3 new items."
+      "message": "Found 5 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "de39a7952fa1b266793cdfcfe40d1b7d",
@@ -83,8 +93,8 @@
       "method": "translation",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-09T16:05:30.515396+00:00",
-      "updated_at": "2026-11-09T16:22:39.467435+00:00",
-      "eligible_at": "2026-11-09T16:26:39.396518+00:00",
+      "updated_at": "2026-11-09T16:31:20.917463+00:00",
+      "eligible_at": "2026-11-09T16:35:20.863071+00:00",
       "history": [
         {
           "stage": "received",
@@ -205,18 +215,107 @@
           "at": "2026-11-09T16:22:39.467435+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-09T16:31:20.893767+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-09T16:31:20.917463+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
         }
       ]
     },
     {
-      "id": "106d0d4a13c58cefcdcdb5393b305f48",
-      "title": "🔴",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_slot",
+      "id": "3cd1c9def9bb66ffbc0eed58edd9485c",
+      "title": "تأکید مقامات مصر و انگلیس بر ضرورت جلوگیری از درگیری جدید در منطقه",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
       "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-09T16:25:35.276438+00:00",
+      "updated_at": "2026-11-09T16:25:35.303316+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-09T16:25:35.276438+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-09T16:25:35.303316+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "4b5be2a0df815f09d79efafa57af7fbd",
+      "title": "German Chancellor Friedrich Merz has threatened to block the EU’s 2028–2034 budget unless all member states agree to help finance Ukraine in 2027 and beyond. ",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-09T16:31:16.705220+00:00",
+      "updated_at": "2026-11-09T16:31:16.728659+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-09T16:31:16.705220+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-09T16:31:16.728659+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "1e9ee879d97efccf936ad81fd39124ef",
+      "title": "ادعای رویترز: مقامات فرانسوی مظنون هستند که ایران پشت حملات هکری علیه سیستم‌های خنک‌کننده در اکتبر است ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-09T16:31:16.753192+00:00",
+      "updated_at": "2026-11-09T16:31:16.776542+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-09T16:31:16.753192+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-09T16:31:16.776542+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "106d0d4a13c58cefcdcdb5393b305f48",
+      "title": "“بەهۆی هێرشکردنە سەر کێڵگەی کۆرمۆر ٢٨٠٠ مێگاوات کارەبا لەدەست چووە”",
+      "source": "تلگرامی - بەپەلە|Breaking News",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-09T16:24:09.554481+00:00",
-      "updated_at": "2026-11-09T16:25:35.384636+00:00",
+      "updated_at": "2026-11-09T16:31:18.209147+00:00",
       "eligible_at": "2026-11-09T16:27:39.396518+00:00",
       "history": [
         {
@@ -254,36 +353,45 @@
           "at": "2026-11-09T16:25:35.384636+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "3cd1c9def9bb66ffbc0eed58edd9485c",
-      "title": "تأکید مقامات مصر و انگلیس بر ضرورت جلوگیری از درگیری جدید در منطقه",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-09T16:25:35.276438+00:00",
-      "updated_at": "2026-11-09T16:25:35.303316+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-09T16:25:35.276438+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-09T16:31:16.824781+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-09T16:25:35.303316+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "processing_openrouter",
+          "at": "2026-11-09T16:31:16.848269+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-09T16:31:17.557455+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-09T16:31:17.583819+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-09T16:31:17.607146+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-09T16:31:18.209147+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "7c2b46f2d55fd25cd97dca4b8b2543d4",
       "title": "هاوپەیمانانی ئەوروپا لەسەر گفتوگۆی ڕاستەوخۆ لەگەڵ پوتین پێکدادان ڕوودەدەن",
@@ -2412,82 +2520,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "38b08128f62ca431531c5d35e3150f38",
-      "title": "کەناڵی جەزیرە",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-09T14:25:24.842664+00:00",
-      "updated_at": "2026-11-09T14:54:07.432997+00:00",
-      "eligible_at": "2026-11-09T14:54:02.550314+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-09T14:25:24.842664+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-09T14:25:24.905537+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-09T14:50:42.795607+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-09T14:50:42.854044+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-09T14:54:02.569196+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-09T14:54:03.107032+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-09T14:54:03.165182+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-09T14:54:05.170668+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-09T14:54:05.228713+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-09T14:54:07.432997+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-09T16:25:35.543173+00:00",
+  "pending_count": 5,
+  "snapshot_at": "2026-11-09T16:31:21.079025+00:00",
   "gemini_blocked_until": "2026-11-09T16:43:37.798457+00:00"
 }
