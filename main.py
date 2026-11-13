@@ -1038,7 +1038,7 @@ def retry_pending_dashboard_news(state):
 
 
 def sync_pending_aggregator_news(state, new_items):
-    """Push prepared Sorani articles to PayamNewsAggregator after Telegram delivery."""
+    """Send only fully prepared Sorani articles to PayamNewsAggregator; never raw source text."""
     if not PAYAM_AGGREGATOR_INGEST_URL or not PAYAM_AGGREGATOR_INGEST_TOKEN:
         if AGGREGATOR_SYNC_ONLY:
             raise RuntimeError("Aggregator sync-only mode requires PAYAM_AGGREGATOR_INGEST_URL and PAYAM_AGGREGATOR_INGEST_TOKEN.")
