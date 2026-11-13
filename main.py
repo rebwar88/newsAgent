@@ -1038,7 +1038,7 @@ def retry_pending_dashboard_news(state):
 
 
 def sync_pending_aggregator_news(state, new_items):
-    """Push original collected source items to PayamNewsAggregator, independently of Telegram."""
+    """Push prepared Sorani articles to PayamNewsAggregator after Telegram delivery."""
     if not PAYAM_AGGREGATOR_INGEST_URL or not PAYAM_AGGREGATOR_INGEST_TOKEN:
         if AGGREGATOR_SYNC_ONLY:
             raise RuntimeError("Aggregator sync-only mode requires PAYAM_AGGREGATOR_INGEST_URL and PAYAM_AGGREGATOR_INGEST_TOKEN.")
@@ -1052,13 +1052,17 @@ def sync_pending_aggregator_news(state, new_items):
     queue = state.setdefault("aggregator_sync_pending", [])
     if not isinstance(queue, list):
         queue = []
+    # Never retry legacy raw-source entries; only completed articles belong in this outbox.
+    queue = [entry for entry in queue if isinstance(entry, dict)
+             and entry.get("prepared_method") and entry.get("title") and entry.get("content")]
+    state["aggregator_sync_pending"] = queue
     queued_keys = {
         (str(entry.get("source_type", "")), str(entry.get("source_name", "")), str(entry.get("id", "")))
         for entry in queue if isinstance(entry, dict)
     }
 
     for item in new_items:
-        if not isinstance(item, dict) or not item.get("id") or not item.get("content"):
+        if not isinstance(item, dict) or not item.get("id") or not item.get("content") or not item.get("prepared_method"):
             continue
         key = (str(item.get("source_type") or "unknown"),
                str(item.get("source_name") or item.get("source") or "نەناسراو"),
@@ -1097,6 +1101,7 @@ def sync_pending_aggregator_news(state, new_items):
                 "source_name": str(item.get("source_name") or item.get("source") or "نەناسراو")[:190],
                 "title": str(item.get("title") or "")[:700],
                 "content": str(item.get("content") or "")[:200000],
+                "prepared_method": str(item.get("prepared_method") or "unknown")[:40],
                 "link": link,
                 "image_url": image_url,
                 "audio_url": audio_url,
@@ -1161,6 +1166,7 @@ def main():
     print("Checking for new articles...")
     seen_ids = load_seen_ids()
     state = load_publication_state()
+    sync_pending_aggregator_news(state, [])  # Retry only previously prepared articles.
     if not AGGREGATOR_SYNC_ONLY:
         retry_pending_dashboard_news(state)
     new_items = fetch_rss_news(seen_ids)
@@ -1172,7 +1178,6 @@ def main():
         print(f"Dropped {dropped} stale or blocked articles from the queue.")
         save_seen_ids(seen_ids)
     pending = merge_pending(state, new_items, seen_ids)
-    sync_pending_aggregator_news(state, pending)
     for queued in pending:
         if "topics" not in queued:
             queued["topics"] = editorial.match_topics(queued.get("title", "") + "\n" + queued.get("content", ""))
@@ -1183,10 +1188,6 @@ def main():
     save_publication_state(state)
     print(f"Found {len(new_items)} new items.")
     print(f"Pending queue: {len(pending)} articles.")
-    if AGGREGATOR_SYNC_ONLY:
-        print("Aggregator sync-only run complete; Telegram publishing was skipped.")
-        return
-
     # Spread publications within a five-minute trigger window. Leave time for
     # telemetry and the state commit; never increase Gemini calls with backlog.
     processed_count = 0
@@ -1207,7 +1208,7 @@ def main():
             save_seen_ids(seen_ids)
             save_publication_state(state)
             continue
-        interval = adaptive_interval(len(pending))
+        interval = timedelta(0) if AGGREGATOR_SYNC_ONLY else adaptive_interval(len(pending))
         now = datetime.now(timezone.utc)
         last = state.get("last_published_at") or state.get("last_normal_at")
         if last:
@@ -1289,17 +1290,34 @@ def main():
         item["prepared_text"] = rewritten_text
         item["prepared_method"] = method or "unknown"
         track_article(item, state, "ready", "دەق ئامادەی ناردنە")
-        track_article(item, state, "sending", "ناردن بۆ تێلیگرام")
-        success = send_to_telegram(rewritten_text, image_url=item.get("image"),
-                                   video_url=item.get("video"), image_urls=item.get("images"),
-                                   source_label=publication_credit(item))
+        if AGGREGATOR_SYNC_ONLY:
+            track_article(item, state, "sending_to_aggregator", "ناردنی دەقی ئامادەکراو بۆ PayamNewsAggregator")
+            success = True
+        else:
+            track_article(item, state, "sending", "ناردن بۆ تێلیگرام")
+            success = send_to_telegram(rewritten_text, image_url=item.get("image"),
+                                       video_url=item.get("video"), image_urls=item.get("images"),
+                                       source_label=publication_credit(item))
         if not success:
             track_article(item, state, "delivery_failed", "ناردن پشتڕاست نەکراوە؛ هەواڵەکە پارێزراوە")
             print("Telegram publication failed; keeping item for retry.")
             break
-        track_article(item, state, "published", "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە")
-        try:
-            dashboard_sync_result = send_news_to_dashboard(item, rewritten_text)
+        if AGGREGATOR_SYNC_ONLY:
+            track_article(item, state, "aggregator_queued", "دەقی ئامادەکراو بۆ PayamNewsAggregator نێردرا")
+        else:
+            track_article(item, state, "published", "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە")
+        aggregator_item = dict(item)
+        aggregator_item.update({
+            "title": rewritten_text["title"],
+            "content": rewritten_text["body"],
+            "prepared_method": method or "unknown",
+        })
+        sync_pending_aggregator_news(state, [aggregator_item])
+        if AGGREGATOR_SYNC_ONLY:
+            dashboard_sync_result = None
+        else:
+            try:
+                dashboard_sync_result = send_news_to_dashboard(item, rewritten_text)
         except Exception as exc:
             # A WordPress sync failure must never undo a confirmed Telegram publication.
             print(f"WordPress news sync failed safely ({type(exc).__name__}); queueing retry.")
@@ -1324,15 +1342,16 @@ def main():
         editorial.remember(state, final_fp, "final", rewritten_text.get("title", "") if isinstance(rewritten_text, dict) else "")
         seen_ids.add(item["id"])
         pending.remove(item)
-        stamp = datetime.now(timezone.utc).isoformat()
-        state["last_published_at"] = stamp
-        state["last_normal_at"] = stamp
+        if not AGGREGATOR_SYNC_ONLY:
+            stamp = datetime.now(timezone.utc).isoformat()
+            state["last_published_at"] = stamp
+            state["last_normal_at"] = stamp
         turns = state.setdefault("source_turns", {})
         turns[source_key(item)] = max(turns.values(), default=0) + 1
         save_seen_ids(seen_ids)
         save_publication_state(state)
         processed_count += 1
-        print("Successfully published!")
+        print("Prepared article synchronized to PayamNewsAggregator." if AGGREGATOR_SYNC_ONLY else "Successfully published!")
 
     save_seen_ids(seen_ids)
     save_publication_state(state)
