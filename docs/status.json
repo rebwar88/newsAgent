@@ -1,11 +1,11 @@
 {
-  "run_id": "43526960695",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43526960695",
-  "started_at": "2026-11-13T23:25:23.901924+00:00",
-  "finished_at": "2026-11-13T23:25:35.442289+00:00",
-  "duration_seconds": 11.5,
+  "run_id": "43527584212",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43527584212",
+  "started_at": "2026-11-13T23:30:29.070711+00:00",
+  "finished_at": "2026-11-13T23:33:43.422379+00:00",
+  "duration_seconds": 194.4,
   "exit_code": 0,
-  "found": 5,
+  "found": 4,
   "published": 1,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "5 items found"
+      "detail": "4 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "failed",
+      "detail": "Gemini API returned HTTP 503: {"
     },
     "telegram": {
       "status": "ok",
@@ -34,6 +34,7 @@
     }
   },
   "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -43,11 +44,31 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 5 new items."
+      "message": "Found 4 new items."
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503 after 3 attempts; keeping article for retry."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini API returned HTTP 503: {"
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
       "stage": "telegram",
@@ -58,17 +79,17 @@
       "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
+  "log": "Checking for new articles...\nFound 4 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini HTTP 503 after 3 attempts; keeping article for retry.\nGemini API returned HTTP 503: {\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@ClashReport)...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "8a4a5ad9a2858057228136941976fe00",
       "title": "Trump:",
       "source": "Clash Report",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-13T23:00:40.586190+00:00",
-      "updated_at": "2026-11-13T23:25:35.327380+00:00",
+      "updated_at": "2026-11-13T23:32:12.337182+00:00",
       "eligible_at": "2026-11-13T23:29:35.308600+00:00",
       "history": [
         {
@@ -148,43 +169,48 @@
           "at": "2026-11-13T23:25:35.327380+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
-        }
-      ]
-    },
-    {
-      "id": "bbe84087b393b0bc926944974a6a4230",
-      "title": "The FAA is experiencing issues “affecting different facilities in different ways,” an airline source told CNN.",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-11-13T23:05:26.797785+00:00",
-      "updated_at": "2026-11-13T23:15:45.277857+00:00",
-      "eligible_at": "2026-11-13T23:20:45.259261+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-13T23:05:26.797785+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-13T23:05:26.805265+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
         },
         {
           "stage": "selected",
-          "at": "2026-11-13T23:15:45.271669+00:00",
+          "at": "2026-11-13T23:30:32.016762+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
+          "method": "translation"
         },
         {
-          "stage": "waiting_slot",
-          "at": "2026-11-13T23:15:45.277857+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-11-13T23:30:32.023134+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-13T23:30:32.035418+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-13T23:31:00.995669+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-13T23:32:12.324820+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-13T23:32:12.331366+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-13T23:32:12.337182+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
@@ -192,12 +218,12 @@
       "id": "d02fb21c6d88715a12282075cdd17a98",
       "title": "Homeland Security Secretary Markwayne Mullin and Defense Secretary Pete Hegseth were at the White House as officials scrambled to respond to the nationwide FAA ground stop.",
       "source": "Clash Report",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-13T23:20:32.908217+00:00",
-      "updated_at": "2026-11-13T23:20:32.913133+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-13T23:33:43.381354+00:00",
+      "eligible_at": "2026-11-13T23:38:43.362267+00:00",
       "history": [
         {
           "stage": "received",
@@ -209,6 +235,18 @@
           "stage": "waiting_turn",
           "at": "2026-11-13T23:20:32.913133+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-13T23:33:43.375029+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-13T23:33:43.381354+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -265,6 +303,73 @@
     }
   ],
   "recent_articles": [
+    {
+      "id": "bbe84087b393b0bc926944974a6a4230",
+      "title": "FAA ڕووبەڕووی کێشەیەکە، بەڵام هۆکارەکەی هێشتا نەزانراوە",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-13T23:05:26.797785+00:00",
+      "updated_at": "2026-11-13T23:33:40.859590+00:00",
+      "eligible_at": "2026-11-13T23:20:45.259261+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-13T23:05:26.797785+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-13T23:05:26.805265+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-13T23:15:45.271669+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-13T23:15:45.277857+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-13T23:32:12.343144+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-13T23:32:12.349308+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-13T23:33:40.425613+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-13T23:33:40.431717+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-13T23:33:40.859590+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
+        }
+      ]
+    },
     {
       "id": "bf322fb156755f45af0b9a9f64489669",
       "title": "بەهۆی کێشەی تەکنیکی و لەسەر داوای ئیدارەی فڕۆکەوانی فیدراڵی (FAA) سەرجەم گەشتەکانی یەکێتی ئەوروپا بۆ ئەمریکا ڕ",
@@ -2627,82 +2732,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "cfcf4b36e6eb5303fac799c4e9785f0f",
-      "title": "گەلانی دەوڵەمەند سووتەمەنییان بە گۆڕانی کەشوهەوا دا. وڵاتانی هەژارتر باجەکەی دەدەن",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-13T20:30:33.889960+00:00",
-      "updated_at": "2026-11-13T20:48:59.941817+00:00",
-      "eligible_at": "2026-11-13T20:48:57.818405+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-13T20:30:33.889960+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-13T20:30:33.897853+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-13T20:46:06.400013+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-13T20:46:06.404732+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-13T20:48:57.828002+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-13T20:48:58.107620+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-13T20:48:58.112344+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-13T20:48:59.447846+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-13T20:48:59.452388+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-13T20:48:59.941817+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 5,
-  "snapshot_at": "2026-11-13T23:25:35.489803+00:00",
+  "pending_count": 4,
+  "snapshot_at": "2026-11-13T23:33:43.470123+00:00",
   "gemini_blocked_until": "2026-11-13T23:26:55.935524+00:00"
 }
