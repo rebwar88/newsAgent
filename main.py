@@ -1313,15 +1313,14 @@ def main():
             "prepared_method": method or "unknown",
         })
         sync_pending_aggregator_news(state, [aggregator_item])
-        if AGGREGATOR_SYNC_ONLY:
-            dashboard_sync_result = None
-        else:
+        dashboard_sync_result = None
+        if not AGGREGATOR_SYNC_ONLY:
             try:
                 dashboard_sync_result = send_news_to_dashboard(item, rewritten_text)
-        except Exception as exc:
-            # A WordPress sync failure must never undo a confirmed Telegram publication.
-            print(f"WordPress news sync failed safely ({type(exc).__name__}); queueing retry.")
-            dashboard_sync_result = False
+            except Exception as exc:
+                # A WordPress sync failure must never undo a confirmed Telegram publication.
+                print(f"WordPress news sync failed safely ({type(exc).__name__}); queueing retry.")
+                dashboard_sync_result = False
         if dashboard_sync_result is False:
             # Durable outbox: WordPress may be offline while Telegram succeeds.
             sync_pending = state.setdefault("dashboard_sync_pending", [])
