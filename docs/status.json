@@ -1,12 +1,12 @@
 {
-  "run_id": "43525049097",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43525049097",
-  "started_at": "2026-11-13T23:10:30.535211+00:00",
-  "finished_at": "2026-11-13T23:10:37.582460+00:00",
-  "duration_seconds": 7.0,
+  "run_id": "43525703867",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43525703867",
+  "started_at": "2026-11-13T23:15:26.260135+00:00",
+  "finished_at": "2026-11-13T23:15:45.322712+00:00",
+  "duration_seconds": 19.1,
   "exit_code": 0,
   "found": 3,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,27 @@
       "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1794611730-8nRotAVBPuWkNg'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +48,33 @@
       "message": "Found 3 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "8a4a5ad9a2858057228136941976fe00",
       "title": "Trump:",
       "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-13T23:00:40.586190+00:00",
-      "updated_at": "2026-11-13T23:10:37.542134+00:00",
+      "updated_at": "2026-11-13T23:15:30.407807+00:00",
       "eligible_at": "2026-11-13T23:12:36.687263+00:00",
       "history": [
         {
@@ -96,18 +112,87 @@
           "at": "2026-11-13T23:10:37.542134+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-13T23:15:30.031119+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-13T23:15:30.037517+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-13T23:15:30.395586+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-13T23:15:30.402139+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-13T23:15:30.407807+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
     {
-      "id": "2d21f3b45105092c3557b3338b733381",
-      "title": "NEW: The FAA “doesn’t know yet what is going on,” an airline source told CNN.",
+      "id": "bbe84087b393b0bc926944974a6a4230",
+      "title": "The FAA is experiencing issues “affecting different facilities in different ways,” an airline source told CNN.",
       "source": "Clash Report",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-13T23:05:26.797785+00:00",
+      "updated_at": "2026-11-13T23:15:45.277857+00:00",
+      "eligible_at": "2026-11-13T23:20:45.259261+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-13T23:05:26.797785+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-13T23:05:26.805265+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-13T23:15:45.271669+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-13T23:15:45.277857+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "2d21f3b45105092c3557b3338b733381",
+      "title": "نوێ: سەرچاوەیەکی هێڵی ئاسمانی بە سی ئێن ئێنی ڕاگەیاندووە، FAA “هێشتا نازانێت چی ڕوودەدات”",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-13T23:05:26.782885+00:00",
-      "updated_at": "2026-11-13T23:05:26.790236+00:00",
+      "updated_at": "2026-11-13T23:15:43.808700+00:00",
       "eligible_at": null,
       "history": [
         {
@@ -121,36 +206,51 @@
           "at": "2026-11-13T23:05:26.790236+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "bbe84087b393b0bc926944974a6a4230",
-      "title": "The FAA is experiencing issues “affecting different facilities in different ways,” an airline source told CNN.",
-      "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-13T23:05:26.797785+00:00",
-      "updated_at": "2026-11-13T23:05:26.805265+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-13T23:05:26.797785+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-13T23:15:30.413707+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-13T23:05:26.805265+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "processing_openrouter",
+          "at": "2026-11-13T23:15:30.419709+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-13T23:15:41.959191+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-13T23:15:41.965124+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-13T23:15:43.278061+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-13T23:15:43.283929+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-13T23:15:43.808700+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "295d8a0f4b63c1081e600f54a35fb71c",
       "title": "سی ئێن ئێن بە پشتبەستن بە سەرچاوەیەکی فڕۆکەوانی بڵاویکردەوە، ڕادارەکانی کۆنترۆڵکردنی هاتوچۆی ئاسمانی و فرێکوێن",
@@ -2513,76 +2613,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "37f52075e5e1f3aa60c6a6f66a4a74f1",
-      "title": "ئەمینداری گشتی ئەنجوومەنی هاوکاری کەنداوی فارس: هێرشە تیرۆریستییەکانی حوسییەکان لە دژی کەشتییە بازرگانییەکان ل",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-13T20:35:27.855165+00:00",
-      "updated_at": "2026-11-13T20:43:27.123933+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-13T20:35:27.855165+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-13T20:35:27.861368+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-13T20:43:23.984583+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-13T20:43:23.990948+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-13T20:43:24.301329+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-13T20:43:24.307656+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-13T20:43:26.664012+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-13T20:43:26.670136+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-13T20:43:27.123933+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-11-13T23:10:37.628751+00:00",
+  "pending_count": 2,
+  "snapshot_at": "2026-11-13T23:15:45.372339+00:00",
   "gemini_blocked_until": "2026-11-13T23:26:55.935524+00:00"
 }
