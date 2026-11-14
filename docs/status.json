@@ -1,9 +1,9 @@
 {
-  "run_id": "43542445408",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43542445408",
-  "started_at": "2026-11-14T01:45:25.228883+00:00",
-  "finished_at": "2026-11-14T01:51:47.699153+00:00",
-  "duration_seconds": 382.5,
+  "run_id": "43542919796",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43542919796",
+  "started_at": "2026-11-14T01:52:05.998249+00:00",
+  "finished_at": "2026-11-14T01:54:46.730872+00:00",
+  "duration_seconds": 160.7,
   "exit_code": 0,
   "found": 5,
   "published": 2,
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "ok",
-      "detail": "Gemini stage reached"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -34,9 +34,8 @@
     }
   },
   "issues": [
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-179'",
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"i'",
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1794621130-47q'",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -47,6 +46,18 @@
     {
       "stage": "discovery",
       "message": "Found 5 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "selection",
@@ -81,18 +92,18 @@
       "message": "Completed run. Processed 2 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@ClashReport)...\nGemini transport issue; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini transport unavailable after retries (ReadTimeout).\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nCompleted run. Processed 2 articles.",
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@ClashReport)...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
   "articles": [
     {
       "id": "2d0bcd2e9578b10f5a76e0ae7ea6ecb2",
       "title": "Homeland Security Secretary Markwayne Mullin:",
       "source": "Clash Report",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-14T01:40:28.914370+00:00",
-      "updated_at": "2026-11-14T01:40:28.918328+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-14T01:54:46.688089+00:00",
+      "eligible_at": "2026-11-14T01:57:16.668915+00:00",
       "history": [
         {
           "stage": "received",
@@ -104,6 +115,18 @@
           "stage": "waiting_turn",
           "at": "2026-11-14T01:40:28.918328+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T01:54:46.681585+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-14T01:54:46.688089+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -159,75 +182,125 @@
       ]
     },
     {
-      "id": "4e9b63714f6dba6a2253b0af899241a8",
+      "id": "293098efd2e01f79b595f6df380d8710",
       "title": "Transportation Secretary Sean Duffy:",
       "source": "Clash Report",
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-14T01:45:28.389769+00:00",
-      "updated_at": "2026-11-14T01:45:28.395579+00:00",
+      "received_at": "2026-11-14T01:52:09.254405+00:00",
+      "updated_at": "2026-11-14T01:52:09.270589+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-14T01:45:28.389769+00:00",
+          "at": "2026-11-14T01:52:09.254405+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-14T01:45:28.395579+00:00",
+          "at": "2026-11-14T01:52:09.270589+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
       ]
     },
     {
-      "id": "f90f9d4351b69c86296bd0b621d109da",
+      "id": "1163c7f8d1f1e5a4a5f1017d4d511fb8",
       "title": "Transportation Secretary Sean Duffy:",
       "source": "Clash Report",
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-14T01:45:28.535543+00:00",
-      "updated_at": "2026-11-14T01:45:28.566120+00:00",
+      "received_at": "2026-11-14T01:52:09.302318+00:00",
+      "updated_at": "2026-11-14T01:52:09.309814+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-14T01:45:28.535543+00:00",
+          "at": "2026-11-14T01:52:09.302318+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-14T01:45:28.566120+00:00",
+          "at": "2026-11-14T01:52:09.309814+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
       ]
     },
     {
-      "id": "eb09e77ab219e0883cf45f69db1f2a9f",
-      "title": "Transportation Secretary Sean Duffy:",
+      "id": "171ec0655bd414122e012821c1b4939a",
+      "title": "Q: Can you say with 100% certainty that this was not caused by a cyberattack or a rogue AI?",
       "source": "Clash Report",
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-14T01:45:28.595213+00:00",
-      "updated_at": "2026-11-14T01:45:28.615104+00:00",
+      "received_at": "2026-11-14T01:52:09.335367+00:00",
+      "updated_at": "2026-11-14T01:52:09.349358+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-14T01:45:28.595213+00:00",
+          "at": "2026-11-14T01:52:09.335367+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-14T01:45:28.615104+00:00",
+          "at": "2026-11-14T01:52:09.349358+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "5401e8ddcfa042de0b1e2c02ac38a2d6",
+      "title": "Homeland Security Secretary Markwayne Mullin:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-14T01:52:09.385480+00:00",
+      "updated_at": "2026-11-14T01:52:09.419468+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T01:52:09.385480+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T01:52:09.419468+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "5ed1918636cf022c1c80d7c93cd650e0",
+      "title": "Homeland Security Secretary Markwayne Mullin:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-14T01:52:09.430377+00:00",
+      "updated_at": "2026-11-14T01:52:09.452475+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T01:52:09.430377+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T01:52:09.452475+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -237,14 +310,14 @@
   "recent_articles": [
     {
       "id": "aea400be356f0ed53f8fcfc4721f3bfd",
-      "title": "مارکوین مولین، وەزیری ئاسایشی ناوخۆ",
+      "title": "Markwayne Mullin: رهبری ترامپ هۆڵاتێکی هاوینەوە دەکات",
       "source": "تلگرامی - Clash Report",
       "stage": "published",
-      "method": "translation",
+      "method": "openrouter",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-14T01:35:26.829044+00:00",
-      "updated_at": "2026-11-14T01:51:44.872109+00:00",
-      "eligible_at": "2026-11-14T01:48:44.700596+00:00",
+      "updated_at": "2026-11-14T01:54:45.600808+00:00",
+      "eligible_at": "2026-11-14T01:54:40.750985+00:00",
       "history": [
         {
           "stage": "received",
@@ -260,63 +333,39 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-14T01:45:53.284978+00:00",
+          "at": "2026-11-14T01:52:27.430426+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
           "stage": "waiting_slot",
-          "at": "2026-11-14T01:45:53.291068+00:00",
+          "at": "2026-11-14T01:52:27.436523+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_gemini",
-          "at": "2026-11-14T01:48:44.718284+00:00",
-          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_gemini",
-          "at": "2026-11-14T01:48:44.730031+00:00",
-          "reason": "داواکاری بۆ Gemini نێردراوە",
-          "method": "gemini"
-        },
-        {
           "stage": "processing_openrouter",
-          "at": "2026-11-14T01:51:20.026904+00:00",
+          "at": "2026-11-14T01:54:40.754877+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
-          "stage": "formatting_source",
-          "at": "2026-11-14T01:51:40.386552+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-14T01:51:40.391540+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
           "stage": "ready",
-          "at": "2026-11-14T01:51:41.670834+00:00",
+          "at": "2026-11-14T01:54:42.470577+00:00",
           "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
+          "method": "openrouter"
         },
         {
           "stage": "sending",
-          "at": "2026-11-14T01:51:41.675877+00:00",
+          "at": "2026-11-14T01:54:42.476325+00:00",
           "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
+          "method": "openrouter"
         },
         {
           "stage": "published",
-          "at": "2026-11-14T01:51:44.872109+00:00",
+          "at": "2026-11-14T01:54:45.600808+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
+          "method": "openrouter"
         }
       ]
     },
@@ -328,7 +377,7 @@
       "method": "translation",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-14T01:35:26.814739+00:00",
-      "updated_at": "2026-11-14T01:45:50.231681+00:00",
+      "updated_at": "2026-11-14T01:52:26.418665+00:00",
       "eligible_at": "2026-11-14T01:44:46.656300+00:00",
       "history": [
         {
@@ -357,43 +406,55 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-14T01:45:28.665689+00:00",
+          "at": "2026-11-14T01:52:09.484984+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
+          "stage": "waiting_gemini",
+          "at": "2026-11-14T01:52:09.505836+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-14T01:52:09.544392+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
           "stage": "processing_openrouter",
-          "at": "2026-11-14T01:45:28.705561+00:00",
+          "at": "2026-11-14T01:52:09.774983+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "formatting_source",
-          "at": "2026-11-14T01:45:45.268301+00:00",
+          "at": "2026-11-14T01:52:23.050564+00:00",
           "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
           "method": "source"
         },
         {
           "stage": "translating",
-          "at": "2026-11-14T01:45:45.274981+00:00",
+          "at": "2026-11-14T01:52:23.056965+00:00",
           "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
           "method": "translation"
         },
         {
           "stage": "ready",
-          "at": "2026-11-14T01:45:46.918113+00:00",
+          "at": "2026-11-14T01:52:23.187145+00:00",
           "reason": "دەق ئامادەی ناردنە",
           "method": "translation"
         },
         {
           "stage": "sending",
-          "at": "2026-11-14T01:45:46.923127+00:00",
+          "at": "2026-11-14T01:52:23.192803+00:00",
           "reason": "ناردن بۆ تێلیگرام",
           "method": "translation"
         },
         {
           "stage": "published",
-          "at": "2026-11-14T01:45:50.231681+00:00",
+          "at": "2026-11-14T01:52:26.418665+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
           "method": "translation"
         }
@@ -2672,7 +2733,7 @@
       ]
     }
   ],
-  "pending_count": 6,
-  "snapshot_at": "2026-11-14T01:51:47.743756+00:00",
-  "gemini_blocked_until": "2026-11-14T01:45:31.107337+00:00"
+  "pending_count": 8,
+  "snapshot_at": "2026-11-14T01:54:46.778352+00:00",
+  "gemini_blocked_until": "2026-11-14T02:22:09.763153+00:00"
 }
