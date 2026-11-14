@@ -1,12 +1,12 @@
 {
-  "run_id": "43641809422",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43641809422",
-  "started_at": "2026-11-14T21:15:25.026620+00:00",
-  "finished_at": "2026-11-14T21:19:43.836296+00:00",
-  "duration_seconds": 258.8,
+  "run_id": "43642262801",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43642262801",
+  "started_at": "2026-11-14T21:20:29.002030+00:00",
+  "finished_at": "2026-11-14T21:20:31.547227+00:00",
+  "duration_seconds": 2.5,
   "exit_code": 0,
-  "found": 2,
-  "published": 1,
+  "found": 1,
+  "published": 0,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,29 +14,26 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "2 items found"
+      "detail": "1 items found"
     },
     "selection": {
-      "status": "ok",
-      "detail": "Article selected for processing"
+      "status": "unknown",
+      "detail": "No event recorded"
     },
     "gemini": {
-      "status": "failed",
-      "detail": "Gemini API returned HTTP 503: {"
+      "status": "unknown",
+      "detail": "No event recorded"
     },
     "telegram": {
-      "status": "ok",
-      "detail": "Telegram confirmed publication"
+      "status": "unknown",
+      "detail": "No event recorded"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 1 articles."
+      "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
-    "Non-AI fallback rejected: insufficient Sorani text or article content."
-  ],
+  "issues": [],
   "events": [
     {
       "stage": "fetch",
@@ -44,49 +41,25 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 2 new items."
-    },
-    {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@ClashReport)..."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 1/2 in 5s."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 2/2 in 15s."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503 after 3 attempts; keeping article for retry."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini API returned HTTP 503: {"
-    },
-    {
-      "stage": "telegram",
-      "message": "Successfully published!"
+      "message": "Found 1 new items."
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 1 articles."
+      "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 2 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini HTTP 503 after 3 attempts; keeping article for retry.\nGemini API returned HTTP 503: {\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "33cedacb5376ea10d604975712e188a9",
       "title": "✍",
       "source": "خبرهای فوری مهم 🔖",
-      "stage": "blocked_content",
+      "stage": "waiting_slot",
       "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-14T21:00:35.872915+00:00",
-      "updated_at": "2026-11-14T21:12:24.367706+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-14T21:20:31.506471+00:00",
+      "eligible_at": "2026-11-14T21:24:43.779947+00:00",
       "history": [
         {
           "stage": "received",
@@ -158,6 +131,18 @@
           "stage": "blocked_content",
           "at": "2026-11-14T21:12:24.367706+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T21:20:31.500696+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-14T21:20:31.506471+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
         }
       ]
@@ -2500,6 +2485,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-14T21:19:43.894166+00:00",
+  "snapshot_at": "2026-11-14T21:20:31.593543+00:00",
   "gemini_blocked_until": "2026-11-14T21:12:55.622580+00:00"
 }
