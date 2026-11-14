@@ -1,11 +1,11 @@
 {
-  "run_id": "43606057912",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43606057912",
-  "started_at": "2026-11-14T14:40:24.086033+00:00",
-  "finished_at": "2026-11-14T14:46:40.840743+00:00",
-  "duration_seconds": 376.8,
+  "run_id": "43606488914",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43606488914",
+  "started_at": "2026-11-14T14:47:03.694434+00:00",
+  "finished_at": "2026-11-14T14:52:11.732242+00:00",
+  "duration_seconds": 308.0,
   "exit_code": 0,
-  "found": 10,
+  "found": 12,
   "published": 0,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "10 items found"
+      "detail": "12 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "failed",
+      "detail": "Gemini API returned HTTP 503: {"
     },
     "telegram": {
       "status": "unknown",
@@ -34,7 +34,9 @@
     }
   },
   "issues": [
+    "Apify request failed (HTTP 401).",
     "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -44,18 +46,38 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 10 new items."
+      "message": "Found 12 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
     },
     {
       "stage": "selection",
       "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini HTTP 503 after 3 attempts; keeping article for retry."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini API returned HTTP 503: {"
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 10 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 12 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini transport issue; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini HTTP 503 after 3 attempts; keeping article for retry.\nGemini API returned HTTP 503: {\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "9c22f020a1150529c28f2b130f2202bb",
@@ -65,8 +87,8 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-14T14:05:24.500977+00:00",
-      "updated_at": "2026-11-14T14:46:40.795249+00:00",
-      "eligible_at": "2026-11-14T14:41:35.182127+00:00",
+      "updated_at": "2026-11-14T14:52:11.690801+00:00",
+      "eligible_at": "2026-11-14T14:38:56.886769+00:00",
       "history": [
         {
           "stage": "received",
@@ -118,64 +140,45 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-14T14:40:27.409217+00:00",
+          "at": "2026-11-14T14:50:02.757971+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "translation"
         },
         {
-          "stage": "waiting_slot",
-          "at": "2026-11-14T14:40:27.498301+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "translation"
+          "stage": "waiting_gemini",
+          "at": "2026-11-14T14:50:02.763095+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-14T14:50:02.772887+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
         },
         {
           "stage": "processing_openrouter",
-          "at": "2026-11-14T14:41:35.189893+00:00",
+          "at": "2026-11-14T14:52:09.394334+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "formatting_source",
-          "at": "2026-11-14T14:46:40.782529+00:00",
+          "at": "2026-11-14T14:52:11.680714+00:00",
           "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
           "method": "source"
         },
         {
           "stage": "translating",
-          "at": "2026-11-14T14:46:40.789213+00:00",
+          "at": "2026-11-14T14:52:11.685948+00:00",
           "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
           "method": "translation"
         },
         {
           "stage": "blocked_content",
-          "at": "2026-11-14T14:46:40.795249+00:00",
+          "at": "2026-11-14T14:52:11.690801+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
-        }
-      ]
-    },
-    {
-      "id": "8d5191961381568d827aaed1c1d411a5",
-      "title": "Former U.S. Secretary of State Antony Blinken:",
-      "source": "Clash Report",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-14T14:15:25.525528+00:00",
-      "updated_at": "2026-11-14T14:15:25.529726+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-14T14:15:25.525528+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-14T14:15:25.529726+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
         }
       ]
     },
@@ -317,27 +320,107 @@
       ]
     },
     {
+      "id": "d07cfa6f616d2695d59211b9cef6a9ca",
+      "title": "دانا غاز هەموو ئەو دەنگۆیانە ڕەت دەکاتەوە کە باس لەوە دەکەن زیانی زۆری بەرکەوتووە و ناتوانێت غاز بەرهەم بهێنێت",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-14T14:47:06.238889+00:00",
+      "updated_at": "2026-11-14T14:47:06.243831+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T14:47:06.238889+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T14:47:06.243831+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
       "id": "cbc05e6c521d0f57a1f4b23223f2e19f",
       "title": "Foundation Future Industries, a military robot startup backed by Eric Trump, has missed payroll after its CEO borrowed $4.6 million from the company to buy a home.",
       "source": "Clash Report",
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-14T14:40:26.877728+00:00",
-      "updated_at": "2026-11-14T14:40:27.128960+00:00",
+      "received_at": "2026-11-14T14:47:06.248986+00:00",
+      "updated_at": "2026-11-14T14:47:06.253790+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-14T14:40:26.877728+00:00",
+          "at": "2026-11-14T14:47:06.248986+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-14T14:40:27.128960+00:00",
+          "at": "2026-11-14T14:47:06.253790+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "407793dc4849245d18cf9451e4beecd3",
+      "title": "همتی در واکنش به تهدید وزیر خزانه‌داری آمریکا دربارۀ تشدید تحریم‌ها: بسنت هنوز باید همان جوجه‌ای را که گفتم آخر پاییز بشمارد؛ اول آن را بشمارد بعد برود راجع به زمستان صحبت کند",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "received_at": "2026-11-14T14:47:06.258736+00:00",
+      "updated_at": "2026-11-14T14:50:02.753151+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T14:47:06.258736+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T14:47:06.263504+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T14:47:06.273631+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-14T14:47:06.278788+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-14T14:50:02.742193+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-14T14:50:02.747959+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-14T14:50:02.753151+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     }
@@ -2546,7 +2629,7 @@
       ]
     }
   ],
-  "pending_count": 8,
-  "snapshot_at": "2026-11-14T14:46:40.888424+00:00",
+  "pending_count": 9,
+  "snapshot_at": "2026-11-14T14:52:11.778914+00:00",
   "gemini_blocked_until": "2026-11-14T14:47:48.837216+00:00"
 }
