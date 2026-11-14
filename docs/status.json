@@ -1,12 +1,12 @@
 {
-  "run_id": "43564585694",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43564585694",
-  "started_at": "2026-11-14T06:05:27.739194+00:00",
-  "finished_at": "2026-11-14T06:05:30.525557+00:00",
-  "duration_seconds": 2.8,
+  "run_id": "43565001500",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43565001500",
+  "started_at": "2026-11-14T06:10:25.682578+00:00",
+  "finished_at": "2026-11-14T06:10:35.747947+00:00",
+  "duration_seconds": 10.1,
   "exit_code": 0,
-  "found": 4,
-  "published": 0,
+  "found": 7,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "4 items found"
+      "detail": "7 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,64 +43,27 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 4 new items."
+      "message": "Found 7 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 4 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 7 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
-    {
-      "id": "0691a0421850229314a4880fac00815c",
-      "title": "پیرۆزە یادی ٢٤٢ساڵەی شەکرە شار.",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-11-14T05:40:27.733964+00:00",
-      "updated_at": "2026-11-14T06:05:30.482639+00:00",
-      "eligible_at": "2026-11-14T06:08:44.079034+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-14T05:40:27.733964+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-14T05:40:27.739794+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-14T06:03:44.094818+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-14T06:03:44.102462+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-14T06:05:30.477085+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-14T06:05:30.482639+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "9f302a2a33d4119f8853db413ae4f6e8",
       "title": "#چی_شد_پس؟ | پیگیری مهم‌ترین خبرهای هفته  1. حمله اخیر به قشم ",
@@ -148,9 +113,169 @@
           "method": "undecided"
         }
       ]
+    },
+    {
+      "id": "b44f627b6131fe4543fc7a343850801a",
+      "title": "Iran’s Navy says an oil tanker struck a naval mine and caught fire east of the Strait of Hormuz after entering a \"restricted zone\" with its tracking systems switched off, despite warnings.",
+      "source": "Clash Report",
+      "stage": "waiting_slot",
+      "method": "undecided",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-14T06:10:29.790019+00:00",
+      "updated_at": "2026-11-14T06:10:35.678477+00:00",
+      "eligible_at": "2026-11-14T06:14:35.646633+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T06:10:29.790019+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T06:10:29.797291+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T06:10:35.670509+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-14T06:10:35.678477+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "4a8d292d7f78575954352a28aca93bd2",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-14T06:10:29.804625+00:00",
+      "updated_at": "2026-11-14T06:10:29.811964+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T06:10:29.804625+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T06:10:29.811964+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "2af1f8cd3d775fe19ba4493290b67a05",
+      "title": "ادعای یدیعوت آحارونوت: ضرورت فوری برای اقدام نظامی وجود ندارد  ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-14T06:10:29.819330+00:00",
+      "updated_at": "2026-11-14T06:10:29.826673+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T06:10:29.819330+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T06:10:29.826673+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
     }
   ],
   "recent_articles": [
+    {
+      "id": "6cade10a7390b57f5e6e648b82e4e60b",
+      "title": "دوای ئاشکرابوونی چاوساغیکردن بۆ داعش؛ مانەوەی خەڵکی دەرەوەی ناوچەکە لە گوندەکانی پردێ قەدەغە کرا",
+      "source": "تلگرامی - بەپەلە|Breaking News",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-14T06:10:29.774868+00:00",
+      "updated_at": "2026-11-14T06:10:32.246814+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T06:10:29.774868+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T06:10:29.782517+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T06:10:29.842407+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-14T06:10:29.850313+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-14T06:10:29.865488+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-14T06:10:30.086467+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-14T06:10:30.416293+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-14T06:10:30.426817+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-14T06:10:30.434696+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-14T06:10:32.246814+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
+        }
+      ]
+    },
     {
       "id": "e3a2b40cc2c7c9085db219fd8479baf7",
       "title": "ئەمڕۆ نرخی حەواڵەی دۆلار لە تمەن و ناوەندی ئاڵوگۆڕی زێڕی ئێران گەیشتە ١٩١ هەزار و ٧٠٨ تۆمان",
@@ -2321,76 +2446,9 @@
           "method": "openrouter"
         }
       ]
-    },
-    {
-      "id": "a1706a97b1a8202d74979db1f8fc651c",
-      "title": "چالاکییەکانی سەرەتای ڕۆژ و وەرزشیی قوتابخانەکانی تهران لە دەرەوە قەداغن",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-14T03:45:32.396546+00:00",
-      "updated_at": "2026-11-14T03:47:10.949491+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-14T03:45:32.396546+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-14T03:45:32.401248+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-14T03:45:32.411641+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_gemini",
-          "at": "2026-11-14T03:45:32.416482+00:00",
-          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_gemini",
-          "at": "2026-11-14T03:45:32.425560+00:00",
-          "reason": "داواکاری بۆ Gemini نێردراوە",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-14T03:46:22.308181+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-14T03:47:10.631864+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-14T03:47:10.636594+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-14T03:47:10.949491+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-11-14T06:05:30.571665+00:00",
-  "gemini_blocked_until": "2026-11-14T06:08:44.310094+00:00"
+  "pending_count": 5,
+  "snapshot_at": "2026-11-14T06:10:35.810061+00:00",
+  "gemini_blocked_until": "2026-11-14T06:40:30.077547+00:00"
 }
