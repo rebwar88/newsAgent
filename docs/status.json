@@ -1,12 +1,12 @@
 {
-  "run_id": "43639586066",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43639586066",
-  "started_at": "2026-11-14T20:50:28.651790+00:00",
-  "finished_at": "2026-11-14T20:50:32.461008+00:00",
-  "duration_seconds": 3.8,
+  "run_id": "43640010493",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43640010493",
+  "started_at": "2026-11-14T20:55:20.640336+00:00",
+  "finished_at": "2026-11-14T20:57:29.025671+00:00",
+  "duration_seconds": 128.4,
   "exit_code": 0,
   "found": 2,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,20 +17,20 @@
       "detail": "2 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [],
@@ -44,22 +44,30 @@
       "message": "Found 2 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 2 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 2 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "c20ea290daafc991acd260d28d4bd0d7",
       "title": "✍",
       "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-14T20:35:28.646398+00:00",
-      "updated_at": "2026-11-14T20:35:28.650963+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-14T20:57:28.985848+00:00",
+      "eligible_at": "2026-11-14T21:02:28.967505+00:00",
       "history": [
         {
           "stage": "received",
@@ -72,18 +80,32 @@
           "at": "2026-11-14T20:35:28.650963+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T20:57:28.979906+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-14T20:57:28.985848+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
         }
       ]
-    },
+    }
+  ],
+  "recent_articles": [
     {
       "id": "990fb201688ce6cefd0f1cfe0521fb74",
-      "title": "هاوڵاتیەک لە گوندی مەسۆی لە سنوری قەزای چەمچەماڵ بەهۆی وەرگەڕانی تراکتۆرەکەیە گیانی لەدەستدا.",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "هاوڵاتییەک لە گوندی مەسۆی چەمچەماڵ بەهۆی وەرگەڕانی تراکتۆرەکەیەوە گیانی لەدەستدا",
+      "source": "تلگرامی - بەپەلە|Breaking News",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-14T20:48:08.177927+00:00",
-      "updated_at": "2026-11-14T20:50:32.411708+00:00",
+      "updated_at": "2026-11-14T20:57:26.079817+00:00",
       "eligible_at": "2026-11-14T20:54:32.301536+00:00",
       "history": [
         {
@@ -121,11 +143,39 @@
           "at": "2026-11-14T20:50:32.411708+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T20:55:23.430482+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-14T20:55:23.436640+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-14T20:57:24.818398+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-14T20:57:24.824169+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-14T20:57:26.079817+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "19512f75abf75cba192051cab309d6a5",
       "title": "تۆماس ماسی، نوێنەری کۆمارییەکان",
@@ -2296,76 +2346,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "bde9b4f82dab1f3c7cf5edd24f21e5cc",
-      "title": "ئاشتەوایی قەڵانێوی لەگەڵ سەرکەوتن دوای ٥ یاری لەسەریەک؛ بردنەوەی ئێران بە 2 تیپی بەرامبەر فەلەستین کە 10 یاریز",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-14T17:41:29.551958+00:00",
-      "updated_at": "2026-11-14T18:02:40.310993+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-14T17:41:29.551958+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-14T17:41:29.560783+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-14T18:02:32.787806+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-14T18:02:32.796731+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-14T18:02:33.089814+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-14T18:02:33.099057+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-14T18:02:35.118411+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-14T18:02:35.126951+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-14T18:02:40.310993+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 2,
-  "snapshot_at": "2026-11-14T20:50:32.516769+00:00",
+  "pending_count": 1,
+  "snapshot_at": "2026-11-14T20:57:29.073270+00:00",
   "gemini_blocked_until": "2026-11-14T21:12:55.622580+00:00"
 }
