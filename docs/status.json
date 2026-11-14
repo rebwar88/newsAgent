@@ -1,11 +1,11 @@
 {
-  "run_id": "43587138915",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43587138915",
-  "started_at": "2026-11-14T10:51:18.145680+00:00",
-  "finished_at": "2026-11-14T10:55:48.360797+00:00",
-  "duration_seconds": 270.2,
+  "run_id": "43587521017",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43587521017",
+  "started_at": "2026-11-14T10:56:05.967491+00:00",
+  "finished_at": "2026-11-14T11:02:14.168893+00:00",
+  "duration_seconds": 368.2,
   "exit_code": 0,
-  "found": 14,
+  "found": 15,
   "published": 0,
   "stages": {
     "fetch": {
@@ -14,7 +14,7 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "14 items found"
+      "detail": "15 items found"
     },
     "selection": {
       "status": "ok",
@@ -35,7 +35,6 @@
   },
   "issues": [
     "Gemini quota exhausted; using safe non-AI fallback.",
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
     "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
@@ -48,11 +47,15 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 14 new items."
+      "message": "Found 15 new items."
     },
     {
       "stage": "selection",
       "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
     },
     {
       "stage": "gemini",
@@ -63,15 +66,11 @@
       "message": "Processing item from تێلیگرام (@ClashReport)..."
     },
     {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
-    },
-    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 14 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 15 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini transport issue; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "63dd30f0907b2b889346fb8a09ec1335",
@@ -106,21 +105,9 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-14T10:10:35.096870+00:00",
-      "updated_at": "2026-11-14T10:51:22.693452+00:00",
+      "updated_at": "2026-11-14T10:59:07.727986+00:00",
       "eligible_at": "2026-11-14T10:13:30.929042+00:00",
       "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-14T10:10:35.096870+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-14T10:10:35.101740+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
         {
           "stage": "selected",
           "at": "2026-11-14T10:11:41.849536+00:00",
@@ -268,6 +255,48 @@
         {
           "stage": "blocked_content",
           "at": "2026-11-14T10:51:22.693452+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T10:56:09.329089+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-14T10:56:09.344459+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-14T10:56:09.354425+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-14T10:56:59.690227+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-14T10:59:07.718440+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-14T10:59:07.723580+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-14T10:59:07.727986+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
@@ -649,81 +678,6 @@
       ]
     },
     {
-      "id": "b6d8e6eef984929689945353099d8b9e",
-      "title": "#اینفوگرافیک",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-14T10:40:06.701812+00:00",
-      "updated_at": "2026-11-14T10:40:06.710068+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-14T10:40:06.701812+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-14T10:40:06.710068+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "a310033223733b9c95fe6085efbbadb3",
-      "title": "نیویورک تایمز: راهبر جدید ترامپ در قبال ایران سیاست انتظار است",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-14T10:40:06.734529+00:00",
-      "updated_at": "2026-11-14T10:40:06.742636+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-14T10:40:06.734529+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-14T10:40:06.742636+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "6f277f94715bdb5b5c8f604555473836",
-      "title": "وزیر خارجه عراق: صادرات نفت از مسیر تنگه هرمز ادامه خواهد یافت   ",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-14T10:40:06.750709+00:00",
-      "updated_at": "2026-11-14T10:40:06.758832+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-14T10:40:06.750709+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-14T10:40:06.758832+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
       "id": "d95c3dd40e682476ef8cee5d0e8f66cd",
       "title": "پارتی تەنیا لەبەرئەوەی پارێزگارێکی کورد بۆ کەرکووک دانانرێت بەشداری لەکۆبونەوەی ئەمڕۆی ئەنجوومەنی پارێزگای شارەکە دەکات!",
       "source": "بەپەلە|Breaking News",
@@ -873,6 +827,136 @@
         {
           "stage": "waiting_turn",
           "at": "2026-11-14T10:51:21.934836+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "4eed28b99be074edcb15eed1b666cbfd",
+      "title": "Andy Burnham is seeking to curb speculation about Britain rejoining the EU, with Downing Street saying no approach has been chosen.",
+      "source": "Clash Report",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "received_at": "2026-11-14T10:56:09.287391+00:00",
+      "updated_at": "2026-11-14T11:02:14.128697+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T10:56:09.287391+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T10:56:09.292090+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T10:59:07.732496+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-14T10:59:07.737252+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-14T11:02:14.119213+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-14T11:02:14.124062+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-14T11:02:14.128697+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        }
+      ]
+    },
+    {
+      "id": "cbe5a530e99e928ee1b024e619b80851",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-14T10:56:09.296846+00:00",
+      "updated_at": "2026-11-14T10:56:09.301361+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T10:56:09.296846+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T10:56:09.301361+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "4b046320c63f4cb86ea7266aa92e501e",
+      "title": "پایان ۱۸ سال بی‌خبری؛ آقا عادل به‌طور اتفاقی در آسایشگاه سالمندان پیدا شد ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-14T10:56:09.305950+00:00",
+      "updated_at": "2026-11-14T10:56:09.310468+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T10:56:09.305950+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T10:56:09.310468+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "14dadaa6fdab3d6016702b8cdb4e2c8a",
+      "title": "وزیر خارجه عراق: بستن گذرگاه‌های مرزی با ایران به درخواست آمریکا امکان‌پذیر نیست  ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-14T10:56:09.315275+00:00",
+      "updated_at": "2026-11-14T10:56:09.319766+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T10:56:09.315275+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T10:56:09.319766+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -3077,7 +3161,7 @@
       ]
     }
   ],
-  "pending_count": 19,
-  "snapshot_at": "2026-11-14T10:55:48.420768+00:00",
-  "gemini_blocked_until": "2026-11-14T11:21:22.320909+00:00"
+  "pending_count": 20,
+  "snapshot_at": "2026-11-14T11:02:14.207079+00:00",
+  "gemini_blocked_until": "2026-11-14T11:26:59.685517+00:00"
 }
