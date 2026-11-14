@@ -1,11 +1,11 @@
 {
-  "run_id": "43644028194",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43644028194",
-  "started_at": "2026-11-14T21:40:30.345284+00:00",
-  "finished_at": "2026-11-14T21:40:32.922370+00:00",
-  "duration_seconds": 2.6,
+  "run_id": "43644461189",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43644461189",
+  "started_at": "2026-11-14T21:45:25.178778+00:00",
+  "finished_at": "2026-11-14T21:47:50.228593+00:00",
+  "duration_seconds": 145.0,
   "exit_code": 0,
-  "found": 0,
+  "found": 1,
   "published": 0,
   "stages": {
     "fetch": {
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "0 items found"
+      "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "failed",
+      "detail": "Telegram publication failed; keeping item for retry."
     },
     "state": {
       "status": "ok",
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Telegram publication failed; keeping item for retry."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,15 +43,79 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 0 new items."
+      "message": "Found 1 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Telegram publication failed; keeping item for retry."
     },
     {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 0 new items.\nCompleted run. Processed 0 articles.",
-  "articles": [],
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nCompleted run. Processed 0 articles.",
+  "articles": [
+    {
+      "id": "4e391871fa7702f6109dba73901ad488",
+      "title": "مامۆستایەکی ئایینی هەولێر: داوا لە کاک مەسعود دەکەم خۆی بچێتە سلێمانی",
+      "source": "بەپەلە|Breaking News",
+      "stage": "delivery_failed",
+      "method": "openrouter",
+      "reason": "ناردن پشتڕاست نەکراوە؛ هەواڵەکە پارێزراوە",
+      "received_at": "2026-11-14T21:45:28.125011+00:00",
+      "updated_at": "2026-11-14T21:47:50.173733+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-14T21:45:28.125011+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-14T21:45:28.133543+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-14T21:45:28.148951+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-14T21:45:28.156450+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-14T21:47:34.943435+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-14T21:47:34.950852+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "delivery_failed",
+          "at": "2026-11-14T21:47:50.173733+00:00",
+          "reason": "ناردن پشتڕاست نەکراوە؛ هەواڵەکە پارێزراوە",
+          "method": "openrouter"
+        }
+      ]
+    }
+  ],
   "recent_articles": [
     {
       "id": "278ce872892bcf96f4aef92571a9ea8c",
@@ -2434,7 +2500,7 @@
       ]
     }
   ],
-  "pending_count": 0,
-  "snapshot_at": "2026-11-14T21:40:32.967825+00:00",
+  "pending_count": 1,
+  "snapshot_at": "2026-11-14T21:47:50.286751+00:00",
   "gemini_blocked_until": "2026-11-14T21:55:28.786748+00:00"
 }
