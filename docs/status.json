@@ -1,9 +1,9 @@
 {
-  "run_id": "43693620243",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43693620243",
-  "started_at": "2026-11-15T08:19:15.689126+00:00",
-  "finished_at": "2026-11-15T08:24:06.408063+00:00",
-  "duration_seconds": 290.7,
+  "run_id": "43694014695",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43694014695",
+  "started_at": "2026-11-15T08:24:25.866893+00:00",
+  "finished_at": "2026-11-15T08:27:44.194852+00:00",
+  "duration_seconds": 198.3,
   "exit_code": 0,
   "found": 14,
   "published": 2,
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "ok",
-      "detail": "Gemini stage reached"
+      "status": "failed",
+      "detail": "Gemini API returned HTTP 503: {"
     },
     "telegram": {
       "status": "ok",
@@ -34,9 +34,7 @@
     }
   },
   "issues": [
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
-    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '"
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
     {
@@ -49,7 +47,7 @@
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
     },
     {
       "stage": "gemini",
@@ -61,7 +59,11 @@
     },
     {
       "stage": "gemini",
-      "message": "Gemini transport unavailable after retries (ReadTimeout)."
+      "message": "Gemini HTTP 503 after 3 attempts; keeping article for retry."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini API returned HTTP 503: {"
     },
     {
       "stage": "telegram",
@@ -69,7 +71,7 @@
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
     },
     {
       "stage": "telegram",
@@ -80,63 +82,8 @@
       "message": "Completed run. Processed 2 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 14 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini transport unavailable after retries (ReadTimeout).\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@brakingnews24)...\nSuccessfully published!\nCompleted run. Processed 2 articles.",
+  "log": "Checking for new articles...\nFound 14 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini transport issue; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini HTTP 503 after 3 attempts; keeping article for retry.\nGemini API returned HTTP 503: {\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
   "articles": [
-    {
-      "id": "052053848da3ebe4a352850fed5df976",
-      "title": "المیادین متن ۸ پیام رد و بدل شده میان ایران و گروسی را منتشر کرد  ",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "blocked_content",
-      "method": "translation",
-      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-      "received_at": "2026-11-15T07:31:30.408905+00:00",
-      "updated_at": "2026-11-15T07:35:45.990553+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-15T07:31:30.408905+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T07:31:30.414642+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-15T07:34:13.205421+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-15T07:34:13.211333+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-15T07:35:45.978873+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-15T07:35:45.984748+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "blocked_content",
-          "at": "2026-11-15T07:35:45.990553+00:00",
-          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
-          "method": "translation"
-        }
-      ]
-    },
     {
       "id": "773982bf58bec5b163b4288d79380cb9",
       "title": "بقایی: تازمانی که آژانس به نقش آمریکا و اسرائیل در حمله به تاسیسات هسته‌ای ایران اذعان نکند وضعیت فعلی در تعامل ما با آژانس تغییری نمی‌کند",
@@ -316,12 +263,12 @@
       "id": "75b853bf084bf807e8f1128150285b36",
       "title": "سخنگوی وزارت خارجه خطاب به دبیرکل شورای همکاری خلیج فارس: ",
       "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-15T07:56:43.851065+00:00",
-      "updated_at": "2026-11-15T07:56:43.858921+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-15T08:27:44.144346+00:00",
+      "eligible_at": "2026-11-15T08:28:44.115180+00:00",
       "history": [
         {
           "stage": "received",
@@ -334,130 +281,17 @@
           "at": "2026-11-15T07:56:43.858921+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "3e84686f5940978ed9905dc0d638832f",
-      "title": "سخنگوی وزارت خارجه: ",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-15T07:56:43.866753+00:00",
-      "updated_at": "2026-11-15T07:56:43.874766+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-15T07:56:43.866753+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-15T08:27:44.132937+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T07:56:43.874766+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "45e7d1429c4365b4550903f99b53764a",
-      "title": "بقایی: تازمانی که آژانس به نقش آمریکا و اسرائیل در حمله به تاسیسات هسته‌ای ایران اذعان نکند وضعیت فعلی در تعامل ما با آژانس تغییری نمی‌کند  سخنگوی وزارت خارجه: ",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-15T07:56:43.929488+00:00",
-      "updated_at": "2026-11-15T07:56:43.937287+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-15T07:56:43.929488+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T07:56:43.937287+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "6a3ffd487a6dcb9357e5f92c292b6097",
-      "title": "۴ سال حبس و شلاق برای باج‌گیر رسانه‌ای در البرز /دریافت مبالغ کلان از طریق جعل عنوان، نشر اکاذیب و انتساب خود به مسئولان قضایی",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-15T07:56:43.945102+00:00",
-      "updated_at": "2026-11-15T07:56:43.952941+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-15T07:56:43.945102+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T07:56:43.952941+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "7dd6052085d53371804e7076479aaaae",
-      "title": "هونەرمەند عیرفانی وەستا محەمەد: ساڵانێک پێش ئێستا دەموت بتڵێک غاز واتە بتڵێک خـ.ـوێن، واتە بتڵێک ئارەق ڕشتن بۆ پەیداکردنی، ئەوکاتە خەڵک تەنیا پێدەکەنین، بەڵام ئێستا دەبێت بگریین بۆ حاڵی خۆمان",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-15T07:56:43.835071+00:00",
-      "updated_at": "2026-11-15T07:56:43.842754+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-15T07:56:43.835071+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T07:56:43.842754+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "75b853bf084bf807e8f1128150285b36",
-      "title": "سخنگوی وزارت خارجه خطاب به دبیرکل شورای همکاری خلیج فارس: ",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-15T07:56:43.851065+00:00",
-      "updated_at": "2026-11-15T07:56:43.858921+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-15T07:56:43.851065+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T07:56:43.858921+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "stage": "waiting_slot",
+          "at": "2026-11-15T08:27:44.144346+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -544,44 +378,94 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-15T08:19:18.448417+00:00",
-      "updated_at": "2026-11-15T08:19:18.455201+00:00",
+      "received_at": "2026-11-15T08:09:03.023402+00:00",
+      "updated_at": "2026-11-15T08:09:03.029329+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-15T08:19:18.448417+00:00",
+          "at": "2026-11-15T08:09:03.023402+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-15T08:19:18.455201+00:00",
+          "at": "2026-11-15T08:09:03.029329+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
       ]
     },
     {
-      "id": "afa35c4b09503a34a22a6c5042c890d7",
-      "title": "سخنگوی وزارت خارجه: ",
-      "source": "پایگاه خبری انتخاب",
+      "id": "fd7e97d0ebe198dc5237255ee507e19b",
+      "title": "نرخی ١٠٠ دۆلار ١٧٠ هەزار و ١٠٠ دینارە",
+      "source": "بەپەلە|Breaking News",
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-15T08:19:18.462397+00:00",
-      "updated_at": "2026-11-15T08:19:18.469229+00:00",
+      "received_at": "2026-11-15T08:09:03.035650+00:00",
+      "updated_at": "2026-11-15T08:09:03.041463+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-15T08:19:18.462397+00:00",
+          "at": "2026-11-15T08:09:03.035650+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-15T08:19:18.469229+00:00",
+          "at": "2026-11-15T08:09:03.041463+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "95732d38142d014e372255eafc9f2271",
+      "title": "واکنش سخنگوی وزارت امور خارجه به ورود هواپیمای قطری به تهران در روز گذشته:",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:09:03.047429+00:00",
+      "updated_at": "2026-11-15T08:09:03.053324+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:09:03.047429+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:09:03.053324+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "bee95a1618be0d68fb17f3e5ef0b364b",
+      "title": "🔴",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:13:55.678735+00:00",
+      "updated_at": "2026-11-15T08:13:55.684852+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:13:55.678735+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:13:55.684852+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -711,19 +595,297 @@
           "method": "undecided"
         }
       ]
+    },
+    {
+      "id": "58b3eaf9cb3eb50c38a3760810ff50ff",
+      "title": "واکنش سخنگوی وزارت خارجه به پرسشی درباره انتصاب مارکو روبیو به‌عنوان مذاکره‌کننده ارشد آمریکا و کنار گذاشته شدن ونس از مذاکرات: ",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:24:29.317453+00:00",
+      "updated_at": "2026-11-15T08:24:29.326570+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:24:29.317453+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:24:29.326570+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "2633e9692f4cda8d7658700c07460815",
+      "title": "سخنگوی وزارت خارجه: ",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:24:29.336093+00:00",
+      "updated_at": "2026-11-15T08:24:29.346031+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:24:29.336093+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:24:29.346031+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "4c14b528f07364db923750cb706e67c8",
+      "title": "سخنگوی وزارت خارجه: در حال حاضر هیچ بحثی درباره جزئیات موضوع هسته‌ای نداریم",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:24:29.355256+00:00",
+      "updated_at": "2026-11-15T08:24:29.364427+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:24:29.355256+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:24:29.364427+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "6e78e1e3933e9d0b46db4a6fc90fec9e",
+      "title": "سخنگوی وزارت خارجه:",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:24:29.373511+00:00",
+      "updated_at": "2026-11-15T08:24:29.382669+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:24:29.373511+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:24:29.382669+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "a11b6e5d550fa0efd9b0728239f57f45",
+      "title": "در ابتدای موج آنفلوآنزا قرار داریم  معاون بهداشت وزارت بهداشت: ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:24:29.391777+00:00",
+      "updated_at": "2026-11-15T08:24:29.400840+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:24:29.391777+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:24:29.400840+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "f1166a15a806fa2de0281f7424383131",
+      "title": "واکنش بقایی به لغو گسترده پروازها در ایالات متحده: مقامات آمریکا هیچ اهمیتی برای مسائل مردم خودشان قائل نیستند",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:24:29.410011+00:00",
+      "updated_at": "2026-11-15T08:24:29.419082+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:24:29.410011+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:24:29.419082+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "3dadba46d42cf8e09c0315f4be3503d8",
+      "title": "اداره هوانوردی فدرال (FAA) به دلیل شرایط فوق‌العاده و نگرانی‌های ایمنی، دستور توقف سراسری پروازها در سراسر آمریکا را صادر کرده و تمامی پروازهای خروجی را تا اطلاع ثانوی متوقف کرده است  ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-15T08:24:29.428254+00:00",
+      "updated_at": "2026-11-15T08:24:29.437429+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T08:24:29.428254+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T08:24:29.437429+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
     }
   ],
   "recent_articles": [
     {
+      "id": "052053848da3ebe4a352850fed5df976",
+      "title": "ئەلمەیادین دەقی ٨ پەیامی بڵاوکردەوە کە لە نێوان ئێران و گرۆسی ئاڵوگۆڕ کرابوون",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-15T07:31:30.408905+00:00",
+      "updated_at": "2026-11-15T08:27:42.906704+00:00",
+      "eligible_at": "2026-11-15T08:27:38.459252+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T07:31:30.408905+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T07:31:30.414642+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-15T07:34:13.205421+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-15T07:34:13.211333+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-15T07:35:45.978873+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-15T07:35:45.984748+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-15T07:35:45.990553+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-15T08:26:38.477247+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-15T08:26:38.486704+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-15T08:27:38.468143+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-15T08:27:38.716764+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-15T08:27:38.726813+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-15T08:27:42.451746+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-15T08:27:42.460918+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-15T08:27:42.906704+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
+        }
+      ]
+    },
+    {
       "id": "90144d1cafeccd8a7960ad77750a5d59",
-      "title": "محەمەد حەسیب، بەڕێوەبەری نەوت و کانزاکانی سلێمانی: نووسراوێک ئاراستەی بەغدا دەکەین بە مەبەستی وەرگرتنی 20 ملیۆ",
+      "title": "بەڕێوەبەری نەوت و کانزاکانی سلێمانی: نامەیەک بۆ بەغدا دەنێرین بۆ وەرگرتنی ٢٠ ملیۆن لیتر نەوتی پشکی سلێمانی و هەڵەبجە",
       "source": "تلگرامی - بەپەلە|Breaking News",
       "stage": "published",
-      "method": "source",
+      "method": "openrouter",
       "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-15T07:36:06.288121+00:00",
-      "updated_at": "2026-11-15T08:24:04.697888+00:00",
-      "eligible_at": "2026-11-15T08:22:23.238858+00:00",
+      "updated_at": "2026-11-15T08:26:37.296426+00:00",
+      "eligible_at": null,
       "history": [
         {
           "stage": "received",
@@ -739,45 +901,45 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-15T08:21:23.253326+00:00",
+          "at": "2026-11-15T08:24:29.456170+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_slot",
-          "at": "2026-11-15T08:21:23.260807+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-11-15T08:24:29.465637+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-15T08:24:29.483756+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
         },
         {
           "stage": "processing_openrouter",
-          "at": "2026-11-15T08:22:23.244811+00:00",
+          "at": "2026-11-15T08:26:21.701617+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
-          "stage": "formatting_source",
-          "at": "2026-11-15T08:24:03.384593+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
           "stage": "ready",
-          "at": "2026-11-15T08:24:03.392472+00:00",
+          "at": "2026-11-15T08:26:35.671415+00:00",
           "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
+          "method": "openrouter"
         },
         {
           "stage": "sending",
-          "at": "2026-11-15T08:24:03.399450+00:00",
+          "at": "2026-11-15T08:26:35.680856+00:00",
           "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
+          "method": "openrouter"
         },
         {
           "stage": "published",
-          "at": "2026-11-15T08:24:04.697888+00:00",
+          "at": "2026-11-15T08:26:37.296426+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
+          "method": "openrouter"
         }
       ]
     },
@@ -3287,64 +3449,9 @@
           "method": "openrouter"
         }
       ]
-    },
-    {
-      "id": "7e56e59a7612696e74384eee6da26482",
-      "title": "قالیباف: لە دۆخی «نە جەنگ، نە ئاشتی» ناچێن بەماوە",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-15T05:55:53.552394+00:00",
-      "updated_at": "2026-11-15T06:00:38.837968+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-15T05:55:53.552394+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T05:55:53.562146+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-15T05:59:00.636621+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-15T05:59:00.643653+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-15T06:00:36.906267+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-15T06:00:36.913152+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-15T06:00:38.837968+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
     }
   ],
-  "pending_count": 24,
-  "snapshot_at": "2026-11-15T08:24:06.456820+00:00",
+  "pending_count": 26,
+  "snapshot_at": "2026-11-15T08:27:44.252640+00:00",
   "gemini_blocked_until": "2026-11-15T08:02:20.689889+00:00"
 }
