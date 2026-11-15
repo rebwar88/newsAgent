@@ -1,11 +1,11 @@
 {
-  "run_id": "43668853213",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43668853213",
-  "started_at": "2026-11-15T02:40:30.889464+00:00",
-  "finished_at": "2026-11-15T02:40:33.898291+00:00",
-  "duration_seconds": 3.0,
+  "run_id": "43669230912",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43669230912",
+  "started_at": "2026-11-15T02:45:27.213736+00:00",
+  "finished_at": "2026-11-15T02:47:41.602448+00:00",
+  "duration_seconds": 134.4,
   "exit_code": 0,
-  "found": 0,
+  "found": 1,
   "published": 0,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "0 items found"
+      "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "unknown",
@@ -33,7 +33,11 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-179'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,15 +45,99 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 0 new items."
+      "message": "Found 1 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 0 new items.\nCompleted run. Processed 0 articles.",
-  "articles": [],
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini transport issue; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; skipping item.\nTranslation service unreachable; pausing it for 30 minutes.\nCompleted run. Processed 0 articles.",
+  "articles": [
+    {
+      "id": "c77088673f77c99450691e1fa2be9024",
+      "title": "NEW: U.S. intelligence estimates Iran still has 1,500–2,500 missiles despite U.S.-Israeli strikes, contradicting Trump administration claims that Tehran’s military has been decimated. ",
+      "source": "Clash Report",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "received_at": "2026-11-15T02:45:30.057578+00:00",
+      "updated_at": "2026-11-15T02:47:41.548482+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-15T02:45:30.057578+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-15T02:45:30.064826+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-15T02:45:30.080421+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-15T02:45:30.087975+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-15T02:45:30.102405+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-15T02:47:20.391978+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-15T02:47:37.793738+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-15T02:47:37.801859+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-15T02:47:41.548482+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        }
+      ]
+    }
+  ],
   "recent_articles": [
     {
       "id": "4e391871fa7702f6109dba73901ad488",
@@ -2452,7 +2540,7 @@
       ]
     }
   ],
-  "pending_count": 0,
-  "snapshot_at": "2026-11-15T02:40:33.944684+00:00",
-  "gemini_blocked_until": "2026-11-14T21:55:28.786748+00:00"
+  "pending_count": 1,
+  "snapshot_at": "2026-11-15T02:47:41.660015+00:00",
+  "gemini_blocked_until": "2026-11-15T03:17:20.384789+00:00"
 }
