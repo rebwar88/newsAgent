@@ -1,12 +1,12 @@
 {
-  "run_id": "43771480253",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43771480253",
-  "started_at": "2026-11-15T22:50:23.477139+00:00",
-  "finished_at": "2026-11-15T22:50:26.801022+00:00",
-  "duration_seconds": 3.3,
+  "run_id": "43771926041",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43771926041",
+  "started_at": "2026-11-15T22:55:26.876245+00:00",
+  "finished_at": "2026-11-15T22:57:42.242843+00:00",
+  "duration_seconds": 135.4,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,25 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +46,34 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "67762ec2657ca520047ebb75c64dfd81",
-      "title": "BIG: The USS Theodore Roosevelt has arrived in U.S. Central Command’s area of responsibility, giving the United States three aircraft carrier strike groups in the region.",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "ناوەڕۆکی فڕۆکەوانی تیئۆدۆر ڕۆزڤێلت گەیشتە ناوچەی بەرپرسیارەتی فەرماندەییەتی ناوەندی ئەمریکا",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-15T22:50:26.737566+00:00",
-      "updated_at": "2026-11-15T22:50:26.759711+00:00",
+      "updated_at": "2026-11-15T22:57:38.503271+00:00",
       "eligible_at": "2026-11-15T22:50:40.569982+00:00",
       "history": [
         {
@@ -84,11 +99,51 @@
           "at": "2026-11-15T22:50:26.759711+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-15T22:55:31.175969+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-15T22:55:31.181394+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-15T22:55:31.190638+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-15T22:55:31.387660+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-15T22:57:36.354551+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-15T22:57:36.359473+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-15T22:57:38.503271+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "e341cbe06500c6e50fc7dfc4950d8a0a",
       "title": "کوڕی موحسین فەخریزادە، زانای ئەتۆمی تیرۆرکراوی ئێرانی دەڵێت، باوکی پێی وتووە ئێران گەیشتووەتە ئاستێکی زانست کە",
@@ -2373,88 +2428,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "db312f3c3b914e661e25b236ff84ffbe",
-      "title": "هەرێم کەمال ئاغا، سەرۆکی فراکسیۆنی یەکێتی لە ئەنجومەنی نوێنەرانی عێراق",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-15T19:54:45.743535+00:00",
-      "updated_at": "2026-11-15T20:03:49.938015+00:00",
-      "eligible_at": "2026-11-15T20:03:48.784699+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-15T19:54:45.743535+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T19:54:45.748717+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-15T19:58:39.356632+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-15T19:58:39.362139+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-15T20:01:48.797037+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-15T20:01:48.802622+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-15T20:03:48.785673+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-15T20:03:48.952530+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-15T20:03:48.959052+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-15T20:03:48.964361+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-15T20:03:49.938015+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-15T22:50:26.846160+00:00",
-  "gemini_blocked_until": "2026-11-15T22:52:23.094416+00:00"
+  "pending_count": 0,
+  "snapshot_at": "2026-11-15T22:57:42.291786+00:00",
+  "gemini_blocked_until": "2026-11-15T23:25:31.381801+00:00"
 }
