@@ -1,11 +1,11 @@
 {
-  "run_id": "43826001639",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43826001639",
-  "started_at": "2026-11-16T07:45:24.838876+00:00",
-  "finished_at": "2026-11-16T07:50:51.931736+00:00",
-  "duration_seconds": 327.1,
+  "run_id": "43826597028",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43826597028",
+  "started_at": "2026-11-16T07:51:10.242140+00:00",
+  "finished_at": "2026-11-16T07:51:18.531721+00:00",
+  "duration_seconds": 8.3,
   "exit_code": 0,
-  "found": 5,
+  "found": 6,
   "published": 1,
   "stages": {
     "fetch": {
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -33,7 +33,10 @@
       "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -45,7 +48,11 @@
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "telegram",
@@ -56,7 +63,7 @@
       "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "log": "Checking for new articles...\nFound 6 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "43cb0ce46fdf3d3aab3afde2155cabaa",
@@ -137,39 +144,12 @@
       "id": "c7e04c99d9aed38b61443541b92e6fa9",
       "title": "🔴",
       "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-16T07:45:28.744396+00:00",
-      "updated_at": "2026-11-16T07:45:28.752011+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-16T07:45:28.744396+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-16T07:45:28.752011+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    }
-  ],
-  "recent_articles": [
-    {
-      "id": "ec2eacccb30ed99fd5c85ae85c99dd54",
-      "title": "بەهای 100 دۆلار لە هەولێر گەیشتە 171 هەزار و 750 دینار",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "stage": "waiting_slot",
+      "method": "translation",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-16T07:30:30.631530+00:00",
-      "updated_at": "2026-11-16T07:50:48.653444+00:00",
-      "eligible_at": "2026-11-16T07:48:21.872439+00:00",
+      "updated_at": "2026-11-16T07:51:18.496943+00:00",
+      "eligible_at": "2026-11-16T07:55:18.482708+00:00",
       "history": [
         {
           "stage": "received",
@@ -287,39 +267,171 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-16T07:45:28.769327+00:00",
+          "at": "2026-11-16T07:51:18.492581+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "translation"
         },
         {
           "stage": "waiting_slot",
-          "at": "2026-11-16T07:45:28.778652+00:00",
+          "at": "2026-11-16T07:51:18.496943+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        }
+      ]
+    },
+    {
+      "id": "ddc6c5603ac5567af307a6faafdef336",
+      "title": "⛽️",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-16T07:30:30.647396+00:00",
+      "updated_at": "2026-11-16T07:30:30.654275+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-16T07:30:30.647396+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-16T07:30:30.654275+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "762938ca9d6424621af033606db55444",
+      "title": "صدور حکم حبس ابد برای شیخ عیسی قاسم در بحرین",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-16T07:35:28.187941+00:00",
+      "updated_at": "2026-11-16T07:35:28.192851+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-16T07:35:28.187941+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-16T07:35:28.192851+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "c7e04c99d9aed38b61443541b92e6fa9",
+      "title": "🔴",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-16T07:51:14.039211+00:00",
+      "updated_at": "2026-11-16T07:51:14.043151+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-16T07:51:14.039211+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-16T07:51:14.043151+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "5ab40a58559b0170ea38dc370addc047",
+      "title": "سەرۆک وەزیرانی قەتەر سەبارەت بە ئێران",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-16T07:51:14.047400+00:00",
+      "updated_at": "2026-11-16T07:51:16.989565+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-16T07:51:14.047400+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-16T07:51:14.051538+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-16T07:51:14.060170+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-16T07:51:14.064767+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-16T07:51:14.073583+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
         },
         {
           "stage": "processing_openrouter",
-          "at": "2026-11-16T07:48:21.879537+00:00",
+          "at": "2026-11-16T07:51:14.230896+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
+          "stage": "formatting_source",
+          "at": "2026-11-16T07:51:14.509569+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-16T07:51:14.514047+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
           "stage": "ready",
-          "at": "2026-11-16T07:50:46.342237+00:00",
+          "at": "2026-11-16T07:51:16.522681+00:00",
           "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
+          "method": "translation"
         },
         {
           "stage": "sending",
-          "at": "2026-11-16T07:50:46.350050+00:00",
+          "at": "2026-11-16T07:51:16.526834+00:00",
           "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
+          "method": "translation"
         },
         {
           "stage": "published",
-          "at": "2026-11-16T07:50:48.653444+00:00",
+          "at": "2026-11-16T07:51:16.989565+00:00",
           "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
+          "method": "translation"
         }
       ]
     },
@@ -2483,7 +2595,7 @@
       ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-16T07:50:51.993616+00:00",
-  "gemini_blocked_until": "2026-11-16T07:50:47.284952+00:00"
+  "pending_count": 5,
+  "snapshot_at": "2026-11-16T07:51:18.574133+00:00",
+  "gemini_blocked_until": "2026-11-16T08:21:14.226456+00:00"
 }
