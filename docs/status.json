@@ -1,12 +1,12 @@
 {
-  "run_id": "43830382392",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43830382392",
-  "started_at": "2026-11-16T08:20:24.773040+00:00",
-  "finished_at": "2026-11-16T08:26:09.535501+00:00",
-  "duration_seconds": 344.8,
+  "run_id": "43831032850",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43831032850",
+  "started_at": "2026-11-16T08:26:38.623838+00:00",
+  "finished_at": "2026-11-16T08:31:14.143948+00:00",
+  "duration_seconds": 275.5,
   "exit_code": 0,
-  "found": 10,
-  "published": 2,
+  "found": 12,
+  "published": 0,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,27 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "10 items found"
+      "detail": "12 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "ok",
-      "detail": "Gemini stage reached"
+      "status": "failed",
+      "detail": "Gemini API returned HTTP 503: {"
     },
     "telegram": {
-      "status": "ok",
-      "detail": "Telegram confirmed publication"
+      "status": "unknown",
+      "detail": "No event recorded"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 2 articles."
+      "detail": "Completed run. Processed 0 articles."
     }
   },
   "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -43,46 +44,34 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 10 new items."
+      "message": "Found 12 new items."
     },
     {
       "stage": "selection",
       "message": "Processing item from تێلیگرام (@entekhab_ir)..."
     },
     {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@brakingnews24)..."
-    },
-    {
-      "stage": "telegram",
-      "message": "Successfully published!"
-    },
-    {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+      "stage": "gemini",
+      "message": "Gemini HTTP 503; retry 1/2 in 5s."
     },
     {
       "stage": "gemini",
-      "message": "Gemini transport issue; retry 1/2 in 5s."
+      "message": "Gemini transport issue; retry 2/2 in 15s."
     },
     {
       "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 2/2 in 15s."
+      "message": "Gemini HTTP 503 after 3 attempts; keeping article for retry."
     },
     {
       "stage": "gemini",
-      "message": "Gemini transport unavailable after retries (ReadTimeout)."
-    },
-    {
-      "stage": "telegram",
-      "message": "Successfully published!"
+      "message": "Gemini API returned HTTP 503: {"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 2 articles."
+      "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 10 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@brakingnews24)...\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini transport issue; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini transport unavailable after retries (ReadTimeout).\nSuccessfully published!\nCompleted run. Processed 2 articles.",
+  "log": "Checking for new articles...\nFound 12 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini HTTP 503 after 3 attempts; keeping article for retry.\nGemini API returned HTTP 503: {\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "b905abbcd6a46803d0bd342a52592f5a",
@@ -92,8 +81,8 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-16T08:06:46.103149+00:00",
-      "updated_at": "2026-11-16T08:20:47.232184+00:00",
-      "eligible_at": "2026-11-16T08:20:46.951237+00:00",
+      "updated_at": "2026-11-16T08:31:14.073821+00:00",
+      "eligible_at": "2026-11-16T08:22:06.951237+00:00",
       "history": [
         {
           "stage": "received",
@@ -160,6 +149,73 @@
           "at": "2026-11-16T08:18:46.975762+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-16T08:26:42.726024+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-16T08:26:42.734342+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-16T08:26:42.750152+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-16T08:28:31.695882+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-16T08:31:14.056441+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-16T08:31:14.065762+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-16T08:31:14.073821+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        }
+      ]
+    },
+    {
+      "id": "6b6c841efd9391d7e62c0999b8f5b66e",
+      "title": "🔴",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_slot",
+      "method": "undecided",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-16T08:10:27.467527+00:00",
+      "updated_at": "2026-11-16T08:14:12.291031+00:00",
+      "eligible_at": "2026-11-16T08:17:32.274605+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-16T08:10:27.467527+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-16T08:10:27.471891+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
         },
         {
           "stage": "selected",
@@ -306,19 +362,69 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-16T08:20:28.679671+00:00",
-      "updated_at": "2026-11-16T08:20:28.688277+00:00",
+      "received_at": "2026-11-16T08:26:42.620016+00:00",
+      "updated_at": "2026-11-16T08:26:42.627886+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-16T08:20:28.679671+00:00",
+          "at": "2026-11-16T08:26:42.620016+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-16T08:20:28.688277+00:00",
+          "at": "2026-11-16T08:26:42.627886+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "de9c4c5b16cf27ba7d6e6e5a2e003361",
+      "title": "EU's Kaja Kallas:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-16T08:26:42.636394+00:00",
+      "updated_at": "2026-11-16T08:26:42.644303+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-16T08:26:42.636394+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-16T08:26:42.644303+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "dd7589199ca2b4748444f209f2055cf4",
+      "title": "♦️",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-16T08:26:42.652043+00:00",
+      "updated_at": "2026-11-16T08:26:42.661461+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-16T08:26:42.652043+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-16T08:26:42.661461+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -331,19 +437,19 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-16T08:20:28.696599+00:00",
-      "updated_at": "2026-11-16T08:20:28.704558+00:00",
+      "received_at": "2026-11-16T08:26:42.669580+00:00",
+      "updated_at": "2026-11-16T08:26:42.677707+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-16T08:20:28.696599+00:00",
+          "at": "2026-11-16T08:26:42.669580+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-16T08:20:28.704558+00:00",
+          "at": "2026-11-16T08:26:42.677707+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -356,19 +462,44 @@
       "stage": "waiting_turn",
       "method": "undecided",
       "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-16T08:20:28.712630+00:00",
-      "updated_at": "2026-11-16T08:20:28.720215+00:00",
+      "received_at": "2026-11-16T08:26:42.685620+00:00",
+      "updated_at": "2026-11-16T08:26:42.693533+00:00",
       "eligible_at": null,
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-16T08:20:28.712630+00:00",
+          "at": "2026-11-16T08:26:42.685620+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-16T08:20:28.720215+00:00",
+          "at": "2026-11-16T08:26:42.693533+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "e69e2739f36b9437dbfb3c42dedb500f",
+      "title": "سپاه ۷ فروند پهپاد آمریکایی MQM-۱۷۰C ملقب به «قانون‌شکن» را شکار کرد؛ این پهپادها عمدتاً با جنگ الکترونیک و تقریباً سالم به دست نیروهای ایرانی افتاده‌اند. /تسنیم",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-16T08:26:42.701567+00:00",
+      "updated_at": "2026-11-16T08:26:42.709624+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-16T08:26:42.701567+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-16T08:26:42.709624+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -2603,7 +2734,7 @@
       ]
     }
   ],
-  "pending_count": 8,
-  "snapshot_at": "2026-11-16T08:26:09.591437+00:00",
+  "pending_count": 12,
+  "snapshot_at": "2026-11-16T08:31:14.207168+00:00",
   "gemini_blocked_until": "2026-11-16T08:21:14.226456+00:00"
 }
