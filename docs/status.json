@@ -1,12 +1,12 @@
 {
-  "run_id": "43809554885",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43809554885",
-  "started_at": "2026-11-16T05:20:23.428478+00:00",
-  "finished_at": "2026-11-16T05:20:26.374986+00:00",
-  "duration_seconds": 2.9,
+  "run_id": "43810089355",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43810089355",
+  "started_at": "2026-11-16T05:25:21.934466+00:00",
+  "finished_at": "2026-11-16T05:25:43.036144+00:00",
+  "duration_seconds": 21.1,
   "exit_code": 0,
   "found": 3,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,26 @@
       "detail": "3 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1794806724-j2EmIW1kqESSx3RcGTdX\",\"ob'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,11 +47,19 @@
       "message": "Found 3 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "2fa82a57f496fcaee6c12d2250cf6d2f",
@@ -79,12 +90,12 @@
       "id": "162ebc8425d893dbfc2ab448a93ef9e8",
       "title": "♦️",
       "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-16T05:05:27.026212+00:00",
-      "updated_at": "2026-11-16T05:05:27.033665+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-16T05:25:42.996289+00:00",
+      "eligible_at": "2026-11-16T05:30:42.976968+00:00",
       "history": [
         {
           "stage": "received",
@@ -97,18 +108,32 @@
           "at": "2026-11-16T05:05:27.033665+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-16T05:25:42.990092+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-16T05:25:42.996289+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
         }
       ]
-    },
+    }
+  ],
+  "recent_articles": [
     {
       "id": "c7e408af139e8d588e4ceb29add5dcaa",
-      "title": "نخست‌وزیر قطر: باید روابط با ایران را چنان گسترش دهیم که دشمنی برای رهبران منطقه دشوار شود  نخست‌وزیر قطر با تأکید بر ضرورت ایجاد سازوکار امنیتی مشترک با ایران، خواستار گسترش همکاری‌های منطقه‌ای شد: ",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "سەرۆک وەزیرانی قەتەر: پێویستە پەیوەندییەکانمان لەگەڵ ئێران بەشێوەیەک فراوانتر بکەین کە دوژمنایەتی بۆ سەرکردەکا",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-16T05:10:32.785669+00:00",
-      "updated_at": "2026-11-16T05:20:26.312509+00:00",
+      "updated_at": "2026-11-16T05:25:40.149574+00:00",
       "eligible_at": "2026-11-16T05:20:44.344788+00:00",
       "history": [
         {
@@ -146,11 +171,51 @@
           "at": "2026-11-16T05:20:26.312509+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-16T05:25:24.713735+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-16T05:25:24.720280+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-16T05:25:34.167237+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-16T05:25:34.174055+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-16T05:25:36.756344+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-16T05:25:36.762352+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-16T05:25:40.149574+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "282749e23a1e4a405ade8f30a93956f5",
       "title": "لەناوبردنی تیمی تیرۆریستی پێجاک لە سنوورەکانی ڕۆژئاوای وڵات",
@@ -2441,94 +2506,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "9226f4a9cb6aca61081694e7a4a4ad28",
-      "title": "هیلاری کلینتۆن",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-15T20:50:14.568829+00:00",
-      "updated_at": "2026-11-15T21:17:47.059700+00:00",
-      "eligible_at": "2026-11-15T21:16:04.281739+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-15T20:50:14.568829+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-15T20:50:14.574181+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-15T21:12:44.293542+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-15T21:12:44.298590+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-15T21:15:30.625364+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-15T21:15:30.630561+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-15T21:16:04.285517+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-15T21:17:42.824592+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-15T21:17:42.830212+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-15T21:17:43.994999+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-15T21:17:44.000149+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-15T21:17:47.059700+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 3,
-  "snapshot_at": "2026-11-16T05:20:26.433280+00:00",
+  "pending_count": 2,
+  "snapshot_at": "2026-11-16T05:25:43.087239+00:00",
   "gemini_blocked_until": "2026-11-16T05:40:38.858995+00:00"
 }
