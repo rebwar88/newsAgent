@@ -1,12 +1,12 @@
 {
-  "run_id": "44180475556",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44180475556",
-  "started_at": "2026-11-17T21:30:30.483542+00:00",
-  "finished_at": "2026-11-17T21:30:33.386996+00:00",
-  "duration_seconds": 2.9,
+  "run_id": "44181335420",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44181335420",
+  "started_at": "2026-11-17T21:35:20.311006+00:00",
+  "finished_at": "2026-11-17T21:35:31.510008+00:00",
+  "duration_seconds": 11.2,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,25 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +46,30 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "0138973ed2425b58357b7fd61042ce51",
-      "title": "Matan Kahana of Gadi Eisenkot’s Yashar party was elected Speaker of Israel’s Knesset with 66 votes, defeating Likud’s Ofir Katz.",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "ماتان کاهانا لە پارتی یاشار لە سەر بە گادی ئایزنکۆت بە ٦٦ دەنگ بە سەرۆکی پارتی کنێستی ئیسرائیل هەڵبژێردرا و لە",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-17T21:30:33.307493+00:00",
-      "updated_at": "2026-11-17T21:30:33.335351+00:00",
+      "updated_at": "2026-11-17T21:35:28.491787+00:00",
       "eligible_at": "2026-11-17T21:30:37.479024+00:00",
       "history": [
         {
@@ -84,11 +95,51 @@
           "at": "2026-11-17T21:30:33.335351+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-17T21:35:23.992316+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-17T21:35:23.997313+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-17T21:35:24.394025+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-17T21:35:24.398982+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-17T21:35:25.551008+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-17T21:35:25.555370+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-17T21:35:28.491787+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "28374e02784255dfe80d465a48c49c45",
       "title": "کۆمیسیۆنی ئاڵوگۆڕی دراوی ئەمریکا لێکۆڵینەوە لە کۆمپانیای Nvidia دەکات دوای دەستلەکارکێشانەوەی جێنسن هوانگ بەڕێ",
@@ -2247,70 +2298,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "9845b07a3523d2d0a966aa80cdc921fd",
-      "title": "ڕێبوار کەریم وەلی:پارتی رازی نییە بەغدا موچەی خەڵکی کوردستان بە راستەوخۆ بدات",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-17T19:35:25.518806+00:00",
-      "updated_at": "2026-11-17T19:35:26.153414+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-17T19:35:25.518806+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-17T19:35:25.526017+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-17T19:35:25.614038+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-17T19:35:25.622236+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-17T19:35:25.791781+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-17T19:35:25.800329+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-17T19:35:25.807442+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-17T19:35:26.153414+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-17T21:30:33.448686+00:00",
+  "pending_count": 0,
+  "snapshot_at": "2026-11-17T21:35:31.564263+00:00",
   "gemini_blocked_until": "2026-11-17T21:45:27.448996+00:00"
 }
