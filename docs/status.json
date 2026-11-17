@@ -1,12 +1,12 @@
 {
-  "run_id": "44026279214",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44026279214",
-  "started_at": "2026-11-17T05:45:22.590888+00:00",
-  "finished_at": "2026-11-17T05:45:26.002509+00:00",
-  "duration_seconds": 3.4,
+  "run_id": "44026853222",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44026853222",
+  "started_at": "2026-11-17T05:50:24.365800+00:00",
+  "finished_at": "2026-11-17T05:50:57.105812+00:00",
+  "duration_seconds": 32.7,
   "exit_code": 0,
-  "found": 4,
-  "published": 0,
+  "found": 6,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,29 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "4 items found"
+      "detail": "6 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,64 +44,23 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 4 new items."
+      "message": "Found 6 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 4 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 6 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
-    {
-      "id": "f810c663c32e4703564ba9bc163f6ebb",
-      "title": "ادعای نیویورک‌تایمز: سدهای ایران کاربرد نظامی دارند!",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-      "received_at": "2026-11-17T05:25:30.129044+00:00",
-      "updated_at": "2026-11-17T05:45:25.951864+00:00",
-      "eligible_at": "2026-11-17T05:47:04.423789+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-17T05:25:30.129044+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-17T05:25:30.133860+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-17T05:42:04.434083+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-17T05:42:04.438689+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-17T05:45:25.946574+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-17T05:45:25.951864+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "f8f504c08132b44de5682c875b8389da",
       "title": "جزئیات دیدار وزرای امور خارجه ایران و پاکستان  ",
@@ -153,12 +115,12 @@
       "id": "08b05b0114985a42a92c75c1a5b89a7f",
       "title": "♦️",
       "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-17T05:45:25.932929+00:00",
-      "updated_at": "2026-11-17T05:45:25.937432+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-17T05:50:57.060464+00:00",
+      "eligible_at": "2026-11-17T05:54:57.040600+00:00",
       "history": [
         {
           "stage": "received",
@@ -171,11 +133,164 @@
           "at": "2026-11-17T05:45:25.937432+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-17T05:50:57.054249+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-17T05:50:57.060464+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "b8c8172d6818381dae7a38f46f40aa1b",
+      "title": "جلسه علنی مجلس آغاز شد",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-17T05:50:28.127557+00:00",
+      "updated_at": "2026-11-17T05:50:28.139728+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-17T05:50:28.127557+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-17T05:50:28.139728+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "8650ce26ec304c73938b28860a3daf76",
+      "title": "هشدار سفیر ایران درباره ادعاهای بی‌اساس هسته‌ای در سایه سکوت در قبال تجاوز آمریکا به تهران  «غلامحسین درزی» سفیر و نماینده ایران در سازمان ملل هشدار داد: ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-17T05:50:28.150111+00:00",
+      "updated_at": "2026-11-17T05:50:28.160144+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-17T05:50:28.150111+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-17T05:50:28.160144+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
         }
       ]
     }
   ],
   "recent_articles": [
+    {
+      "id": "f810c663c32e4703564ba9bc163f6ebb",
+      "title": "ڕۆژنامەی نیویۆرک تایمز بانگەشەی ئەوە دەکات: بەنداوەکانی ئێران سوودی سەربازییان هەیە",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-17T05:25:30.129044+00:00",
+      "updated_at": "2026-11-17T05:50:54.487241+00:00",
+      "eligible_at": "2026-11-17T05:47:04.423789+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-17T05:25:30.129044+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-17T05:25:30.133860+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-17T05:42:04.434083+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-17T05:42:04.438689+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-17T05:45:25.946574+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-17T05:45:25.951864+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-17T05:50:28.180153+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-17T05:50:28.190427+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-17T05:50:51.535449+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-17T05:50:51.542228+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-17T05:50:53.947350+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-17T05:50:53.953576+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-17T05:50:54.487241+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
+        }
+      ]
+    },
     {
       "id": "4ce0870e1819fd0c255405a10376a3b0",
       "title": "سی‌ان‌ان: ئێران لە بررسیدا دەبێت بەرپرسیانی بەرزی حکوومەتی ترامپ بە «بۆمبی کرێ» هەدف بگرێت",
@@ -2646,64 +2761,9 @@
           "method": "openrouter"
         }
       ]
-    },
-    {
-      "id": "563c79cf09603e8c53ff4b89e25f690a",
-      "title": "وەزیری دەرەوی تورکیا: ڕووسییەکان نایەوە لەگەڵ ئوکراینا ڕێککەوتییەکی کاتی لە دەریای ڕەشدا بەبێ ڕێککەوتییەکی بەردەوامی ئاشتی",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-16T23:05:37.884324+00:00",
-      "updated_at": "2026-11-16T23:06:52.798476+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-16T23:05:37.884324+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-16T23:05:37.889312+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-16T23:05:37.908834+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-16T23:05:37.913936+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-16T23:06:48.554288+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-16T23:06:48.559371+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-16T23:06:52.798476+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-17T05:45:26.057030+00:00",
+  "pending_count": 5,
+  "snapshot_at": "2026-11-17T05:50:57.158422+00:00",
   "gemini_blocked_until": "2026-11-17T06:00:34.238415+00:00"
 }
