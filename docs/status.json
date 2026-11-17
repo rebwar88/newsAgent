@@ -1,12 +1,12 @@
 {
-  "run_id": "43986110722",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43986110722",
-  "started_at": "2026-11-17T00:15:34.377040+00:00",
-  "finished_at": "2026-11-17T00:15:38.708516+00:00",
-  "duration_seconds": 4.3,
+  "run_id": "43986782663",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/43986782663",
+  "started_at": "2026-11-17T00:20:21.703688+00:00",
+  "finished_at": "2026-11-17T00:20:46.696862+00:00",
+  "duration_seconds": 25.0,
   "exit_code": 0,
-  "found": 3,
-  "published": 0,
+  "found": 1,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "3 items found"
+      "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,24 +43,37 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 3 new items."
+      "message": "Found 1 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "d4a95472795b5b69f84ad6d45de013c9",
-      "title": "Trump’s approval rating remains near his presidency low at 32%, according to a Reuters/Ipsos poll, just above his record low of 31% in October.",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "نرخ پەسەندی ترامپ بە ٣٢٪ ماوە، نزیکە کەمترین تۆماری سەرۆکایەتی",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-16T23:50:27.677836+00:00",
-      "updated_at": "2026-11-17T00:15:38.664796+00:00",
+      "updated_at": "2026-11-17T00:20:43.721688+00:00",
       "eligible_at": "2026-11-17T00:15:42.463297+00:00",
       "history": [
         {
@@ -84,11 +99,51 @@
           "at": "2026-11-17T00:15:38.664796+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-17T00:20:24.854592+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-17T00:20:24.862243+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-17T00:20:24.870544+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-17T00:20:25.063929+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-17T00:20:42.342374+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-17T00:20:42.346874+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-17T00:20:43.721688+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "f3b198bb74c4aa7d599ff036ce25f8dd",
       "title": "تێد کروز",
@@ -2217,70 +2272,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "39b26b3820ecc7bb910313bba2359abb",
-      "title": "ونس: ڕێگە ناداتم کە شەڕی ئێران درێژ ببێتەوە",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "openrouter",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-16T20:35:26.385539+00:00",
-      "updated_at": "2026-11-16T20:36:57.008649+00:00",
-      "eligible_at": "2026-11-16T20:35:31.915279+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-16T20:35:26.385539+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-16T20:35:26.392973+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-16T20:35:26.423506+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-16T20:35:26.431157+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-16T20:35:31.928348+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-16T20:36:56.574084+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "openrouter"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-16T20:36:56.581820+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "openrouter"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-16T20:36:57.008649+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "openrouter"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-17T00:15:38.752533+00:00",
-  "gemini_blocked_until": "2026-11-17T00:14:03.953582+00:00"
+  "pending_count": 0,
+  "snapshot_at": "2026-11-17T00:20:46.740867+00:00",
+  "gemini_blocked_until": "2026-11-17T00:50:25.059366+00:00"
 }
