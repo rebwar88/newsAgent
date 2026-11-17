@@ -1,12 +1,12 @@
 {
-  "run_id": "44062293480",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44062293480",
-  "started_at": "2026-11-17T10:10:32.416908+00:00",
-  "finished_at": "2026-11-17T10:15:14.804059+00:00",
-  "duration_seconds": 282.4,
+  "run_id": "44063080336",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44063080336",
+  "started_at": "2026-11-17T10:15:35.107480+00:00",
+  "finished_at": "2026-11-17T10:20:34.873447+00:00",
+  "duration_seconds": 299.8,
   "exit_code": 0,
-  "found": 13,
-  "published": 1,
+  "found": 15,
+  "published": 0,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,23 +14,23 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "13 items found"
+      "detail": "15 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
+      "status": "ok",
+      "detail": "Gemini stage reached"
+    },
+    "telegram": {
       "status": "unknown",
       "detail": "No event recorded"
     },
-    "telegram": {
-      "status": "ok",
-      "detail": "Telegram confirmed publication"
-    },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 1 articles."
+      "detail": "Completed run. Processed 0 articles."
     }
   },
   "issues": [
@@ -44,26 +44,30 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 13 new items."
-    },
-    {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
-    },
-    {
-      "stage": "telegram",
-      "message": "Successfully published!"
+      "message": "Found 15 new items."
     },
     {
       "stage": "selection",
       "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
     },
     {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 2/2 in 15s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport unavailable after retries (ReadTimeout)."
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 1 articles."
+      "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 13 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 1 articles.",
+  "log": "Checking for new articles...\nFound 15 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini transport issue; retry 1/2 in 5s.\nGemini transport issue; retry 2/2 in 15s.\nGemini transport unavailable after retries (ReadTimeout).\nNon-AI fallback rejected: insufficient Sorani text or article content.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "410a787cd07ec5de7ed7116b7d1151e4",
@@ -73,8 +77,8 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-17T09:36:09.813823+00:00",
-      "updated_at": "2026-11-17T10:15:14.751026+00:00",
-      "eligible_at": "2026-11-17T10:13:29.411740+00:00",
+      "updated_at": "2026-11-17T10:20:34.821986+00:00",
+      "eligible_at": null,
       "history": [
         {
           "stage": "received",
@@ -180,64 +184,45 @@
         },
         {
           "stage": "selected",
-          "at": "2026-11-17T10:11:49.429002+00:00",
+          "at": "2026-11-17T10:15:38.103025+00:00",
           "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "translation"
         },
         {
-          "stage": "waiting_slot",
-          "at": "2026-11-17T10:11:49.437246+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "translation"
+          "stage": "waiting_gemini",
+          "at": "2026-11-17T10:15:38.111190+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-17T10:15:38.127179+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
         },
         {
           "stage": "processing_openrouter",
-          "at": "2026-11-17T10:13:29.421814+00:00",
+          "at": "2026-11-17T10:18:13.376315+00:00",
           "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
           "method": "openrouter"
         },
         {
           "stage": "formatting_source",
-          "at": "2026-11-17T10:15:14.734320+00:00",
+          "at": "2026-11-17T10:20:34.805077+00:00",
           "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
           "method": "source"
         },
         {
           "stage": "translating",
-          "at": "2026-11-17T10:15:14.743002+00:00",
+          "at": "2026-11-17T10:20:34.814105+00:00",
           "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
           "method": "translation"
         },
         {
           "stage": "blocked_content",
-          "at": "2026-11-17T10:15:14.751026+00:00",
+          "at": "2026-11-17T10:20:34.821986+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
-        }
-      ]
-    },
-    {
-      "id": "1037450fcf4b075d114e2cba8fdafc7e",
-      "title": "مهلت تکمیل فرم خوداظهاری افزایش اعتبار کالابرگ تمدید شد  زمان‌بندی ثبت درخواست حدود ۱۵ میلیون مشمولِ جامانده از ماه قبل:  چهارشنبه ۲۰ آبان از ساعت ۱۲ ظهر: ",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-17T09:45:26.933069+00:00",
-      "updated_at": "2026-11-17T09:45:26.939545+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-17T09:45:26.933069+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-17T09:45:26.939545+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
         }
       ]
     },
@@ -486,6 +471,131 @@
         {
           "stage": "waiting_turn",
           "at": "2026-11-17T10:10:35.516861+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "59f9942fc5d9394244ff6c914e28336b",
+      "title": "Serbian Opposition Leader Aleksandar Vučić:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-17T10:15:38.014251+00:00",
+      "updated_at": "2026-11-17T10:15:38.022409+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-17T10:15:38.014251+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-17T10:15:38.022409+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "c3a7f5b0f6599399d06235c173485d94",
+      "title": "NEW: Britain has sanctioned eight Israeli companies involved in expanding illegal settlements in the occupied West Bank.",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-17T10:15:38.030723+00:00",
+      "updated_at": "2026-11-17T10:15:38.038646+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-17T10:15:38.030723+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-17T10:15:38.038646+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "bb51765aaa501ab1c408ca9482761c5e",
+      "title": "Serbian Opposition Leader Aleksandar Vučić:",
+      "source": "Clash Report",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-17T10:15:38.046478+00:00",
+      "updated_at": "2026-11-17T10:15:38.054223+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-17T10:15:38.046478+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-17T10:15:38.054223+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "12a8de8b9250fa16daef353d0af47311",
+      "title": "👈",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-17T10:15:38.062754+00:00",
+      "updated_at": "2026-11-17T10:15:38.070788+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-17T10:15:38.062754+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-17T10:15:38.070788+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "b7a6208af35e0745d16a1cce4f97a468",
+      "title": "وزارت خارجه قطر: ",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-17T10:15:38.078684+00:00",
+      "updated_at": "2026-11-17T10:15:38.086737+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-17T10:15:38.078684+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-17T10:15:38.086737+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
@@ -2660,7 +2770,7 @@
       ]
     }
   ],
-  "pending_count": 12,
-  "snapshot_at": "2026-11-17T10:15:14.865603+00:00",
+  "pending_count": 15,
+  "snapshot_at": "2026-11-17T10:20:34.935205+00:00",
   "gemini_blocked_until": "2026-11-17T10:15:27.107571+00:00"
 }
