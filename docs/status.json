@@ -1,11 +1,11 @@
 {
-  "run_id": "44368572964",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44368572964",
-  "started_at": "2026-11-18T18:20:25.767281+00:00",
-  "finished_at": "2026-11-18T18:22:58.589977+00:00",
-  "duration_seconds": 152.8,
+  "run_id": "44369487556",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44369487556",
+  "started_at": "2026-11-18T18:25:25.657370+00:00",
+  "finished_at": "2026-11-18T18:29:16.831279+00:00",
+  "duration_seconds": 231.2,
   "exit_code": 0,
-  "found": 4,
+  "found": 5,
   "published": 1,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "4 items found"
+      "detail": "5 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -34,6 +34,9 @@
     }
   },
   "issues": [
+    "Apify request failed (HTTP 401).",
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
@@ -44,11 +47,15 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 4 new items."
+      "message": "Found 5 new items."
     },
     {
       "stage": "selection",
       "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
     },
     {
       "stage": "selection",
@@ -59,11 +66,15 @@
       "message": "Successfully published!"
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 4 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nDuplicate of an already published story (جەختکردنەوە لەلایەن پزیشکانەوە لەسەر پێویستی دامەزراندنی سیس); skipping.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "431fdc15fa89bc7547df0941b7d1aea3",
@@ -73,8 +84,8 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-18T18:05:33.081284+00:00",
-      "updated_at": "2026-11-18T18:22:51.035437+00:00",
-      "eligible_at": "2026-11-18T18:22:50.491503+00:00",
+      "updated_at": "2026-11-18T18:25:50.492296+00:00",
+      "eligible_at": "2026-11-18T18:25:49.951359+00:00",
       "history": [
         {
           "stage": "received",
@@ -165,6 +176,54 @@
           "at": "2026-11-18T18:22:51.035437+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-18T18:25:30.158328+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-18T18:25:30.166072+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-18T18:25:49.975913+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-18T18:25:49.991616+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-18T18:25:50.188578+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-18T18:25:50.476381+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-18T18:25:50.484805+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-18T18:25:50.492296+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     },
@@ -194,14 +253,103 @@
       ]
     },
     {
-      "id": "632298aee602765cb7c383b2cedfda17",
-      "title": "رزمایش هوایی مشترک «اسرائیل» و یونان با شبیه‌سازی پرواز در برد ایران",
+      "id": "8f3fb95f9055c06ff5798195fcbc2882",
+      "title": "رئیس سازمان سنجش: زنان در ۴ گروه آزمایشی کنکور از مردان پیشی گرفتند",
       "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-18T18:20:29.853431+00:00",
+      "updated_at": "2026-11-18T18:20:29.868515+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-18T18:20:29.853431+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-18T18:20:29.868515+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "ff2864a000f92fd78ef6debdf1a560ec",
+      "title": "🔴",
+      "source": "بەپەلە|Breaking News",
       "stage": "waiting_slot",
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-18T18:25:30.101150+00:00",
+      "updated_at": "2026-11-18T18:29:16.782881+00:00",
+      "eligible_at": "2026-11-18T18:29:54.392250+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-18T18:25:30.101150+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-18T18:25:30.108667+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-18T18:29:16.774983+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-18T18:29:16.782881+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "c1edb6c63d149b69abe178b4128fdc66",
+      "title": "هشدار امنیتی آمریکا به تبعه خود در بحرین",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-18T18:25:30.131879+00:00",
+      "updated_at": "2026-11-18T18:25:30.139549+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-18T18:25:30.131879+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-18T18:25:30.139549+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "632298aee602765cb7c383b2cedfda17",
+      "title": "مەشقی ئاسمانی هاوبەشی ئیسرائیل و یۆنان لەگەڵ ھاوشێوەکردنی فڕین لە مەودای ئێران",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-18T18:15:30.435244+00:00",
-      "updated_at": "2026-11-18T18:22:58.543497+00:00",
+      "updated_at": "2026-11-18T18:25:52.977136+00:00",
       "eligible_at": "2026-11-18T18:27:58.522788+00:00",
       "history": [
         {
@@ -227,36 +375,51 @@
           "at": "2026-11-18T18:22:58.543497+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "8f3fb95f9055c06ff5798195fcbc2882",
-      "title": "رئیس سازمان سنجش: زنان در ۴ گروه آزمایشی کنکور از مردان پیشی گرفتند",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-18T18:20:29.853431+00:00",
-      "updated_at": "2026-11-18T18:20:29.868515+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-18T18:20:29.853431+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-18T18:25:50.499851+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-18T18:20:29.868515+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "processing_openrouter",
+          "at": "2026-11-18T18:25:50.507884+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-18T18:25:50.637615+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-18T18:25:50.645286+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-18T18:25:52.440751+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-18T18:25:52.448564+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-18T18:25:52.977136+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "fbc88b4e54e3061876005681c25bc8bd",
       "title": "جەختکردنەوە لەلایەن پزیشکانەوە لەسەر پێویستی دامەزراندنی سیستەمێکی دادپەروەرانە و ئامانجدار بۆ تەرخانکردنی یار",
@@ -2439,100 +2602,9 @@
           "method": "source"
         }
       ]
-    },
-    {
-      "id": "ee52f158865e9075a7e6dc54e2c22ae7",
-      "title": "ئامادەنەبوونی سەرۆکی ڕاهێنەری ئیستێگلال لە مەشقەکانی ئەمڕۆدا",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-18T16:20:28.046076+00:00",
-      "updated_at": "2026-11-18T16:30:47.652072+00:00",
-      "eligible_at": "2026-11-18T16:30:31.807477+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-18T16:20:28.046076+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-18T16:20:28.053543+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-18T16:20:32.905688+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-18T16:20:32.913507+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-18T16:25:31.832428+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-18T16:25:31.852996+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-18T16:30:39.096891+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-18T16:30:39.102465+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-18T16:30:43.568417+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-18T16:30:43.573955+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-18T16:30:45.765083+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-18T16:30:45.769999+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-18T16:30:47.652072+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-18T18:22:58.644945+00:00",
-  "gemini_blocked_until": "2026-11-18T18:14:30.019573+00:00"
+  "pending_count": 5,
+  "snapshot_at": "2026-11-18T18:29:16.892918+00:00",
+  "gemini_blocked_until": "2026-11-18T18:55:50.180189+00:00"
 }
