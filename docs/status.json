@@ -1,12 +1,12 @@
 {
-  "run_id": "44405539194",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44405539194",
-  "started_at": "2026-11-18T21:50:24.468737+00:00",
-  "finished_at": "2026-11-18T21:50:28.329617+00:00",
-  "duration_seconds": 3.9,
+  "run_id": "44406376475",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44406376475",
+  "started_at": "2026-11-18T21:55:22.449649+00:00",
+  "finished_at": "2026-11-18T21:55:31.714734+00:00",
+  "duration_seconds": 9.3,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,25 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +46,34 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "8b3627cf972147ae52d4a47e46d288ca",
-      "title": "پاڤێل دورۆڤ، دامەزرێنەری تێلێگرام لە بارەی بلۆککردنی ئەپەکەیان لە عێراق: هاوسۆزی خۆمان بۆ گەلی عێراق دەردەبڕین، بەڵام ئێمە سانسۆر ناخەینە سەر ئازادیی ڕادەربڕینی سیاسی",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "پاڤێل دورۆڤ، دامەزرێنەری تێلێگرام لە بارەی بلۆککردنی ئەپەکەیان لە عێراق: هاوسۆزی خۆمان بۆ گەلی عێراق دەردەبڕین",
+      "source": "تلگرامی - بەپەلە|Breaking News",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-18T21:50:28.249174+00:00",
-      "updated_at": "2026-11-18T21:50:28.278188+00:00",
+      "updated_at": "2026-11-18T21:55:28.937188+00:00",
       "eligible_at": "2026-11-18T21:52:26.958300+00:00",
       "history": [
         {
@@ -84,11 +99,57 @@
           "at": "2026-11-18T21:50:28.278188+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-18T21:55:26.553217+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-18T21:55:26.561731+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-18T21:55:26.575899+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-18T21:55:26.861864+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-18T21:55:27.062456+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-18T21:55:27.070819+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-18T21:55:27.077922+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-18T21:55:28.937188+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "d55e2c6c5804b913d9c995f1262a1ef4",
       "title": "سەرۆکی ستراتیژیستەکانی پنتاگۆن، ئێلبریج کۆلبی، دوای ئەوەی ڕەخنەی لە هێرشە قووڵەکانی ئۆکرانیا بۆ سەر ڕووسیا گرت",
@@ -2289,88 +2350,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "4a538305d49e7f379722223fee1f20d2",
-      "title": "پەیامنێر: کەسانێک هەبوون کە ئامۆژگاری ترەمپیان کردووە سەبارەت بە بازرگانی و پێیان وایە نزیکبوونەوەت لە چین هەڕ",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-18T18:45:26.931732+00:00",
-      "updated_at": "2026-11-18T19:12:11.004061+00:00",
-      "eligible_at": "2026-11-18T19:09:59.832934+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-18T18:45:26.931732+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-18T18:45:26.939461+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-18T19:08:34.131684+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-18T19:08:34.137429+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-18T19:12:05.432125+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-18T19:12:05.436504+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-18T19:12:05.573903+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-18T19:12:05.578073+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-18T19:12:06.900137+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-18T19:12:06.904336+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-18T19:12:11.004061+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-18T21:50:28.385132+00:00",
-  "gemini_blocked_until": "2026-11-18T21:25:23.369488+00:00"
+  "pending_count": 0,
+  "snapshot_at": "2026-11-18T21:55:31.774499+00:00",
+  "gemini_blocked_until": "2026-11-18T22:25:26.854466+00:00"
 }
