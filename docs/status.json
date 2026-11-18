@@ -1,12 +1,12 @@
 {
-  "run_id": "44343065854",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44343065854",
-  "started_at": "2026-11-18T16:05:21.894647+00:00",
-  "finished_at": "2026-11-18T16:05:24.833283+00:00",
-  "duration_seconds": 2.9,
+  "run_id": "44344049240",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44344049240",
+  "started_at": "2026-11-18T16:10:26.437022+00:00",
+  "finished_at": "2026-11-18T16:10:36.150952+00:00",
+  "duration_seconds": 9.7,
   "exit_code": 0,
-  "found": 6,
-  "published": 0,
+  "found": 4,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,28 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "6 items found"
+      "detail": "4 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,50 +43,37 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 6 new items."
+      "message": "Found 4 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@brakingnews24)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 6 new items.\nDuplicate of an already published story (وەزیری ئاسایشی نەتەوەیی ئەمریکا ئیدیعای کرد: هێرشە ئەلیکترۆن); skipping.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 4 new items.\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
-    {
-      "id": "25e3255ecb8a7d8e4233867fdfe4ff8d",
-      "title": "عومەر فەقێ پاش ئەوەی نزیکەی مانگێکە دەستگیر کراوە، ئێوارەی ئەمڕۆ ئازاد کرا",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-18T15:40:30.168294+00:00",
-      "updated_at": "2026-11-18T15:40:30.172835+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-18T15:40:30.168294+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-18T15:40:30.172835+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
     {
       "id": "ea24a8a0f3b28e050dd1de1b05a48717",
       "title": "Trump Administration Weighs Forcing U.S. Firms to Disclose Chinese AI Use",
       "source": "Clash Report",
-      "stage": "waiting_turn",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-18T15:45:28.168450+00:00",
-      "updated_at": "2026-11-18T15:45:28.175769+00:00",
-      "eligible_at": null,
+      "updated_at": "2026-11-18T16:10:36.100807+00:00",
+      "eligible_at": "2026-11-18T16:15:36.076976+00:00",
       "history": [
         {
           "stage": "received",
@@ -96,6 +85,18 @@
           "stage": "waiting_turn",
           "at": "2026-11-18T15:45:28.175769+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-18T16:10:36.094052+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-18T16:10:36.100807+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
         }
       ]
@@ -124,16 +125,18 @@
           "method": "undecided"
         }
       ]
-    },
+    }
+  ],
+  "recent_articles": [
     {
       "id": "f40da6d98e3186db36e58c4ecd66a94f",
-      "title": "ئاگاداریەک لە بەڕێوەبەرایەتی نەوت و کانزاکانی هەولێر لەبارەی دابەشکردنی نەوتی سپی ",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "ئاگاداریەک لە بەڕێوەبەرایەتی نەوت و کانزاکانی هەولێر لەبارەی دابەشکردنی نەوتی سپی",
+      "source": "تلگرامی - بەپەلە|Breaking News",
+      "stage": "published",
+      "method": "source",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-18T16:00:36.894031+00:00",
-      "updated_at": "2026-11-18T16:05:24.775910+00:00",
+      "updated_at": "2026-11-18T16:10:32.617164+00:00",
       "eligible_at": "2026-11-18T16:05:43.111771+00:00",
       "history": [
         {
@@ -171,11 +174,57 @@
           "at": "2026-11-18T16:05:24.775910+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-18T16:10:30.520967+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-18T16:10:30.528293+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-18T16:10:30.540961+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-18T16:10:30.785234+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-18T16:10:31.174898+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-18T16:10:31.183271+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "source"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-18T16:10:31.189594+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "source"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-18T16:10:32.617164+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "source"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "3c81763cb46ebaa8dd023bfbb88521c6",
       "title": "ئابووریناس",
@@ -2406,70 +2455,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "4d1e78d7ad2ec6fbc4d178352c9de57e",
-      "title": "ئاسایشی جورف لسەخر بە هێزە عیراقییەکان دەسپێردرێت",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-18T14:00:42.796655+00:00",
-      "updated_at": "2026-11-18T14:00:46.473889+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-18T14:00:42.796655+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-18T14:00:42.801583+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-18T14:00:42.821222+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-18T14:00:42.826293+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-18T14:00:43.066548+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-18T14:00:43.072668+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-18T14:00:43.077573+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-18T14:00:46.473889+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-18T16:05:24.893047+00:00",
-  "gemini_blocked_until": "2026-11-18T16:04:22.165986+00:00"
+  "pending_count": 2,
+  "snapshot_at": "2026-11-18T16:10:36.224311+00:00",
+  "gemini_blocked_until": "2026-11-18T16:40:30.777660+00:00"
 }
