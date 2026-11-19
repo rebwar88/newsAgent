@@ -1,12 +1,12 @@
 {
-  "run_id": "44436747824",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44436747824",
-  "started_at": "2026-11-19T01:25:21.493692+00:00",
-  "finished_at": "2026-11-19T01:25:25.278506+00:00",
-  "duration_seconds": 3.8,
+  "run_id": "44437379176",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/44437379176",
+  "started_at": "2026-11-19T01:30:32.827130+00:00",
+  "finished_at": "2026-11-19T01:30:57.814716+00:00",
+  "duration_seconds": 25.0,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,20 +17,20 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [],
@@ -44,21 +44,30 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "cce46fb3eca0dbba23fea660d943a877",
-      "title": "نیویورک‌تایمز: ناو هواپیمابر یو‌اس‌اس جورج واشنگتن (USS George Washington) ",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "نیویۆرک تایمز: ناو هواپیمابەری جۆرج واشنتن ناوچەی ڕۆژهەڵاتی ناوەڕاستی بەجێهێشت",
+      "source": "تلگرامی - پایگاه خبری انتخاب",
+      "stage": "published",
+      "method": "openrouter",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-19T01:15:29.971231+00:00",
-      "updated_at": "2026-11-19T01:25:25.229815+00:00",
+      "updated_at": "2026-11-19T01:30:55.240209+00:00",
       "eligible_at": "2026-11-19T01:27:52.210750+00:00",
       "history": [
         {
@@ -108,11 +117,39 @@
           "at": "2026-11-19T01:25:25.229815+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-19T01:30:37.249721+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-19T01:30:37.257863+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-19T01:30:54.670667+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "openrouter"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-19T01:30:54.678057+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "openrouter"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-19T01:30:55.240209+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "openrouter"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "80d74e47802bf3f7d4bce0ab04bd4fca",
       "title": "ئیدیعای ترەمپ",
@@ -2319,76 +2356,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "0cc91bc7bf99afc6c937516720e6c039",
-      "title": "عێراقچی: گفتوگۆیەکی بنیاتنەرمان لەگەڵ عومان هەبوو لەسەر دامەزراندنی چوارچێوەیەکی نوێ و سەربەخۆی ئەمنی ناوچەیی",
-      "source": "تلگرامی - بەپەلە|Breaking News",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-18T19:20:27.946361+00:00",
-      "updated_at": "2026-11-18T19:21:01.606962+00:00",
-      "eligible_at": "2026-11-18T19:21:00.128669+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-18T19:20:27.946361+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-18T19:20:27.952669+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-18T19:20:27.978123+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-18T19:20:27.984436+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-18T19:21:00.130691+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-18T19:21:00.452740+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-18T19:21:00.460060+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-18T19:21:00.466130+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-18T19:21:01.606962+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-19T01:25:25.357361+00:00",
+  "pending_count": 0,
+  "snapshot_at": "2026-11-19T01:30:57.876115+00:00",
   "gemini_blocked_until": "2026-11-19T01:31:24.957137+00:00"
 }
