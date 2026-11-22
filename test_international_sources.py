@@ -189,7 +189,7 @@ class InternationalNewsTests(unittest.TestCase):
 
     def test_bbc_english_uses_scoped_index_fallback(self):
         spec = intl.SOURCES[-1]
-        self.assertIn("bbc.com/news", spec["fallback_feed"])
+        self.assertIn("bbc.com%2Fnews", spec["fallback_feed"])
 
 
 if __name__ == "__main__":
