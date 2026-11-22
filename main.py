@@ -11,6 +11,7 @@ import time
 import feedparser
 from bs4 import BeautifulSoup
 import editorial
+import sorani_quality
 from apify_facebook import fetch_facebook_via_apify
 from facebook_public import fetch_facebook_public_posts, discover_public_page_posts, FACEBOOK_PAGE_SHARE_URLS
 
@@ -403,6 +404,9 @@ def rewrite_with_gemini(raw_text):
         "title سەردێڕێکی کورت و ڕوونی سۆرانی بێت؛ body دوو تا سێ پەرەگرافی ڕەوان بێت، "
         "بەڵام ئەگەر دەقی سەرچاوە کورتە، هەواڵەکە بە زۆر درێژ مەکەوە. "
         "دەقی فارسی یان عەرەبی بە خاوی مەهێڵەوە و بە تێکەڵاوی زمانەکان مەینووسە. "
+        "سەردێڕ و هەموو ناوەڕۆک بە کوردیی سۆرانیی پاک و سروشتی بنووسە؛ بە تایبەتی وشەی فارسی وەک بهای، برای، است، شد و درباره مەهێڵەوە. "
+        "سەردێڕەکە دەبێت سێ وشە یان زیاتر بێت و واتای هەواڵەکە بگەیەنێت، نەک تەنها ناوێک یان ژمارەیەک. "
+        "هیچ بەشێکی دەقی سەرچاوە لە وەرگێڕاندا مەسڕەوە؛ پێش گەڕاندنەوەی JSON خۆت بپشکنە کە هیچ ڕستەی فارسی یان عەرەبی تێدا نەماوە. "
         "هیچ URL، لینک، هاشتاگ، HTML، Markdown یان @username مەنووسە."
     )
 
@@ -489,7 +493,7 @@ def rewrite_with_gemini(raw_text):
         if len(title) < 8 or len(body) < 60:
             print("Gemini returned an incomplete article; skipping.")
             return None
-        return validate_ai_news({"title": title, "body": body})
+        return validate_ai_news({"title": title, "body": body}, source_text=raw_text)
     except RuntimeError as e:
         if str(e) == "GEMINI_QUOTA_EXCEEDED":
             raise
@@ -500,18 +504,15 @@ def rewrite_with_gemini(raw_text):
         return None
 
 
-def validate_ai_news(data):
-    """Reject empty or obviously untranslated AI responses before publication."""
+def validate_ai_news(data, source_text=""):
+    """Fail closed on incomplete, Persian, Arabic or unfaithfully copied text."""
     if not isinstance(data, dict):
         return None
-    title = re.sub(r"https?://\\S+|www\\.\\S+", "", str(data.get("title") or "")).strip()
-    body = re.sub(r"https?://\\S+|www\\.\\S+", "", str(data.get("body") or "")).strip()
-    if len(title) < 8 or len(body) < 60:
-        return None
-    # Distinctive Sorani characters; not sufficient for literary quality but
-    # prevents unmodified Persian/Arabic text from being published as Sorani.
-    if len(re.findall(r"[ئۆێەڕڵڤ]", title + body)) < 5:
-        print("AI text rejected: insufficient Sorani orthography.")
+    title = re.sub(r"https?://\S+|www\.\S+", "", str(data.get("title") or "")).strip()
+    body = re.sub(r"https?://\S+|www\.\S+", "", str(data.get("body") or "")).strip()
+    issue = sorani_quality.article_issue(title, body, source_text)
+    if issue:
+        print(f"News quality gate rejected article: {issue}.")
         return None
     return {"title": title, "body": body}
 
@@ -527,7 +528,10 @@ def rewrite_with_openrouter(raw_text):
         "not literal Persian/Arabic calques. Preserve every name, number, date, attribution "
         "and uncertainty. Never invent facts. Return ONLY valid JSON with string fields "
         "title and body, a concise headline and a factual news article. No URLs, hashtags "
-        "or markdown. Both fields MUST be Kurdish Sorani."
+        "or markdown. Both fields MUST be Kurdish Sorani. Do not retain Persian or Arabic "
+        "grammar such as بهای، برای، است، شد، درباره or any untranslated sentences. "
+        "Write a complete headline with at least three meaningful words and translate the entire "
+        "source, never just the first sentence. Check both fields for Sorani before replying."
     )
     for model in OPENROUTER_MODELS:
         try:
@@ -558,7 +562,7 @@ def rewrite_with_openrouter(raw_text):
             content = str(content).strip()
             if content.startswith("```"):
                 content = re.sub(r"^\x60{3}(?:json)?\s*|\s*\x60{3}$", "", content).strip()
-            prepared = validate_ai_news(json.loads(content))
+            prepared = validate_ai_news(json.loads(content), source_text=raw_text)
             if prepared:
                 return prepared
             print(f"OpenRouter {model}: incomplete or untranslated output.")
@@ -593,7 +597,7 @@ def format_without_ai(item):
         return None
     if len(title) + len(body) > 3600:
         body = body[: max(0, 3550 - len(title))].rsplit(" ", 1)[0] + "…"
-    return {"title": title, "body": body}
+    return validate_ai_news({"title": title, "body": body})
 
 
 TRANSLATE_FALLBACK_ENABLED = os.getenv("TRANSLATE_FALLBACK_ENABLED", "true").lower() == "true"
@@ -624,46 +628,79 @@ def translate_to_sorani(text):
     TRANSLATE_SERVICE_FAILED = True
     return None
 
+def _fallback_headline(translated_body):
+    """Create a meaningful headline from translated facts, not a broken first line."""
+    text = re.sub(r"\s+", " ", str(translated_body or "")).strip()
+    words = text.split()
+    headline = " ".join(words[:14]).strip(" •-–—:،.؛!؟")
+    if len(headline) > 120:
+        headline = " ".join(headline[:120].split()[:-1]).strip(" •-–—:،.؛!؟")
+    return headline
+
+
+def _translation_chunks(text, max_chars=1400):
+    """Split on whitespace so long reports are not silently cut at 2,000 chars."""
+    result = []
+    remaining = text.strip()
+    while remaining:
+        if len(remaining) <= max_chars:
+            result.append(remaining)
+            break
+        split = max(remaining.rfind("\n", 0, max_chars + 1), remaining.rfind(" ", 0, max_chars + 1))
+        if split < max_chars // 2:
+            split = max_chars
+        result.append(remaining[:split].strip())
+        remaining = remaining[split:].strip()
+    return [piece for piece in result if piece]
+
+
 def translate_without_gemini(item):
-    """Fallback for non-Sorani news when Gemini is unavailable: free translation, then the same safety checks."""
+    """Translate the FULL article and QA the Sorani title and body independently."""
     if not TRANSLATE_FALLBACK_ENABLED:
         return None
+
     def clean(value):
         value = re.sub(r"https?://\S+|www\.\S+|@[A-Za-z0-9_]+|#[\w]+", "", str(value or ""))
         value = re.sub(r"<[^>]*>", "", value)
         value = re.sub(r"[ \t]+", " ", value)
         return re.sub(r"\n{3,}", "\n\n", value).strip()
+
     title, body = clean(item.get("title")), clean(item.get("content"))
-    source_text = (title + "\n\n" + body).strip() if title else body
-    if len(source_text) < 60:
+    if len(body) < 60:
         return None
-    if len(source_text) > 2000:
-        source_text = source_text[:2000].rsplit(" ", 1)[0]
-    translated = translate_to_sorani(source_text)
-    if not translated:
-        print("Translation fallback unavailable; skipping item.")
+    # Never silently truncate a story: keep it pending if the free fallback
+    # cannot safely cover its full content within a single workflow run.
+    if len(title) + len(body) > 3600:
+        print("Translation fallback deferred: article exceeds safe translation budget.")
         return None
-    letters = re.findall(r"[A-Za-z\u0600-\u06FF]", translated)
-    sorani = re.findall(SORANI_LETTERS, translated)
-    latin = re.findall(r"[A-Za-z]", translated)
-    # Reject output that is still mostly foreign text (would mix languages in the channel).
-    if not letters or len(sorani) < 5 or len(latin) > 0.25 * len(letters):
-        print("Translation fallback rejected: output is not clean Sorani.")
-        return None
-    t_title, t_body = "", translated
-    if title and "\n" in translated:
-        t_title, t_body = [part.strip() for part in translated.split("\n", 1)]
-    # Translation must be readable Sorani, never a raw Persian/Arabic repost.
-    # A conservative heuristic: reject outputs with too few distinctive Sorani letters.
-    cleaned = format_without_ai({"title": t_title, "content": t_body})
-    if not cleaned:
-        return None
-    original = source_text.strip()
-    output = (cleaned["title"] + "\n" + cleaned["body"]).strip()
-    if output == original:
-        print("Translation fallback rejected: unchanged source text.")
-        return None
-    return cleaned
+
+    translated_parts = []
+    for chunk in _translation_chunks(body):
+        translated = translate_to_sorani(chunk)
+        if not translated:
+            print("Translation fallback unavailable; keeping item pending.")
+            return None
+        translated_parts.append(translated.strip())
+    translated_body = "\n\n".join(translated_parts).strip()
+
+    # Many Telegram posts have no title. For those, derive it from a complete
+    # Sorani sentence, never from the raw Persian first line.
+    if title and len(sorani_quality._words(title)) >= 3 and len(title) >= 12:
+        translated_title = translate_to_sorani(title)
+        if not translated_title:
+            print("Translation fallback could not translate headline.")
+            return None
+        translated_title = re.sub(r"\s+", " ", translated_title).strip()
+    else:
+        translated_title = _fallback_headline(translated_body)
+
+    result = validate_ai_news(
+        {"title": translated_title, "body": translated_body},
+        source_text=(title + "\n" + body).strip()
+    )
+    if not result:
+        print("Translation fallback rejected by language and completeness QA; item remains pending.")
+    return result
 
 
 def post_telegram(method, data, files=None, timeout=40):
@@ -1277,6 +1314,19 @@ def main():
             track_article(item, state, "blocked_content", "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە")
             print("No safe publishable text; keeping item pending.")
             continue
+        # Recheck cached/prepared stories too: no code path may bypass Sorani QA.
+        checked_text = validate_ai_news(
+            rewritten_text,
+            source_text=(item.get("title", "") + "\n" + item["content"]).strip()
+        )
+        if not checked_text:
+            item.pop("prepared_text", None)
+            item.pop("prepared_method", None)
+            track_article(item, state, "blocked_content",
+                          "پشکنینی زمانی کۆتایی هەواڵەکەی ڕاگرت؛ هەوڵی دووبارە دەدرێت")
+            print("Publication blocked by final Sorani quality gate; keeping item pending.")
+            continue
+        rewritten_text = checked_text
         final_fp = editorial.fingerprint(story_text(rewritten_text), "final")
         dup = editorial.find_duplicate(final_fp, state, "final")
         if dup:
