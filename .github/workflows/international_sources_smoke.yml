@@ -1,0 +1,37 @@
+name: International News Feeds Smoke Test (No Publishing)
+
+on:
+  push:
+    branches: [feature/iraq-iran-international-sources-20261123]
+    paths:
+      - '.github/workflows/international_sources_smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - name: Fetch only public RSS and indexed headlines; no Telegram credentials
+        run: |
+          python - <<'PY'
+          from collections import Counter
+          from international_sources import fetch_international_news, SOURCES
+          print("International sources configured:", ", ".join(s["name"] for s in SOURCES))
+          items = fetch_international_news(set())
+          counts = Counter(x["source_name"] for x in items)
+          for source in SOURCES:
+              print("SOURCE:", source["name"], "| relevant recent candidates:", counts[source["name"]])
+          for item in items[:20]:
+              print("HEADLINE:", item["source_name"], "|", item["title"][:115])
+          print("Total accepted candidates:", len(items))
+          print("This smoke test imported NO publisher / Telegram code and published nothing.")
+          PY
