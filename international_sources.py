@@ -1,6 +1,6 @@
 """Low-cost, source-attributed international news discovery for Iraq and Iran conflict.
 
-Public RSS and Google News publisher-index feeds only. No paywall scraping,
+Public licensed/accessible RSS and Google News publisher-index feeds only. No paywall scraping,
 full-text extraction or reproduction of copyrighted articles.
 """
 import calendar
@@ -25,12 +25,12 @@ def google_publisher_feed(domain):
 
 
 SOURCES = (
-    {"name": "The New York Times", "feed": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
-     "domains": ("nytimes.com",), "kind": "official",
-     "fallback_feed": google_publisher_feed("nytimes.com")},
-    {"name": "The Washington Post", "feed": "https://feeds.washingtonpost.com/rss/world/middle-east",
-     "domains": ("washingtonpost.com",), "kind": "official",
-     "fallback_feed": google_publisher_feed("washingtonpost.com")},
+    # These publishers restrict RSS redistribution/translation. Discover only
+    # public, publisher-attributed search headlines; never fetch their RSS text.
+    {"name": "The New York Times", "feed": google_publisher_feed("nytimes.com"),
+     "domains": ("nytimes.com",), "kind": "google"},
+    {"name": "The Washington Post", "feed": google_publisher_feed("washingtonpost.com"),
+     "domains": ("washingtonpost.com",), "kind": "google"},
     {"name": "Middle East Eye", "feed": "https://www.middleeasteye.net/rss",
      "domains": ("middleeasteye.net",), "kind": "official"},
     {"name": "Reuters", "feed": google_publisher_feed("reuters.com"),
