@@ -8,6 +8,8 @@ from unittest.mock import Mock, patch
 
 import apify_facebook as af
 
+ORIGINAL_KEYWORD_LOADER = af.load_news_keywords
+
 
 class FilteredApifyTests(unittest.TestCase):
     def setUp(self):
@@ -115,8 +117,8 @@ class FilteredApifyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "broken.json"
             path.write_text("{", encoding="utf-8")
-            with patch.object(af, "APIFY_KEYWORDS_FILE", path), patch.object(af, "load_news_keywords", wraps=af.load_news_keywords):
-                self.assertEqual(af.load_news_keywords(), [])
+            with patch.object(af, "APIFY_KEYWORDS_FILE", path):
+                self.assertEqual(ORIGINAL_KEYWORD_LOADER(), [])
 
 
 if __name__ == "__main__":
