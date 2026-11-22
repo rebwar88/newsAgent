@@ -1,0 +1,66 @@
+name: Apify Keyword Smoke Test
+on:
+  push:
+    paths:
+      - '.github/workflows/apify_keyword_smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: apify-keyword-smoke
+  cancel-in-progress: false
+jobs:
+  probe:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[apify-smoke-once]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+      FACEBOOK_PAGE_URLS: ${{ vars.FACEBOOK_PAGE_URLS }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: One capped Apify request; never publish
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, sys, urllib.request, urllib.error, urllib.parse
+          from pathlib import Path
+          token = os.getenv("APIFY_TOKEN", "").strip()
+          pages = [p.strip() for p in os.getenv("FACEBOOK_PAGE_URLS", "").split(",") if p.strip()]
+          keywords = json.loads(Path("facebook_news_keywords.json").read_text(encoding="utf-8"))
+          if not token:
+              sys.exit("No APIFY_TOKEN: no request made.")
+          if len(pages) != 3 or any(not p.startswith("https://www.facebook.com/") for p in pages):
+              sys.exit("Need exactly 3 configured Facebook pages: no request made.")
+          if len(keywords) != 16:
+              sys.exit("Keyword count invalid: no request made.")
+          payload = {
+              "startUrls": pages, "keywordFilter": ", ".join(keywords),
+              "startDate": "12 hours", "monitorMode": False,
+              "maxPostsPerPage": 5, "maxItems": 5, "compact": True,
+              "includePostDetails": False, "captionText": False
+          }
+          params = urllib.parse.urlencode({
+              "timeout": 180, "maxItems": 5, "maxTotalChargeUsd": 0.01
+          })
+          url = "https://api.apify.com/v2/acts/topapi~facebook-page-posts-scraper/run-sync-get-dataset-items?" + params
+          req = urllib.request.Request(url,
+              data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+              headers={"Authorization": "Bearer " + token, "Content-Type": "application/json"},
+              method="POST")
+          print("Apify one-time test: 3 pages, 16 keywords, max 5 charged posts, max $0.01. No publication.", flush=True)
+          try:
+              with urllib.request.urlopen(req, timeout=220) as response:
+                  rows = json.load(response)
+          except urllib.error.HTTPError as exc:
+              sys.exit("Apify HTTP " + str(exc.code) + " (no retry).")
+          except (urllib.error.URLError, TimeoutError, ValueError) as exc:
+              sys.exit("Apify test incomplete (" + type(exc).__name__ + "; no retry).")
+          if not isinstance(rows, list):
+              sys.exit("Unexpected response format: no publication.")
+          print("Rows returned:", len(rows))
+          texts = [str(r.get("text") or r.get("message") or "") for r in rows if isinstance(r, dict)]
+          print("Rows with nonempty text:", sum(bool(t.strip()) for t in texts))
+          print("Rows with specified keywords in text:", sum(any(w in t for w in keywords) for t in texts))
+          print("Check Apify Runs > Usage for the exact billed amount. No post was published.")
+          PY
