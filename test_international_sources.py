@@ -100,7 +100,7 @@ class InternationalNewsTests(unittest.TestCase):
     def test_reuters_google_news_requires_verified_source_href(self):
         spec = next(x for x in intl.SOURCES if x["name"] == "Reuters")
         url = "https://news.google.com/rss/articles/ABCDEFGHIJ"
-        title = "Iraq reports new border security deployments after latest regional tension"
+        title = "Iraq reports new border security deployments after latest regional tension overnight"
         no_source = self.entry(url=url, title=title)
         self.assertIsNone(intl._item(no_source, spec, self.now))
         bad = self.entry(url=url, title=title,
