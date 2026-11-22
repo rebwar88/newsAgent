@@ -8,6 +8,13 @@ import main
 
 
 class ReliabilityTests(unittest.TestCase):
+    def setUp(self):
+        # Reliability tests must never fetch live international feeds.
+        # The international collector has its own mocked tests and live smoke check.
+        patcher = patch.object(main, "fetch_international_news", return_value=[])
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
     def test_dashboard_sync_payload_uses_first_image_without_name_error(self):
         item = {
             "id": "telegram:123",

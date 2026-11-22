@@ -12,6 +12,7 @@ import feedparser
 from bs4 import BeautifulSoup
 import editorial
 import sorani_quality
+from international_sources import fetch_international_news
 from apify_facebook import fetch_facebook_via_apify
 from facebook_public import fetch_facebook_public_posts, discover_public_page_posts, FACEBOOK_PAGE_SHARE_URLS
 
@@ -748,6 +749,13 @@ def publication_source(item):
 def publication_credit(item):
     """Show source publication time, or explicitly label the collection time."""
     label = publication_source(item)
+    if item.get("international_source"):
+        byline = " ".join(str(item.get("source_byline") or "").split())[:120]
+        if byline:
+            label += "\nنووسەر: " + byline
+        original = str(item.get("link") or "").strip()
+        if original.startswith("https://"):
+            label += "\nسەرچاوەی هەواڵ: " + original
     method = (item.get("progress") or {}).get("method")
     method_labels = {
         "gemini": "داڕشتنەوەی جێمێنای",
@@ -1207,6 +1215,7 @@ def main():
     if not AGGREGATOR_SYNC_ONLY:
         retry_pending_dashboard_news(state)
     new_items = fetch_rss_news(seen_ids)
+    new_items.extend(fetch_international_news(seen_ids))
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
     new_items.extend(fetch_facebook_via_apify(seen_ids, state))
