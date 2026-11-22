@@ -1,0 +1,52 @@
+name: Inspect Failed Apify Actor Run
+on:
+  push:
+    paths:
+      - '.github/workflows/apify_probe_diagnostics.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    env:
+      APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+    steps:
+      - name: Read-only Apify run diagnostics (no Actor execution)
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, sys, urllib.request, urllib.error
+          from urllib.parse import quote
+          token = os.getenv("APIFY_TOKEN", "").strip()
+          if not token: sys.exit("Missing APIFY_TOKEN")
+          run_id = "5vNfco3aOe4H2WcKc"
+          root = "https://api.apify.com/v2/actor-runs/" + quote(run_id)
+          def fetch(endpoint):
+              req = urllib.request.Request(endpoint, headers={"Authorization": "Bearer " + token})
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      return r.read(150000).decode("utf-8", "replace")
+              except urllib.error.HTTPError as e:
+                  print("Read-only Apify GET returned HTTP", e.code)
+                  return ""
+          raw = fetch(root)
+          if raw:
+              try:
+                  data = json.loads(raw).get("data", {})
+                  print("Run status:", data.get("status"))
+                  print("Run message:", str(data.get("statusMessage") or "")[:300])
+                  print("Run exit code:", data.get("exitCode"))
+                  print("Run billed amount:", data.get("usageTotalUsd"))
+                  print("Run charged event summary:", str(data.get("chargedEventCounts") or "")[:200])
+              except (ValueError, TypeError):
+                  print("Could not parse Apify run metadata.")
+          logs = fetch(root + "/log")
+          for line in logs.splitlines()[-150:]:
+              lower = line.lower()
+              if any(x in lower for x in ("error", "failed", "exception", "invalid input", "traceback", "missing", "timeout", "build")):
+                  clean = line.replace(token, "***")
+                  print("Actor diagnosis:", clean[:220])
+          print("Read-only check finished; no paid scrape started.")
+          PY
