@@ -5,11 +5,15 @@ on:
       - main
       - fix/news-agent-reliability
       - fix/sorani-translation-quality-20261122
+      - feature/apify-keyword-prefilter-20261122
     paths:
       - 'main.py'
       - 'test_reliability.py'
       - 'test_sorani_quality.py'
       - 'sorani_quality.py'
+      - 'apify_facebook.py'
+      - 'facebook_news_keywords.json'
+      - 'test_apify_keyword_filter.py'
       - '.github/workflows/reliability_tests.yml'
   workflow_dispatch:
 permissions:
@@ -24,5 +28,5 @@ jobs:
         with:
           python-version: '3.10'
       - run: pip install -r requirements.txt
-      - run: python -m py_compile main.py sorani_quality.py test_reliability.py test_sorani_quality.py
-      - run: python -m unittest -v test_reliability.py test_sorani_quality.py
+      - run: python -m py_compile main.py sorani_quality.py apify_facebook.py test_reliability.py test_sorani_quality.py test_apify_keyword_filter.py
+      - run: python -m unittest -v test_reliability.py test_sorani_quality.py test_apify_keyword_filter.py
