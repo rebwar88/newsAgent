@@ -1,12 +1,12 @@
 {
-  "run_id": "45039118241",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45039118241",
-  "started_at": "2026-11-22T15:35:16.004750+00:00",
-  "finished_at": "2026-11-22T15:35:19.818357+00:00",
-  "duration_seconds": 3.8,
+  "run_id": "45039566868",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45039566868",
+  "started_at": "2026-11-22T15:40:17.006060+00:00",
+  "finished_at": "2026-11-22T15:41:17.160064+00:00",
+  "duration_seconds": 60.2,
   "exit_code": 0,
   "found": 5,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,26 @@
       "detail": "5 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Gemini quota exhausted; using safe non-AI fallback.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,46 +47,126 @@
       "message": "Found 5 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini transport issue; retry 1/2 in 5s."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 5 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini transport issue; retry 1/2 in 5s.\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
-      "id": "20c43b023ab5df4aae85bee96a681a56",
-      "title": "♦️",
-      "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_turn",
+      "id": "c6fc1746ffceaf7faf1cc4112ed830d6",
+      "title": "🔴",
+      "source": "بەپەلە|Breaking News",
+      "stage": "waiting_slot",
       "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-22T15:05:20.055725+00:00",
-      "updated_at": "2026-11-22T15:05:20.059874+00:00",
-      "eligible_at": null,
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-22T15:25:17.824529+00:00",
+      "updated_at": "2026-11-22T15:41:17.109127+00:00",
+      "eligible_at": "2026-11-22T15:46:17.083161+00:00",
       "history": [
         {
           "stage": "received",
-          "at": "2026-11-22T15:05:20.055725+00:00",
+          "at": "2026-11-22T15:25:17.824529+00:00",
           "reason": "",
           "method": "undecided"
         },
         {
           "stage": "waiting_turn",
-          "at": "2026-11-22T15:05:20.059874+00:00",
+          "at": "2026-11-22T15:25:17.832098+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-22T15:41:17.101162+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-22T15:41:17.109127+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "c43faa84f92fd52e91632b73022b18dc",
+      "title": "دقایقی پیش زمین‌لرزه ۴/۴ ریشتری در عمق ۱۵ کیلومتری حوالی ارزوئیهٔ کرمان را لرزاند",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-22T15:30:21.222817+00:00",
+      "updated_at": "2026-11-22T15:30:21.230260+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-22T15:30:21.222817+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-22T15:30:21.230260+00:00",
           "reason": "چاوەڕوانی نۆرەی سەرچاوە",
           "method": "undecided"
         }
       ]
     },
     {
-      "id": "8f01d59ed83b92fbf0502203153939d4",
-      "title": "سخنگوی سپاه: آخرین تصویری که اپراتور پهپاد MQ-۹ پیش از انهدام پرندهٔ خود روی نمایشگر می‌بیند",
+      "id": "2fd74cb80e5a956df78d021599d57e22",
+      "title": "جزئیات جدید از درگیری امروز مجلس/ کدام نمایندگان صحن را به تعطیلی کشاندند؟  ",
       "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
+      "stage": "waiting_turn",
       "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-22T15:40:19.942130+00:00",
+      "updated_at": "2026-11-22T15:40:19.949828+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-22T15:40:19.942130+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-22T15:40:19.949828+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "8f01d59ed83b92fbf0502203153939d4",
+      "title": "وتەبێژی سوپای پاسداران: دوا وێنە کە بەڕێوەبەری فڕۆکەی بێفڕۆکەوانی MQ-9 پێش لەناوبردنی فڕۆکەکەی لەسەر",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-22T15:20:21.268912+00:00",
-      "updated_at": "2026-11-22T15:35:19.668293+00:00",
+      "updated_at": "2026-11-22T15:41:14.290729+00:00",
       "eligible_at": "2026-11-22T15:37:01.780718+00:00",
       "history": [
         {
@@ -121,61 +204,63 @@
           "at": "2026-11-22T15:35:19.668293+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "c6fc1746ffceaf7faf1cc4112ed830d6",
-      "title": "🔴",
-      "source": "بەپەلە|Breaking News",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-22T15:25:17.824529+00:00",
-      "updated_at": "2026-11-22T15:25:17.832098+00:00",
-      "eligible_at": null,
-      "history": [
+        },
         {
-          "stage": "received",
-          "at": "2026-11-22T15:25:17.824529+00:00",
-          "reason": "",
+          "stage": "selected",
+          "at": "2026-11-22T15:40:19.965524+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
           "method": "undecided"
         },
         {
-          "stage": "waiting_turn",
-          "at": "2026-11-22T15:25:17.832098+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
+          "stage": "waiting_gemini",
+          "at": "2026-11-22T15:40:19.973528+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-22T15:40:19.988733+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-22T15:41:10.178063+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-22T15:41:10.395303+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-22T15:41:10.403992+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-22T15:41:12.856411+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-22T15:41:12.864251+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-22T15:41:14.290729+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
     },
-    {
-      "id": "c43faa84f92fd52e91632b73022b18dc",
-      "title": "دقایقی پیش زمین‌لرزه ۴/۴ ریشتری در عمق ۱۵ کیلومتری حوالی ارزوئیهٔ کرمان را لرزاند",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-22T15:30:21.222817+00:00",
-      "updated_at": "2026-11-22T15:30:21.230260+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-22T15:30:21.222817+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-22T15:30:21.230260+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    }
-  ],
-  "recent_articles": [
     {
       "id": "e46be256fef4b10dc43dad61739e0360",
       "title": "بانە؛ بانگکرانی مامۆستا عەبدولڕەحمان فاتمی بۆ دادگای تایبەت به مامۆستایانی ئایینی لە هەمەدان",
@@ -2322,88 +2407,9 @@
           "method": "openrouter"
         }
       ]
-    },
-    {
-      "id": "34bc54cb0343f79e3a4824e296a71567",
-      "title": "عەلی واێز",
-      "source": "تلگرامی - پایگاه خبری انتخاب",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-22T12:58:58.072092+00:00",
-      "updated_at": "2026-11-22T13:35:40.553262+00:00",
-      "eligible_at": "2026-11-22T13:35:24.390498+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-22T12:58:58.072092+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-22T12:58:58.078156+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-22T13:33:58.689996+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-22T13:33:58.694989+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-22T13:35:22.929034+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-22T13:35:22.932910+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-22T13:35:36.004817+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-22T13:35:36.009407+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-22T13:35:37.978900+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-22T13:35:37.982871+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-22T13:35:40.553262+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 4,
-  "snapshot_at": "2026-11-22T15:35:19.866609+00:00",
-  "gemini_blocked_until": "2026-11-22T15:26:50.814770+00:00"
+  "pending_count": 3,
+  "snapshot_at": "2026-11-22T15:41:17.217037+00:00",
+  "gemini_blocked_until": "2026-11-22T16:11:10.165526+00:00"
 }
