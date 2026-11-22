@@ -26,9 +26,11 @@ def google_publisher_feed(domain):
 
 SOURCES = (
     {"name": "The New York Times", "feed": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
-     "domains": ("nytimes.com",), "kind": "official"},
+     "domains": ("nytimes.com",), "kind": "official",
+     "fallback_feed": google_publisher_feed("nytimes.com")},
     {"name": "The Washington Post", "feed": "https://feeds.washingtonpost.com/rss/world/middle-east",
-     "domains": ("washingtonpost.com",), "kind": "official"},
+     "domains": ("washingtonpost.com",), "kind": "official",
+     "fallback_feed": google_publisher_feed("washingtonpost.com")},
     {"name": "Middle East Eye", "feed": "https://www.middleeasteye.net/rss",
      "domains": ("middleeasteye.net",), "kind": "official"},
     {"name": "Reuters", "feed": google_publisher_feed("reuters.com"),
@@ -42,7 +44,8 @@ SOURCES = (
     {"name": "BBC Arabic", "feed": "https://feeds.bbci.co.uk/arabic/rss.xml",
      "domains": ("bbc.com", "bbc.co.uk"), "kind": "official"},
     {"name": "BBC English", "feed": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
-     "domains": ("bbc.com", "bbc.co.uk"), "kind": "official"},
+     "domains": ("bbc.com", "bbc.co.uk"), "kind": "official",
+     "fallback_feed": google_publisher_feed("bbc.com/news")},
 )
 
 # Expressions match the headline + the short public feed description, across
@@ -171,34 +174,46 @@ def _item(entry, spec, now):
     }
 
 
-def _fetch_source(spec, now, seen_ids):
+def _fetch_feed_url(spec, feed_url, now, seen_ids, kind=None):
+    """Return matching public RSS entries; failures are isolated per feed."""
+    label = spec["name"] + (" (index fallback)" if kind else "")
     try:
         response = requests.get(
-            spec["feed"], headers={"User-Agent": RSS_USER_AGENT},
+            feed_url, headers={"User-Agent": RSS_USER_AGENT},
             timeout=(4, 9), allow_redirects=True,
         )
         if response.status_code != 200:
-            print(f"International feed {spec['name']}: HTTP {response.status_code}.")
+            print(f"International feed {label}: HTTP {response.status_code}.")
             return []
         if len(response.content) > 2_000_000:
-            print(f"International feed {spec['name']}: oversized feed skipped.")
+            print(f"International feed {label}: oversized feed skipped.")
             return []
         feed = feedparser.parse(response.content)
         if not feed.entries:
-            print(f"International feed {spec['name']}: zero entries.")
+            print(f"International feed {label}: zero entries.")
             return []
+        active_spec = dict(spec, kind=kind or spec["kind"])
         found = []
         for entry in feed.entries[:MAX_FEED_ENTRIES]:
-            item = _item(entry, spec, now)
+            item = _item(entry, active_spec, now)
             if item and item["id"] not in seen_ids:
                 found.append(item)
                 if len(found) >= MAX_ITEMS_PER_SOURCE:
                     break
-        print(f"International feed {spec['name']}: {len(found)} matching new headlines.")
+        print(f"International feed {label}: {len(found)} matching new headlines.")
         return found
     except (requests.RequestException, ValueError, TypeError) as exc:
-        print(f"International feed {spec['name']} unavailable ({type(exc).__name__}).")
+        print(f"International feed {label} unavailable ({type(exc).__name__}).")
         return []
+
+
+def _fetch_source(spec, now, seen_ids):
+    matched = _fetch_feed_url(spec, spec["feed"], now, seen_ids)
+    if not matched and spec.get("fallback_feed"):
+        # Search-index backup if the official feed stalls or contains no
+        # current Iraq/Iran-conflict stories. Only publisher-attributed hits.
+        return _fetch_feed_url(spec, spec["fallback_feed"], now, seen_ids, kind="google")
+    return matched
 
 
 def fetch_international_news(seen_ids, now=None):
