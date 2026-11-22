@@ -17,14 +17,14 @@ DEFAULT_PAGES = [
 ]
 APIFY_TOKEN = os.getenv("APIFY_TOKEN", "")
 APIFY_ACTOR = os.getenv("APIFY_ACTOR", "apify~facebook-posts-scraper")
-FACEBOOK_PAGE_URLS = [u.strip() for u in os.getenv("FACEBOOK_PAGE_URLS", ",".join(DEFAULT_PAGES)).split(",") if u.strip()]
-APIFY_INTERVAL = timedelta(minutes=int(os.getenv("APIFY_INTERVAL_MINUTES", "120")))
+FACEBOOK_PAGE_URLS = [u.strip() for u in (os.getenv("FACEBOOK_PAGE_URLS") or ",".join(DEFAULT_PAGES)).split(",") if u.strip()]
+APIFY_INTERVAL = timedelta(minutes=int((os.getenv("APIFY_INTERVAL_MINUTES") or "120")))
 APIFY_RESULTS_LIMIT = int(os.getenv("APIFY_RESULTS_LIMIT", "2"))  # maximum returned posts per Page
 APIFY_FILTER_ENABLED = os.getenv("APIFY_FILTER_ENABLED", "").lower() in ("1", "true", "yes")
 APIFY_FILTER_ACTOR = "topapi~facebook-page-posts-scraper"
-APIFY_PAGE_BATCH_SIZE = max(1, min(50, int(os.getenv("APIFY_PAGE_BATCH_SIZE", "10"))))
-APIFY_MAX_ITEMS_PER_RUN = max(1, min(100, int(os.getenv("APIFY_MAX_ITEMS_PER_RUN", "20"))))
-APIFY_MAX_CHARGE_USD = max(0.01, min(1.0, float(os.getenv("APIFY_MAX_CHARGE_USD", "0.05"))))
+APIFY_PAGE_BATCH_SIZE = max(1, min(50, int((os.getenv("APIFY_PAGE_BATCH_SIZE") or "10"))))
+APIFY_MAX_ITEMS_PER_RUN = max(1, min(100, int((os.getenv("APIFY_MAX_ITEMS_PER_RUN") or "20"))))
+APIFY_MAX_CHARGE_USD = max(0.01, min(1.0, float((os.getenv("APIFY_MAX_CHARGE_USD") or "0.05"))))
 APIFY_KEYWORDS_FILE = Path(__file__).with_name("facebook_news_keywords.json")
 MAX_POST_AGE = timedelta(hours=12)
 
