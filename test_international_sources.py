@@ -162,21 +162,21 @@ class InternationalNewsTests(unittest.TestCase):
         self.assertIn("Iran", url)
         self.assertIn("Iraq", url)
 
-    def test_no_full_article_paywall_scraping(self):
-        with patch.object(intl.requests, "get", return_value=Mock(status_code=503, content=b"")) as get:
-            intl._fetch_source(intl.SOURCES[0], self.now, set())
-        self.assertEqual(get.call_count, 2)
-        urls = [call.args[0] for call in get.call_args_list]
-        self.assertIn("rss.nytimes.com", urls[0])
-        self.assertIn("news.google.com/rss/search", urls[1])
-        self.assertTrue(all("/rss/" in url for url in urls))
+    def test_restricted_publisher_uses_only_search_index_not_rss_text(self):
+        for spec in intl.SOURCES[:2]:
+            self.assertEqual(spec["kind"], "google")
+            self.assertIn("news.google.com/rss/search", spec["feed"])
+            with patch.object(intl.requests, "get", return_value=Mock(status_code=503, content=b"")) as get:
+                intl._fetch_source(spec, self.now, set())
+            self.assertEqual(get.call_count, 1)
+            self.assertIn("news.google.com", get.call_args.args[0])
 
-    def test_official_feed_falls_back_to_verified_index_if_unavailable(self):
-        spec = intl.SOURCES[0]
+    def test_official_bbc_feed_falls_back_to_verified_index_if_unavailable(self):
+        spec = intl.SOURCES[-1]
         row = self.entry(
             url="https://news.google.com/rss/articles/fallback",
             title="Iraq officials say security forces tightened border protections after new incidents",
-            source={"href": "https://www.nytimes.com", "title": "The New York Times"},
+            source={"href": "https://www.bbc.com", "title": "BBC"},
         )
         with patch.object(intl.requests, "get", side_effect=[
             Mock(status_code=503, content=b""),
@@ -184,7 +184,7 @@ class InternationalNewsTests(unittest.TestCase):
         ]) as get, patch.object(intl.feedparser, "parse", return_value=SimpleNamespace(entries=[row])):
             result = intl._fetch_source(spec, self.now, set())
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0]["source_name"], "The New York Times")
+        self.assertEqual(result[0]["source_name"], "BBC English")
         self.assertEqual(get.call_count, 2)
 
     def test_bbc_english_uses_scoped_index_fallback(self):
