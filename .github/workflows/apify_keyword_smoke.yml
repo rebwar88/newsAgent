@@ -41,19 +41,25 @@ jobs:
               "includePostDetails": False, "captionText": False
           }
           params = urllib.parse.urlencode({
-              "timeout": 180, "maxItems": 5, "maxTotalChargeUsd": 0.01
+              "timeout": 180, "maxItems": 5, "maxTotalChargeUsd": 0.05
           })
           url = "https://api.apify.com/v2/acts/topapi~facebook-page-posts-scraper/run-sync-get-dataset-items?" + params
           req = urllib.request.Request(url,
               data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
               headers={"Authorization": "Bearer " + token, "Content-Type": "application/json"},
               method="POST")
-          print("Apify one-time test: 3 pages, 16 keywords, max 5 charged posts, max $0.01. No publication.", flush=True)
+          print("Apify one-time test: 3 pages, 16 keywords, max 5 charged posts, max $0.05. No publication.", flush=True)
           try:
               with urllib.request.urlopen(req, timeout=220) as response:
                   rows = json.load(response)
           except urllib.error.HTTPError as exc:
-              sys.exit("Apify HTTP " + str(exc.code) + " (no retry).")
+              try:
+                  error = json.loads(exc.read(2048).decode("utf-8", errors="replace")).get("error", {})
+                  safe_type = str(error.get("type") or "unspecified")[:90]
+                  safe_msg = str(error.get("message") or "")[:180]
+              except (ValueError, KeyError, TypeError):
+                  safe_type, safe_msg = "unreadable", ""
+              sys.exit("Apify HTTP " + str(exc.code) + " - " + safe_type + ": " + safe_msg + " (no retry).")
           except (urllib.error.URLError, TimeoutError, ValueError) as exc:
               sys.exit("Apify test incomplete (" + type(exc).__name__ + "; no retry).")
           if not isinstance(rows, list):
