@@ -4,8 +4,8 @@ Nine editorial desks are collected from public, low-volume RSS/index sources:
 
 | Publisher | Collector | Scope |
 | --- | --- | --- |
-| The New York Times | Official World RSS; publisher-filtered Google News fallback | Iraq, Iran conflict |
-| The Washington Post | Official World / Middle East RSS; publisher-filtered Google News fallback | Iraq, Iran conflict |
+| The New York Times | Publisher-filtered Google News search; no NYT RSS excerpt retrieval | Iraq, Iran conflict |
+| The Washington Post | Publisher-filtered Google News search; no WaPo RSS excerpt retrieval | Iraq, Iran conflict |
 | Middle East Eye | Official RSS | Iraq, Iran conflict |
 | Reuters | Publisher-attributed Google News search RSS | Iraq, Iran conflict |
 | Associated Press (AP) | Publisher-attributed Google News search RSS | Iraq, Iran conflict |
@@ -69,7 +69,7 @@ number of fresh matching items for each publisher.
 - Reuters/AP/CNN are indexed via Google News RSS because their old public
   RSS feeds are not reliably updated. Google News indexing may delay
   reporting or lack a usable summary.
-- The Washington Post RSS can time out; a topic-limited fallback is used.
+- NYT and The Washington Post restrict automated reuse, translation, or commercial redistribution of RSS text. Their source monitoring uses indexed headlines only, not RSS excerpts. For use of protected article content, acquire appropriate rights.
 - Absence of matching news in a single feed poll is not evidence that a
   publisher has no coverage.
 - News items do not include unlicensed publisher images.
