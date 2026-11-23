@@ -217,9 +217,14 @@ def _fetch_source(spec, now, seen_ids):
     return matched
 
 
-def fetch_international_news(seen_ids, now=None):
-    """Collect only relevant headlines; partial source failures never block news."""
+def fetch_international_news(seen_ids, now=None, state=None):
+    """Discover stories; return only substantial verified evidence for publishing."""
     now = now or datetime.now(timezone.utc)
+    state = state if isinstance(state, dict) else {}
+    recent_failed = state.setdefault("international_short_source_checks", {})
+    if not isinstance(recent_failed, dict):
+        recent_failed = {}
+        state["international_short_source_checks"] = recent_failed
     results = []
     # Bounded parallel public RSS requests; never fetch paywalled articles.
     with ThreadPoolExecutor(max_workers=5) as pool:
@@ -235,9 +240,25 @@ def fetch_international_news(seen_ids, now=None):
     # Never publish a Google News headline as a fabricated full report.
     complete = []
     for item in results:
+        # Skip repeating a full page fetch for unchanging brief live updates:
+        # after 30 minutes the same URL can be checked for revisions.
+        last = recent_failed.get(item["id"])
+        if last and item["source_name"] == "Middle East Eye":
+            try:
+                if now - datetime.fromisoformat(last) < timedelta(minutes=30):
+                    continue
+            except (ValueError, TypeError):
+                pass
         enriched = enrich_international_item(item)
         if enriched is not None:
             complete.append(enriched)
+            recent_failed.pop(item["id"], None)
+        elif item["source_name"] == "Middle East Eye":
+            recent_failed[item["id"]] = now.isoformat()
+    # Prevent indefinite state growth, no full copyrighted article content here.
+    recent_failed_keys = sorted(recent_failed, key=lambda k: recent_failed[k])
+    for old in recent_failed_keys[:-200]:
+        recent_failed.pop(old, None)
     print(f"International feeds: {len(results)} discovered; {len(complete)} full-source "
           f"articles ready for independent Sorani reporting.")
     return complete
