@@ -88,7 +88,13 @@ def _article_url(href, spec):
         value = parse_qs(parsed.query).get(spec["query"], [])
         if len(value) != 1 or not value[0].isdigit():
             return None
-        # Canonicalise query ordering and remove incidental tracking parameters.
+        # Westga needs its Jor category parameter and legacy '=hewal' parameter.
+        # Keep only the known structural parameters and the stable article identifier.
+        if spec["host"] == "westganews.net":
+            jor = parse_qs(parsed.query).get("Jor", ["2"])[0]
+            if not jor.isdigit():
+                return None
+            return "https://" + spec["host"] + parsed.path + "?=hewal&Jor=" + jor + "&jmara=" + value[0]
         return "https://" + spec["host"] + parsed.path + "?" + spec["query"] + "=" + value[0]
     return "https://" + spec["host"] + parsed.path
 
