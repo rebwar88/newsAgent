@@ -23,7 +23,7 @@ def google_publisher_feed(domain):
     # Iraq, its neighbours, the Middle East and the wider Muslim world.
     query = (f"site:{domain} (Kurdish OR Kurdistan OR Iraq OR Iraqi OR Iran OR "
              f"Turkey OR Syria OR Saudi OR Jordan OR Palestine OR Gaza OR "
-             f\"\\\"Middle East\\\" OR \\"Islamic world\\\" OR \\"Muslim world\\\") when:2d")
+             f"'Middle East' OR 'Islamic world' OR 'Muslim world') when:2d")
     return "https://news.google.com/rss/search?" + urlencode(
         {"q": query, "hl": "en-US", "gl": "US", "ceid": "US:en"}
     )
