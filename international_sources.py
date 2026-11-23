@@ -280,9 +280,12 @@ def fetch_international_news(seen_ids, now=None, state=None):
     awaiting = {str(x.get("id")) for x in state.get("pending_items", [])
                 if isinstance(x, dict) and x.get("international_full_evidence")}
     eligible = []
+    queued_ids = set()
     for item in results:
-        if not can_read_full_article(item) or item["id"] in awaiting:
+        if (not can_read_full_article(item) or item["id"] in awaiting or
+                item["id"] in queued_ids):
             continue
+        queued_ids.add(item["id"])
         last = recent_failed.get(item["id"])
         if last:
             try:
