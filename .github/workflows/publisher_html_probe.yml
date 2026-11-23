@@ -1,0 +1,70 @@
+name: Global Publisher Public HTML Structure Diagnostics
+on:
+  push:
+    branches: [feature/eight-global-publishers-20261123]
+    paths: ['.github/workflows/publisher_html_probe.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - name: Analyze paragraph containers without quoting article text
+        run: |
+          python - <<'PY'
+          from concurrent.futures import ThreadPoolExecutor,as_completed
+          from collections import Counter
+          import feedparser,requests
+          from bs4 import BeautifulSoup
+          from international_sources import SOURCES
+          from international_article_text import HEADERS
+          selection={"Al Jazeera English","France 24 English","France 24 Arabic",
+                     "Iran International English","Iran International Persian"}
+          def run(spec):
+              info={"name":spec["name"]}
+              try:
+                  q=requests.get(spec["feed"],headers=HEADERS,timeout=(4,10))
+                  item=feedparser.parse(q.content).entries[0]
+                  url=str(item.get("link"))
+                  r=requests.get(url,headers=HEADERS,timeout=(4,12),allow_redirects=False)
+                  soup=BeautifulSoup(r.text,"html.parser")
+                  info["page_status"]=r.status_code
+                  info["html_size"]=len(r.content)
+                  info["paragraphs"]=len(soup.select("p"))
+                  info["article_p"]=len(soup.select("article p"))
+                  info["main_p"]=len(soup.select("main p"))
+                  info["script_ld"]=len(soup.select("script[type='application/ld+json']"))
+                  info["script_next"]=len(soup.select("script#__NEXT_DATA__"))
+                  for css in ("article","main","[itemprop='articleBody']",".article-body",".article__body",
+                              "[data-testid='article-body']","[data-testid='ArticleBody']",
+                              "[data-component='text-block']",".article__content",
+                              ".c-article-content",".wysiwyg",".news-article",".rich-text"):
+                      el=soup.select_one(css)
+                      if el:
+                          info[css]={"chars":len(el.get_text(' ',strip=True)),
+                                     "p":len(el.select('p'))}
+                  paras=[p for p in soup.select("p") if len(p.get_text(" ",strip=True))>=45]
+                  info["long_p"]=len(paras)
+                  info["parents"]=Counter(
+                      (p.parent.name if p.parent else "none",
+                       " ".join(p.parent.get("class",[]) if p.parent else [])[:95],
+                       str(p.parent.get("data-testid","") if p.parent else "")[:55])
+                      for p in paras).most_common(7)
+                  info["ld_keywords"]={
+                      "articleBody":r.text.count('"articleBody"'),
+                      "body":r.text.count('"body"'),
+                      "text":r.text.count('"text"'),
+                      "content":r.text.count('"content"'),
+                  }
+              except (requests.RequestException,IndexError,ValueError) as exc:
+                  info["error"]=type(exc).__name__
+              return info
+          with ThreadPoolExecutor(max_workers=5) as pool:
+              fs=[pool.submit(run,s) for s in SOURCES if s["name"] in selection]
+              for f in as_completed(fs):print("DOM:",f.result(),flush=True)
+          print("No news text reproduced. No publication.")
+          PY
