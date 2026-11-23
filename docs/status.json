@@ -1,12 +1,12 @@
 {
-  "run_id": "45290071221",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45290071221",
-  "started_at": "2026-11-23T23:35:14.815047+00:00",
-  "finished_at": "2026-11-23T23:35:23.898711+00:00",
-  "duration_seconds": 9.1,
+  "run_id": "45290777331",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45290777331",
+  "started_at": "2026-11-23T23:40:15.802840+00:00",
+  "finished_at": "2026-11-23T23:40:30.165626+00:00",
+  "duration_seconds": 14.4,
   "exit_code": 0,
   "found": 0,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,25 @@
       "detail": "0 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +46,30 @@
       "message": "Found 0 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from وێبسایتی نێودەوڵەتی..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 0 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 0 new items.\nProcessing item from وێبسایتی نێودەوڵەتی...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "intl:ef02cc7ff8f9875a754efdff",
-      "title": "Iran dismisses US land blockade prospects, plays down risk of shortages",
-      "source": "Iran International English",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "عەباس ئاراغچی، وەزیری دەرەوەی ئێران ڕۆژی دووشەممە لە چاوپێکەوتنێکدا لەگەڵ ئاژانسی هەواڵی دەوڵەتی ئیرنا",
+      "source": "سایتی - Iran International English",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-23T23:20:33.673393+00:00",
-      "updated_at": "2026-11-23T23:35:23.860385+00:00",
+      "updated_at": "2026-11-23T23:40:27.279775+00:00",
       "eligible_at": "2026-11-23T23:35:39.787448+00:00",
       "history": [
         {
@@ -120,11 +131,51 @@
           "at": "2026-11-23T23:35:23.860385+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-23T23:40:25.298871+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-23T23:40:25.306564+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-23T23:40:25.560762+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-23T23:40:25.568183+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-23T23:40:26.826213+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-23T23:40:26.832730+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-23T23:40:27.279775+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "intl:a276d6950ac0d75b6bf34c2a",
       "title": "گێڕانەوەیەک لە پەیوەندییەکانی ڤێنیز لەگەڵ ئێران؛ ئایا ئەسکەندەری مەکدۆنی لە ڤێنیز بە خاک سپێردراوە؟",
@@ -2247,76 +2298,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "09c114cf2de178a59ad2eacdb5145996",
-      "title": "باراک ڕەڤید، پەیامنێری ئاکسیۆس، ئاکسیۆس لە پشت پەردەی سەردانەکەی سەرۆکوەزیرانی قەتەر بۆ واشنتۆن ئاشکرا",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-23T20:30:34.227818+00:00",
-      "updated_at": "2026-11-23T20:30:37.543138+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-23T20:30:34.227818+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-23T20:30:34.232538+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-23T20:30:34.242090+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-23T20:30:34.247094+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-23T20:30:34.573180+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-23T20:30:34.578401+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-23T20:30:36.991604+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-23T20:30:36.996472+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-23T20:30:37.543138+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-23T23:35:23.938462+00:00",
+  "pending_count": 0,
+  "snapshot_at": "2026-11-23T23:40:30.221734+00:00",
   "gemini_blocked_until": "2026-11-23T23:50:33.892525+00:00"
 }
