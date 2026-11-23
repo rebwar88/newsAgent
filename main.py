@@ -1218,7 +1218,7 @@ def main():
     if not AGGREGATOR_SYNC_ONLY:
         retry_pending_dashboard_news(state)
     new_items = fetch_rss_news(seen_ids)
-    new_items.extend(fetch_international_news(seen_ids))
+    new_items.extend(fetch_international_news(seen_ids, state=state))
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
     new_items.extend(fetch_facebook_via_apify(seen_ids, state))
