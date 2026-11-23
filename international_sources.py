@@ -19,7 +19,11 @@ from international_article_text import enrich_international_item, can_read_full_
 # Prefer publishers' own active feeds. Google News indexes Reuters/AP/CNN:
 # their historical public RSS endpoints are unreliable/unmaintained.
 def google_publisher_feed(domain):
-    query = f"site:{domain} (Iraq OR Kurdistan OR Iran) when:2d"
+    # Geographic and institutional coverage agreed for NewsAgent: four Kurdish regions,
+    # Iraq, its neighbours, the Middle East and the wider Muslim world.
+    query = (f"site:{domain} (Kurdish OR Kurdistan OR Iraq OR Iraqi OR Iran OR "
+             f"Turkey OR Syria OR Saudi OR Jordan OR Palestine OR Gaza OR "
+             f\"\\\"Middle East\\\" OR \\"Islamic world\\\" OR \\"Muslim world\\\") when:2d")
     return "https://news.google.com/rss/search?" + urlencode(
         {"q": query, "hl": "en-US", "gl": "US", "ceid": "US:en"}
     )
@@ -113,10 +117,15 @@ MAX_FULL_PAGES_PER_POLL = 10
 
 
 def is_relevant(title, summary=""):
-    """Iraq is a topic on its own; Iran needs a conflict/security hook."""
-    text = unicodedata.normalize("NFKC", (str(title or "") + " " + str(summary or "")).lower())
-    return bool(IRAQ.search(text) or (IRAN.search(text) and CONFLICT.search(text)))
-
+    """Geographic editorial relevance; do not mistake global finance/weather for a regional story."""
+    import editorial
+    allowed_topics = {
+        "kurdistan", "kurdish_people_four_parts", "iraq", "iraqi_people_and_institutions",
+        "iran", "syria", "turkey", "saudi_arabia", "jordan",
+        "middle_east", "islamic_world",
+    }
+    return bool(set(editorial.match_topics(str(title or "") + " " + str(summary or "")))
+                & allowed_topics)
 
 def _site_allowed(url, domains):
     host = (urlparse(url).hostname or "").lower()
