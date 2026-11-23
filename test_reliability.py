@@ -188,6 +188,88 @@ class ReliabilityTests(unittest.TestCase):
                 result = main.send_to_telegram(message, image_url="https://cdn.example.org/a.jpg")
         return result, [c.args[0].rsplit("/", 1)[-1] for c in post.call_args_list]
 
+    def test_long_telegram_article_sends_exactly_two_complete_text_messages(self):
+        import html as _html
+        title = "هەواڵێکی گرنگ لە عێراق و ئێران"
+        body = ("هەواڵی سەرەکی و وردەکارییەکانی سەرچاوە بە تەواوی پارێزراونە. " * 115).strip()
+        source = "سەرچاوە: France 24 https://www.france24.com/en/middle-east/iran-report"
+        original = {"title": title, "body": body}
+        saved = {}
+        checkpoints = []
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "test"), patch.object(main, "TELEGRAM_CHAT_ID", "test"):
+            with patch.object(main.requests, "post", side_effect=[self._tg_ok(), self._tg_ok()]) as post:
+                result = main.send_to_telegram(
+                    original, source_label=source, delivery_state=saved,
+                    on_part_confirmed=lambda: checkpoints.append(saved["telegram_delivery"]["sent"]))
+        self.assertTrue(result)
+        self.assertEqual(original["body"], body)
+        self.assertEqual(checkpoints, [1, 2])
+        self.assertEqual(saved["telegram_delivery"]["sent"], 2)
+        self.assertEqual([call.args[0].rsplit("/", 1)[-1] for call in post.call_args_list],
+                         ["sendMessage", "sendMessage"])
+        parts = [call.kwargs["json"]["text"] for call in post.call_args_list]
+        self.assertTrue(all(len(part) <= 4000 for part in parts))
+        self.assertTrue(all("parse_mode" in call.kwargs["json"] for call in post.call_args_list))
+        self.assertIn("١/٢", parts[0])
+        self.assertIn("٢/٢", parts[1])
+        self.assertNotIn(source, parts[0])
+        self.assertIn(source, _html.unescape(parts[1]))
+        self.assertEqual(main.split_long_telegram_article(title, body, source), tuple(parts))
+
+    def test_long_telegram_second_part_retries_without_repeating_first(self):
+        body = ("ئێمە زانیارییەکانی ئەو هەواڵە لە بەرپرسانی پەیوەندیدارەوە وەرگرتووە. " * 110)
+        msg = {"title": "هەواڵێکی سەرەکی لە ناوچەکە", "body": body}
+        saved = {}
+        flood = Mock(ok=False, status_code=429,
+                     json=lambda: {"description": "Too Many Requests"})
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "post", side_effect=[self._tg_ok(), flood]) as post:
+                self.assertFalse(main.send_to_telegram(msg, delivery_state=saved))
+                self.assertEqual(post.call_count, 2)
+        self.assertEqual(saved["telegram_delivery"]["sent"], 1)
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "post", side_effect=[self._tg_ok()]) as post:
+                self.assertTrue(main.send_to_telegram(msg, delivery_state=saved))
+                self.assertEqual(post.call_count, 1)
+                self.assertIn("٢/٢", post.call_args.kwargs["json"]["text"])
+        self.assertEqual(saved["telegram_delivery"]["sent"], 2)
+
+    def test_news_longer_than_two_telegram_limits_is_not_partially_delivered(self):
+        message = {"title": "هەواڵێکی درێژ", "body": "دەقی درێژ لە بابەتەکە. " * 700}
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "post") as post:
+                self.assertFalse(main.send_to_telegram(message))
+                post.assert_not_called()
+
+    def test_prepared_long_body_remains_unchanged_for_other_systems(self):
+        body = "ئەو هەواڵە گرنگە بە تەواوی پێویستە لە ئارشیفی گشتی بپارێزرێت. " * 100
+        news = {"title": "ڕووداوێکی گرنگ لە عێراق", "body": body}
+        with patch.object(main, "TELEGRAM_BOT_TOKEN", "t"), patch.object(main, "TELEGRAM_CHAT_ID", "c"):
+            with patch.object(main.requests, "post", side_effect=[self._tg_ok(), self._tg_ok()]):
+                self.assertTrue(main.send_to_telegram(news))
+        self.assertEqual(news["body"], body)
+        self.assertEqual(news["title"], "ڕووداوێکی گرنگ لە عێراق")
+        item = {"id": "test:long-1", "source_name": "France 24 Arabic"}
+        with patch.object(main, "DASHBOARD_NEWS_API_URL", "https://example.org/wp-json/test"), patch.object(
+                main, "DASHBOARD_NEWS_API_KEY", "test-key"), patch.object(
+                main.requests, "post", return_value=Mock(status_code=201)) as post:
+            self.assertTrue(main.send_news_to_dashboard(item, news))
+            sent = post.call_args.kwargs["json"]
+        self.assertEqual(sent["content"], body)
+
+    def test_multipart_news_is_kept_and_selected_first_after_retry(self):
+        now = datetime.now(timezone.utc)
+        old = (now - timedelta(hours=8)).isoformat()
+        multipart = {
+            "id": "story:incomplete", "source": "test", "content": "Complete news source",
+            "telegram_delivery": {"signature": "abc", "sent": 1},
+            "progress": {"received_at": old, "stage": "delivery_failed"}
+        }
+        other = {"id": "story:new", "source": "test", "content": "Different news"}
+        state = {"pending_items": [other, multipart]}
+        self.assertEqual(main.prune_pending(state, set(), now), 0)
+        self.assertEqual(main.choose_pending(state["pending_items"], {}, set())["id"], "story:incomplete")
+
     def test_short_article_sent_as_photo_with_caption(self):
         result, calls = self._send_with_image({"title": "سەردێڕی تاقیکردنەوە", "body": "دەقی کورت"}, [self._tg_ok()])
         self.assertTrue(result)
@@ -393,11 +475,13 @@ class ReliabilityTests(unittest.TestCase):
     def test_publishing_interval_shrinks_as_the_queue_grows(self):
         minutes = lambda n: main.adaptive_interval(n).total_seconds() / 60
         self.assertEqual(minutes(1), 5)
-        self.assertEqual(minutes(4), 5)
-        self.assertEqual(minutes(5), 4)
-        self.assertAlmostEqual(minutes(10), 2)
-        self.assertEqual(minutes(20), 1)
-        self.assertEqual(minutes(60), 1)
+        self.assertEqual(minutes(2), 3)
+        self.assertEqual(minutes(4), 2.5)
+        self.assertEqual(minutes(5), 2)
+        self.assertEqual(minutes(10), 1)
+        self.assertEqual(minutes(20), 0.5)
+        self.assertAlmostEqual(main.adaptive_interval(60).total_seconds(), 25)
+        self.assertEqual(main.MAX_POSTS_PER_RUN, 10)
         self.assertGreaterEqual(minutes(7), minutes(8))
 
 
