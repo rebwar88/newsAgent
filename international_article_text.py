@@ -114,7 +114,10 @@ def _paragraphs_from_html(raw_html):
 def full_story_text(html):
     """Only return substantive article evidence, not a short live update."""
     paragraphs = _paragraphs_from_html(html)
-    text = "\n\n".join(paragraphs).strip()[:MAX_SOURCE_CHARS]
+    text = "\n\n".join(paragraphs).strip()
+    # Never silently truncate the publisher report and call it complete.
+    if len(text) > MAX_SOURCE_CHARS:
+        return None
     words = re.findall(r"\S+", text)
     if (len(paragraphs) < MIN_REPORT_PARAGRAPHS or
             len(words) < MIN_REPORT_WORDS or len(text) < MIN_REPORT_CHARS):
