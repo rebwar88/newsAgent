@@ -136,6 +136,12 @@ def full_story_text(html, site_host=""):
     return text
 
 
+def can_read_full_article(item, approved_domains=DEFAULT_APPROVED_DOMAINS):
+    """Preflight: only configured direct HTTPS publisher URLs are eligible."""
+    return bool(isinstance(item, dict) and item.get("international_source") and
+                _allowed_hostname(str(item.get("link") or ""), approved_domains))
+
+
 def enrich_international_item(item, approved_domains=DEFAULT_APPROVED_DOMAINS):
     """Read one publicly accessible, permitted publisher article before rewriting.
 
