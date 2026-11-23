@@ -29,14 +29,40 @@ class InternationalNewsTests(unittest.TestCase):
             item["source"] = feedparser.FeedParserDict(source)
         return item
 
-    def test_nine_explicit_desks(self):
+    def test_nineteen_global_publisher_desks(self):
+        names = [s["name"] for s in intl.SOURCES]
         self.assertEqual(
-            [s["name"] for s in intl.SOURCES],
+            names,
             ["The New York Times", "The Washington Post", "Middle East Eye",
              "Reuters", "Associated Press", "CNN", "BBC Persian",
-             "BBC Arabic", "BBC English"]
+             "BBC Arabic", "BBC English",
+             "AFP", "Al Jazeera English", "France 24 English", "France 24 Arabic",
+             "Deutsche Welle", "Bloomberg News", "Al-Monitor",
+             "Iran International English", "Iran International Persian",
+             "Financial Times"]
         )
-        self.assertEqual(len({s["name"] for s in intl.SOURCES}), 9)
+        self.assertEqual(len(set(names)), 19)
+        for spec in intl.SOURCES:
+            with self.subTest(source=spec["name"]):
+                self.assertTrue(spec["feed"].startswith("https://"))
+                self.assertGreater(len(spec["domains"]), 0)
+
+    def test_eight_new_orgs_have_publisher_scoped_feeds(self):
+        for name, hostname in [
+            ("AFP", "afp.com"), ("Al Jazeera English", "aljazeera.com"),
+            ("France 24 English", "france24.com"), ("Deutsche Welle", "dw.com"),
+            ("Bloomberg News", "bloomberg.com"), ("Al-Monitor", "al-monitor.com"),
+            ("Iran International Persian", "iranintl.com"), ("Financial Times", "ft.com"),
+        ]:
+            with self.subTest(name=name):
+                spec = next(s for s in intl.SOURCES if s["name"] == name)
+                self.assertIn(hostname, spec["domains"])
+                self.assertEqual(len(spec["domains"]), 1)
+                self.assertIn(hostname, spec["feed"] if spec["kind"] == "google" else spec["feed"].replace("rss.dw.com", "dw.com"))
+        for name in ("AFP", "Bloomberg News", "Financial Times"):
+            spec = next(s for s in intl.SOURCES if s["name"] == name)
+            self.assertEqual(spec["kind"], "google")
+            self.assertIn("news.google.com", spec["feed"])
 
     def test_iraq_in_multiple_languages(self):
         samples = [
@@ -172,7 +198,7 @@ class InternationalNewsTests(unittest.TestCase):
             self.assertIn("news.google.com", get.call_args.args[0])
 
     def test_official_bbc_feed_falls_back_to_verified_index_if_unavailable(self):
-        spec = intl.SOURCES[-1]
+        spec = next(s for s in intl.SOURCES if s["name"] == "BBC English")
         row = self.entry(
             url="https://news.google.com/rss/articles/fallback",
             title="Iraq officials say security forces tightened border protections after new incidents",
@@ -188,7 +214,7 @@ class InternationalNewsTests(unittest.TestCase):
         self.assertEqual(get.call_count, 2)
 
     def test_bbc_english_uses_scoped_index_fallback(self):
-        spec = intl.SOURCES[-1]
+        spec = next(s for s in intl.SOURCES if s["name"] == "BBC English")
         self.assertIn("bbc.com%2Fnews", spec["fallback_feed"])
 
 
