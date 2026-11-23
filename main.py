@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 import editorial
 import sorani_quality
 from international_sources import fetch_international_news
+from international_article_text import has_complete_international_evidence
 from apify_facebook import fetch_facebook_via_apify
 from facebook_public import fetch_facebook_public_posts, discover_public_page_posts, FACEBOOK_PAGE_SHARE_URLS
 
@@ -402,7 +403,7 @@ def rewrite_with_gemini(raw_text):
         "هیچ زانیاری، هۆکار، ژمارە یان وتەیەکی نەبوو لە سەرچاوە زیاد مەکە. "
         "ئەگەر بانگەشەیەک پشتڕاست نەکرابێتەوە، بە ڕوونی بیخە پاڵ سەرچاوەکە. "
         "تەنها JSON ـێکی دروست بە دوو خانەی title و body بگەڕێنەوە. "
-        "title سەردێڕێکی کورت و ڕوونی سۆرانی بێت؛ body دوو تا سێ پەرەگرافی ڕەوان بێت، "
+        "title سەردێڕێکی کورت و ڕوونی سۆرانی بێت؛ body ئەگەر سەرچاوە وردەکارییەکی بەس هەیە سێ تا پێنج پەرەگرافی ڕەوان بێت، "
         "بەڵام ئەگەر دەقی سەرچاوە کورتە، هەواڵەکە بە زۆر درێژ مەکەوە. "
         "دەقی فارسی یان عەرەبی بە خاوی مەهێڵەوە و بە تێکەڵاوی زمانەکان مەینووسە. "
         "سەردێڕ و هەموو ناوەڕۆک بە کوردیی سۆرانیی پاک و سروشتی بنووسە؛ بە تایبەتی وشەی فارسی وەک بهای، برای، است، شد و درباره مەهێڵەوە. "
@@ -532,7 +533,9 @@ def rewrite_with_openrouter(raw_text):
         "or markdown. Both fields MUST be Kurdish Sorani. Do not retain Persian or Arabic "
         "grammar such as بهای، برای، است، شد، درباره or any untranslated sentences. "
         "Write a complete headline with at least three meaningful words and translate the entire "
-        "source, never just the first sentence. Check both fields for Sorani before replying."
+        "source, never just the first sentence. For full-source reports, cover all substantiated "
+        "main facts in three to five clear paragraphs without adding claims not in the source. "
+        "Check both fields for Sorani before replying."
     )
     for model in OPENROUTER_MODELS:
         try:
@@ -1243,6 +1246,14 @@ def main():
         item = choose_pending(pending, state, attempted)
         if item is None:
             break
+        if not has_complete_international_evidence(item):
+            # Purge previously queued RSS/Google headline-only entries, including
+            # old prepared drafts. Do not mark as seen: a later full article may
+            # still become available from an authorized publisher source.
+            print("International headline-only or short live update skipped: no full source evidence.")
+            pending.remove(item)
+            save_publication_state(state)
+            continue
         track_article(item, state, "selected", "نۆرەی ئەم سەرچاوەیە هاتووە")
         raw_fp = editorial.fingerprint(item.get("title", "") + "\n" + item["content"], "raw")
         dup = editorial.find_duplicate(raw_fp, state, "raw")
