@@ -51,7 +51,7 @@ jobs:
                   q=requests.get(url,headers=HEADERS,timeout=(4,12),allow_redirects=False)
                   info["page_status"]=q.status_code
                   if q.status_code==200 and "text/html" in q.headers.get("Content-Type",""):
-                      story=full_story_text(q.text)
+                      story=full_story_text(q.text,site_host=host)
                       info["evidence_words"]=len(story.split()) if story else 0
                       info["page_chars"]=len(q.content)
               except requests.RequestException as e:
