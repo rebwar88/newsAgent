@@ -1,6 +1,6 @@
 """Regression tests: do not publish headline-only RSS as full international news."""
 from unittest.mock import patch, Mock
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import unittest
 
 import international_article_text as article
@@ -124,6 +124,29 @@ class ArticleEvidenceTests(unittest.TestCase):
         self.assertEqual(items, [])
         self.assertEqual(fetch.call_count, 9)
         self.assertEqual(enrich.call_count, 9)
+
+    def test_overlong_article_is_not_silently_truncated_as_complete(self):
+        html = self.full_html().replace(
+            "</article>", ("<p>" + "A verified event update. " * 1000 + "</p>") + "</article>"
+        )
+        self.assertIsNone(article.full_story_text(html))
+
+    def test_short_source_cache_avoids_repeated_page_fetch_and_rechecks_later(self):
+        now = datetime(2026, 11, 23, 5, 0, tzinfo=timezone.utc)
+        state = {}
+        with patch.object(intl, "_fetch_source", return_value=[self.item]):
+            with patch.object(intl, "enrich_international_item", return_value=None) as enrich:
+                self.assertEqual(intl.fetch_international_news(set(), now, state), [])
+                self.assertEqual(
+                    intl.fetch_international_news(set(), now + timedelta(minutes=5), state),
+                    []
+                )
+                self.assertEqual(enrich.call_count, 1)
+                self.assertEqual(
+                    intl.fetch_international_news(set(), now + timedelta(minutes=31), state),
+                    []
+                )
+                self.assertEqual(enrich.call_count, 2)
 
     def test_paywall_challenge_http_403_is_not_retried_or_bypassed(self):
         with patch.object(article, "_robots_allowed", return_value=True), patch.object(
