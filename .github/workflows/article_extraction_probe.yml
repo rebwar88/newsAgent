@@ -1,0 +1,46 @@
+name: Inspect public Middle East Eye article (no publishing)
+on:
+  push:
+    branches: [fix/international-complete-article-evidence-20261123]
+    paths: ['.github/workflows/article_extraction_probe.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - name: Test robots and public page availability without reproducing text
+        run: |
+          python - <<'PY'
+          import requests
+          from urllib.robotparser import RobotFileParser
+          from urllib.parse import urljoin
+          from bs4 import BeautifulSoup
+          url="https://www.middleeasteye.net/live-blog/live-blog-update/report-netanyahu-calls-trump-launch-attack-iran-soon-possible"
+          ua="NewsAgent/1.0 (newsroom article context only)"
+          try:
+              rr=requests.get("https://www.middleeasteye.net/robots.txt",timeout=12,headers={"User-Agent":ua})
+              print("robots status:",rr.status_code,"length:",len(rr.content))
+              if rr.status_code==200:
+                  parser=RobotFileParser()
+                  parser.parse(rr.text.splitlines())
+                  print("robots allows this page:",parser.can_fetch(ua,url))
+              elif rr.status_code==404: print("robots no policy found")
+              else: print("robots unavailable, no article request")
+              if rr.status_code not in (200,404) or (rr.status_code==200 and not parser.can_fetch(ua,url)):
+                  raise SystemExit(0)
+              r=requests.get(url,timeout=15,headers={"User-Agent":ua},allow_redirects=False)
+              print("page status:",r.status_code,"bytes:",len(r.content),"ct:",r.headers.get("Content-Type","")[:70])
+              if r.status_code==200:
+                  soup=BeautifulSoup(r.text,"html.parser")
+                  selectors=["article","main","div.field--name-body",".article-content",".live-blog-update",".live-blog-update__body",".field--name-field-body","script[type='application/ld+json']"]
+                  for s in selectors:
+                      elements=soup.select(s)
+                      print("selector",s,"elements",len(elements),"paragraphs",sum(len(e.select('p')) for e in elements),"chars",sum(len(e.get_text(" ",strip=True)) for e in elements))
+                  print("page paragraphs over 60 chars:",sum(len(p.get_text(" ",strip=True))>60 for p in soup.select("p")))
+          except requests.RequestException as e: print("probe network error:",type(e).__name__)
+          PY
