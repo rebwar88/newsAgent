@@ -545,7 +545,7 @@ def rewrite_with_openrouter(raw_text):
                          "Content-Type": "application/json"},
                 json={"model": model, "messages": [
                     {"role": "system", "content": instructions},
-                    {"role": "user", "content": raw_text[:12000]}],
+                    {"role": "user", "content": raw_text[:20000]}],
                     "temperature": 0.3, "max_tokens": 1800},
                 timeout=35)
             if not response.ok:
