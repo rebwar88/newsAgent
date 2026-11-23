@@ -1,0 +1,34 @@
+name: International Full Article Smoke (No Publication)
+on:
+  push:
+    branches: [fix/international-complete-article-evidence-20261123]
+    paths: ['.github/workflows/full_article_validation.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-public-page:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - name: Check evidence depth on public Middle East Eye stories (no Telegram secrets)
+        run: |
+          python - <<'PY'
+          from datetime import datetime,timezone
+          from international_sources import SOURCES,_fetch_source
+          from international_article_text import enrich_international_item
+          source=next(s for s in SOURCES if s["name"]=="Middle East Eye")
+          recent=_fetch_source(source,datetime.now(timezone.utc),set())
+          print("Matching MEE RSS records:",len(recent),flush=True)
+          for idx,item in enumerate(recent[:4],1):
+              full=enrich_international_item(item)
+              print("RECORD",idx,"category",("substantive" if full else "short/unavailable"),
+                    "RSS chars",len(item.get("content","")),
+                    "verified words",full.get("source_word_count",0) if full else 0,flush=True)
+          print("No news was published; this check runs without Telegram or AI credentials.")
+          PY
