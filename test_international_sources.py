@@ -162,6 +162,63 @@ class InternationalNewsTests(unittest.TestCase):
         self.assertEqual(len(items), 4)
         self.assertEqual(get.call_args.kwargs["timeout"], (4, 9))
 
+    def test_full_article_fetch_is_limited_and_spread_across_publishers(self):
+        supported = [
+            ("Middle East Eye", "middleeasteye.net"),
+            ("Al Jazeera English", "aljazeera.com"),
+            ("France 24 English", "france24.com"),
+            ("France 24 Arabic", "france24.com"),
+            ("Deutsche Welle", "dw.com"),
+            ("Al-Monitor", "al-monitor.com"),
+            ("Iran International English", "iranintl.com"),
+            ("Iran International Persian", "iranintl.com"),
+        ]
+        addresses = dict(supported)
+        def fake_fetch(spec, now, seen_ids):
+            domain = addresses.get(spec["name"])
+            if not domain:
+                return []
+            return [
+                {
+                    "id": "intl:" + spec["name"] + str(i),
+                    "source_name": spec["name"],
+                    "international_source": True,
+                    "link": f"https://www.{domain}/news/iran-{i}",
+                    "source_published_at": self.now.isoformat(),
+                    "content": "A long report on Iraq and Iran"
+                }
+                for i in range(4)
+            ]
+        state = {}
+        def enrich(item):
+            return dict(item, international_full_evidence=True,
+                        content="Full documented report. " * 70)
+        with patch.object(intl, "_fetch_source", side_effect=fake_fetch), patch.object(
+                intl, "enrich_international_item", side_effect=enrich) as get:
+            results = intl.fetch_international_news(set(), self.now, state)
+        self.assertEqual(len(results), intl.MAX_FULL_PAGES_PER_POLL)
+        self.assertEqual(get.call_count, intl.MAX_FULL_PAGES_PER_POLL)
+        self.assertEqual(len({r["source_name"] for r in results}), len(supported))
+        self.assertIn("last_international_poll_at", state)
+
+    def test_five_minute_cron_does_not_refetch_fresh_source_pages(self):
+        source = {
+            "id": "intl:new", "source_name": "Al-Monitor",
+            "international_source": True, "link": "https://www.al-monitor.com/news/iraq",
+            "source_published_at": self.now.isoformat(),
+        }
+        state = {}
+        with patch.object(intl, "_fetch_source", return_value=[source]) as fetch, patch.object(
+                intl, "enrich_international_item", return_value=None) as enrich:
+            self.assertEqual(intl.fetch_international_news(set(), self.now, state), [])
+            calls = fetch.call_count
+            self.assertEqual(intl.fetch_international_news(
+                set(), self.now + timedelta(minutes=5), state), [])
+            self.assertEqual(fetch.call_count, calls)
+            self.assertEqual(intl.fetch_international_news(
+                set(), self.now + timedelta(minutes=31), state), [])
+            self.assertEqual(enrich.call_count, 2)
+
     def test_source_failure_does_not_block_others(self):
         with patch.object(intl.requests, "get", side_effect=intl.requests.Timeout()):
             items = intl.fetch_international_news(set(), self.now)
