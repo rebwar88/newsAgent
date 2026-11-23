@@ -47,6 +47,34 @@ SOURCES = (
     {"name": "BBC English", "feed": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
      "domains": ("bbc.com", "bbc.co.uk"), "kind": "official",
      "fallback_feed": google_publisher_feed("bbc.com/news")},
+    # Eight additional editorial organizations, with two language desks for
+    # France24 and Iran International. RSS is for discovery; publication still
+    # requires verifiable full-article facts and access rights.
+    {"name": "AFP", "feed": google_publisher_feed("afp.com"),
+     "domains": ("afp.com",), "kind": "google"},
+    {"name": "Al Jazeera English", "feed": "https://www.aljazeera.com/xml/rss/all.xml",
+     "domains": ("aljazeera.com",), "kind": "official",
+     "fallback_feed": google_publisher_feed("aljazeera.com")},
+    {"name": "France 24 English", "feed": "https://www.france24.com/en/middle-east/rss",
+     "domains": ("france24.com",), "kind": "official",
+     "fallback_feed": google_publisher_feed("france24.com")},
+    {"name": "France 24 Arabic", "feed": "https://www.france24.com/ar/middle-east/rss",
+     "domains": ("france24.com",), "kind": "official"},
+    {"name": "Deutsche Welle", "feed": "https://rss.dw.com/xml/rss-en-world",
+     "domains": ("dw.com",), "kind": "official",
+     "fallback_feed": google_publisher_feed("dw.com")},
+    {"name": "Bloomberg News", "feed": google_publisher_feed("bloomberg.com"),
+     "domains": ("bloomberg.com",), "kind": "google"},
+    {"name": "Al-Monitor", "feed": "https://www.al-monitor.com/rss",
+     "domains": ("al-monitor.com",), "kind": "official",
+     "fallback_feed": google_publisher_feed("al-monitor.com")},
+    {"name": "Iran International English", "feed": "https://www.iranintl.com/en/feed",
+     "domains": ("iranintl.com",), "kind": "official",
+     "fallback_feed": google_publisher_feed("iranintl.com")},
+    {"name": "Iran International Persian", "feed": "https://www.iranintl.com/feed",
+     "domains": ("iranintl.com",), "kind": "official"},
+    {"name": "Financial Times", "feed": google_publisher_feed("ft.com"),
+     "domains": ("ft.com",), "kind": "google"},
 )
 
 # Expressions match the headline + the short public feed description, across
