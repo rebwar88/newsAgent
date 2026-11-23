@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 import editorial
 import sorani_quality
 from international_sources import fetch_international_news
+from kurdish_sources import fetch_kurdish_news
 from international_article_text import has_complete_international_evidence
 from apify_facebook import fetch_facebook_via_apify
 from facebook_public import fetch_facebook_public_posts, discover_public_page_posts, FACEBOOK_PAGE_SHARE_URLS
@@ -1334,6 +1335,7 @@ def main():
         retry_pending_dashboard_news(state)
     new_items = fetch_rss_news(seen_ids)
     new_items.extend(fetch_international_news(seen_ids, state=state))
+    new_items.extend(fetch_kurdish_news(seen_ids))
     for ch in TELEGRAM_CHANNELS:
         new_items.extend(fetch_telegram_public_channel(ch, seen_ids))
     new_items.extend(fetch_facebook_via_apify(seen_ids, state))
