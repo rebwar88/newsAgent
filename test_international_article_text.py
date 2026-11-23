@@ -78,7 +78,7 @@ class ArticleEvidenceTests(unittest.TestCase):
             ("iranintl.com", "blocks")
         ]:
             with self.subTest(domain=domain):
-                paragraphs = "".join(f"<p>{lorem}</p>" for _ in range(3))
+                paragraphs = "".join(f"<p>{lorem} Additional verified context: part {i}.</p>" for i in range(3))
                 html = (
                     "<html><article><p>Related story: unverified unrelated news</p></article>"
                     + f'<div class="{cls}">{paragraphs}</div></html>'
