@@ -14,7 +14,7 @@ from urllib.parse import urlencode, urlparse
 import feedparser
 import requests
 from bs4 import BeautifulSoup
-from international_article_text import enrich_international_item
+from international_article_text import enrich_international_item, can_read_full_article
 
 # Prefer publishers' own active feeds. Google News indexes Reuters/AP/CNN:
 # their historical public RSS endpoints are unreliable/unmaintained.
@@ -108,6 +108,8 @@ RSS_USER_AGENT = "NewsAgent/1.0 (public RSS; limited topic headlines)"
 MAX_ITEMS_PER_SOURCE = 4
 MAX_FEED_ENTRIES = 45
 MAX_AGE = timedelta(hours=36)
+INTERNATIONAL_POLL_INTERVAL = timedelta(minutes=10)
+MAX_FULL_PAGES_PER_POLL = 10
 
 
 def is_relevant(title, summary=""):
@@ -246,9 +248,19 @@ def _fetch_source(spec, now, seen_ids):
 
 
 def fetch_international_news(seen_ids, now=None, state=None):
-    """Discover stories; return only substantial verified evidence for publishing."""
+    """Discover relevant reports, cap and fairly rotate approved page reads."""
     now = now or datetime.now(timezone.utc)
     state = state if isinstance(state, dict) else {}
+    last_poll = state.get("last_international_poll_at")
+    if last_poll:
+        try:
+            if now - datetime.fromisoformat(last_poll) < INTERNATIONAL_POLL_INTERVAL:
+                return []
+        except (TypeError, ValueError):
+            pass
+    # Save the time before making network calls: intermittent API failures
+    # must not create a loop of repeated full-page scraping.
+    state["last_international_poll_at"] = now.isoformat()
     recent_failed = state.setdefault("international_short_source_checks", {})
     if not isinstance(recent_failed, dict):
         recent_failed = {}
@@ -263,30 +275,49 @@ def fetch_international_news(seen_ids, now=None, state=None):
             except Exception as exc:
                 print(f"International feed {jobs[job]['name']} unexpected error ({type(exc).__name__}).")
     results.sort(key=lambda e: e.get("source_published_at") or "", reverse=True)
-    # Discovery metadata is NOT a full article. Read only approved, public
-    # publisher pages; other publishers require an authorized article feed/API.
-    # Never publish a Google News headline as a fabricated full report.
-    complete = []
+    # A news-index headline is not an article. Only collect a substantial
+    # report from explicitly configured direct publisher links.
+    awaiting = {str(x.get("id")) for x in state.get("pending_items", [])
+                if isinstance(x, dict) and x.get("international_full_evidence")}
+    eligible = []
     for item in results:
-        # Skip repeating a full page fetch for unchanging brief live updates:
-        # after 30 minutes the same URL can be checked for revisions.
+        if not can_read_full_article(item) or item["id"] in awaiting:
+            continue
         last = recent_failed.get(item["id"])
-        if last and item["source_name"] == "Middle East Eye":
+        if last:
             try:
                 if now - datetime.fromisoformat(last) < timedelta(minutes=30):
                     continue
-            except (ValueError, TypeError):
+            except (TypeError, ValueError):
                 pass
+        eligible.append(item)
+    # Allocate at most one new article per desk per round, preventing a busy
+    # publisher from exhausting every full-page request during a hot conflict.
+    per_desk = {}
+    for item in eligible:
+        per_desk.setdefault(item["source_name"], []).append(item)
+    scheduled = []
+    while per_desk and len(scheduled) < MAX_FULL_PAGES_PER_POLL:
+        for desk in list(per_desk):
+            if not per_desk[desk]:
+                del per_desk[desk]
+                continue
+            scheduled.append(per_desk[desk].pop(0))
+            if len(scheduled) >= MAX_FULL_PAGES_PER_POLL:
+                break
+    complete = []
+    for item in scheduled:
         enriched = enrich_international_item(item)
         if enriched is not None:
             complete.append(enriched)
             recent_failed.pop(item["id"], None)
-        elif item["source_name"] == "Middle East Eye":
+        else:
             recent_failed[item["id"]] = now.isoformat()
+
     # Prevent indefinite state growth, no full copyrighted article content here.
     recent_failed_keys = sorted(recent_failed, key=lambda k: recent_failed[k])
     for old in recent_failed_keys[:-200]:
         recent_failed.pop(old, None)
-    print(f"International feeds: {len(results)} discovered; {len(complete)} full-source "
-          f"articles ready for independent Sorani reporting.")
+    print(f"International feeds: {len(results)} discovered, {len(scheduled)} full pages checked, "
+          f"{len(complete)} substantive articles for original Sorani reporting.")
     return complete
