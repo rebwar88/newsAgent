@@ -71,7 +71,7 @@ class ArticleEvidenceTests(unittest.TestCase):
         lorem = (
             "Iraq's government held detailed regional security discussions with "
             "officials over developments in the broader Middle East. "
-        ) * 17
+        ) * 6
         for domain, cls in [
             ("aljazeera.com", "wysiwyg wysiwyg--all-content"),
             ("france24.com", "t-content__body u-clearfix"),
