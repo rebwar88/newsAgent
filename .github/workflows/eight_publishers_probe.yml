@@ -1,0 +1,65 @@
+name: Eight Global Publishers Feed and Page Probe (No Publishing)
+on:
+  push:
+    branches: [feature/eight-global-publishers-20261123]
+    paths: ['.github/workflows/eight_publishers_probe.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - name: Read only RSS, robots and one public article per eligible desk
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timezone
+          from concurrent.futures import ThreadPoolExecutor, as_completed
+          from urllib.parse import urlparse
+          import requests, feedparser
+          from international_sources import SOURCES, _fetch_source
+          from international_article_text import _robots_allowed, full_story_text, HEADERS
+          old = {"The New York Times","The Washington Post","Middle East Eye","Reuters",
+                 "Associated Press","CNN","BBC Persian","BBC Arabic","BBC English"}
+          selected = [s for s in SOURCES if s["name"] not in old]
+          def check(spec):
+              now = datetime.now(timezone.utc)
+              relevant = _fetch_source(spec, now, set())
+              info = {"name":spec["name"],"matching":len(relevant),"kind":spec["kind"]}
+              if spec["kind"] != "official":
+                  return info
+              try:
+                  r=requests.get(spec["feed"], timeout=(4,9), headers={"User-Agent":HEADERS["User-Agent"]})
+                  feed=feedparser.parse(r.content if r.status_code==200 else b"")
+                  info["feed_status"]=r.status_code
+                  if not feed.entries:
+                      return info
+                  url=str(feed.entries[0].get("link") or "")
+                  host=urlparse(url).hostname or ""
+                  if not host or not any(host==d or host.endswith("."+d) for d in spec["domains"]):
+                      info["page"]="wrong domain"
+                      return info
+                  info["robots"]=_robots_allowed(host,urlparse(url).path or "/")
+                  if not info["robots"]:
+                      return info
+                  q=requests.get(url,headers=HEADERS,timeout=(4,12),allow_redirects=False)
+                  info["page_status"]=q.status_code
+                  if q.status_code==200 and "text/html" in q.headers.get("Content-Type",""):
+                      story=full_story_text(q.text)
+                      info["evidence_words"]=len(story.split()) if story else 0
+                      info["page_chars"]=len(q.content)
+              except requests.RequestException as e:
+                  info["error"]=type(e).__name__
+              return info
+          with ThreadPoolExecutor(max_workers=5) as pool:
+              futures=[pool.submit(check,s) for s in selected]
+              for fut in as_completed(futures):
+                  print("SOURCE PROBE:",fut.result(),flush=True)
+          print("No Telegram, publishing, Apify, paid API or translation was called.",flush=True)
+          PY
