@@ -785,7 +785,75 @@ def publication_credit(item):
     return label + "\nکاتی سەرچاوە بەردەست نییە"
 
 
-def send_to_telegram(message_text, source_link=None, image_url=None, video_url=None, image_urls=None, source_label=None):
+def split_long_telegram_article(title, body, source_label="", limit=4000):
+    """Split one long report into exactly TWO complete, escaped Telegram texts.
+
+    No cutting facts or abbreviating text; the original body is preserved
+    verbatim across the two parts. Fail closed if it cannot fit in two.
+    Telegram HTML markup is escaped before the length check.
+    """
+    title = str(title or "").strip()
+    body = str(body or "")
+    if len(body) < 2:
+        return None
+    title_html = html.escape(title)
+    prefix1 = f"<b>{title_html} — بەشی یەکەم (١/٢)</b>\n\n" if title else "<b>بەشی یەکەم (١/٢)</b>\n\n"
+    prefix2 = f"<b>{title_html} — بەشی دووەم (٢/٢)</b>\n\n" if title else "<b>بەشی دووەم (٢/٢)</b>\n\n"
+    attribution = "\n\n" + html.escape(source_label) if source_label else ""
+
+    def first(cut):
+        return prefix1 + html.escape(body[:cut])
+
+    def second(cut):
+        return prefix2 + html.escape(body[cut:]) + attribution
+
+    # Find the interval where both parts fit; each length is monotonic.
+    left, right = 1, len(body) - 1
+    while left < right:
+        mid = (left + right) // 2
+        if len(second(mid)) <= limit:
+            right = mid
+        else:
+            left = mid + 1
+    earliest = left
+    if len(second(earliest)) > limit:
+        return None
+    left, right = 1, len(body) - 1
+    while left < right:
+        mid = (left + right + 1) // 2
+        if len(first(mid)) <= limit:
+            left = mid
+        else:
+            right = mid - 1
+    latest = left
+    if earliest > latest or len(first(latest)) > limit:
+        return None
+
+    ideal = (earliest + latest) // 2
+    # Prefer paragraph/sentence boundaries near the middle; keep all spaces
+    # and punctuation with one of the two parts.
+    cut = ideal
+    for delimiter in ("\n\n", "\n", "؟ ", ". ", "؛ ", "، ", " "):
+        options = []
+        before = body.rfind(delimiter, earliest, min(len(body), ideal + len(delimiter)))
+        after = body.find(delimiter, ideal, latest + 1)
+        for found in (before, after):
+            if found >= 0:
+                split_at = found + len(delimiter)
+                if earliest <= split_at <= latest and abs(split_at - ideal) <= 450:
+                    options.append(split_at)
+        if options:
+            cut = min(options, key=lambda pos: abs(pos - ideal))
+            break
+    messages = (first(cut), second(cut))
+    if any(len(message) > limit for message in messages):
+        return None
+    if not body[:cut].strip() or not body[cut:].strip():
+        return None
+    return messages
+
+
+def send_to_telegram(message_text, source_link=None, image_url=None, video_url=None, image_urls=None, source_label=None, delivery_state=None, on_part_confirmed=None):
     """هەواڵە داڕێژراوەکە (و ڤیدیۆ یان وێنەکەی ئەگەر هەبێت) دەنێرێت بۆ چەناڵی مەبەست بە بۆتی تێلیگرام."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("Telegram tokens are not set. Message printed to console:")
@@ -804,8 +872,42 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
     attribution = "\n\n" + html.escape(source_label) if source_label else ""
     full_text += attribution
     if len(full_text) > 4000:
-        print("Article too long for Telegram; skipping.")
-        return False
+        # Long news MUST be two complete Telegram text messages. Other
+        # destinations receive the original unsplit report and media.
+        # Do not send media in this branch: a media caption would either
+        # truncate the story or create a third Telegram message.
+        split_parts = split_long_telegram_article(title, body, source_label)
+        if split_parts is None:
+            print("Article does not fit in two Telegram messages without losing facts; keeping it pending.")
+            return False
+        signature = hashlib.sha256("\u0000".join(split_parts).encode("utf-8")).hexdigest()
+        delivered = 0
+        if isinstance(delivery_state, dict):
+            previous = delivery_state.get("telegram_delivery")
+            if isinstance(previous, dict):
+                if previous.get("signature") != signature:
+                    print("Telegram multipart delivery changed after sending part one; refusing duplicate/mismatched resend.")
+                    return False
+                delivered = previous.get("sent", 0)
+                if not isinstance(delivered, int) or not 0 <= delivered <= 2:
+                    return False
+        for i in range(delivered, 2):
+            payload = {
+                "chat_id": TELEGRAM_CHAT_ID, "text": split_parts[i],
+                "parse_mode": "HTML", "disable_web_page_preview": True,
+            }
+            status = post_telegram("sendMessage", payload)
+            if status != "ok":
+                print(f"Telegram long news part {i + 1}/2 not confirmed; will retry from saved checkpoint.")
+                return False
+            if isinstance(delivery_state, dict):
+                delivery_state["telegram_delivery"] = {
+                    "signature": signature, "sent": i + 1,
+                }
+                if on_part_confirmed:
+                    on_part_confirmed()
+        print("Telegram long news delivered in two complete parts.")
+        return True
 
     text_payload = {"chat_id": TELEGRAM_CHAT_ID, "text": full_text, "parse_mode": "HTML", "disable_web_page_preview": True}
 
@@ -909,6 +1011,12 @@ def prune_pending(state, seen_ids, now=None):
             age = now - received
         except (ValueError, TypeError):
             age = timedelta(0)
+        # A successfully delivered part 1 must never be discarded as stale:
+        # otherwise Telegram would be left with an incomplete news report.
+        multipart = item.get("telegram_delivery") or {}
+        if isinstance(multipart, dict) and multipart.get("sent") in (1, 2):
+            kept.append(item)
+            continue
         limit = BLOCKED_MAX_AGE if progress.get("stage") == "blocked_content" else PENDING_MAX_AGE
         if item.get("topics") == []:
             limit = min(limit, timedelta(minutes=editorial.load_policy()["unmatched_max_age_minutes"]))
@@ -944,6 +1052,11 @@ def source_key(item):
 def choose_pending(items, state, attempted):
     """Least recently served source first; breaking news first within that source."""
     available = [item for item in items if item["id"] not in attempted]
+    # Finish a confirmed Telegram part 1 before publishing a different story.
+    unfinished = [item for item in available if isinstance(item.get("telegram_delivery"), dict)
+                  and item["telegram_delivery"].get("sent") in (1, 2)]
+    if unfinished:
+        return unfinished[0]
     # Already-prepared Gemini stories always have publication priority.
     gemini_ready = [item for item in available if item.get("prepared_method") == "gemini"]
     if gemini_ready:
@@ -1367,7 +1480,9 @@ def main():
             track_article(item, state, "sending", "ناردن بۆ تێلیگرام")
             success = send_to_telegram(rewritten_text, image_url=item.get("image"),
                                        video_url=item.get("video"), image_urls=item.get("images"),
-                                       source_label=publication_credit(item))
+                                       source_label=publication_credit(item),
+                                       delivery_state=item,
+                                       on_part_confirmed=lambda: save_publication_state(state))
         if not success:
             track_article(item, state, "delivery_failed", "ناردن پشتڕاست نەکراوە؛ هەواڵەکە پارێزراوە")
             print("Telegram publication failed; keeping item for retry.")
