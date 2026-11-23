@@ -53,6 +53,41 @@ class ArticleEvidenceTests(unittest.TestCase):
         self.assertFalse(get.call_args.kwargs["allow_redirects"])
         self.assertEqual(robots.call_count, 1)
 
+    def test_public_new_publisher_domains_are_eligible_but_paid_publishers_not(self):
+        supported = [
+            "aljazeera.com", "france24.com", "dw.com", "al-monitor.com", "iranintl.com"
+        ]
+        for domain in supported:
+            with self.subTest(domain=domain):
+                item = dict(self.item, link=f"https://www.{domain}/news/iraq")
+                self.assertTrue(article.can_read_full_article(item))
+        for domain in ["afp.com", "bloomberg.com", "ft.com", "nytimes.com",
+                       "reuters.com", "cnn.com", "bbc.com"]:
+            with self.subTest(domain=domain):
+                item = dict(self.item, link=f"https://www.{domain}/news/iraq")
+                self.assertFalse(article.can_read_full_article(item))
+
+    def test_specialized_publisher_article_containers_not_homepage(self):
+        lorem = (
+            "Iraq's government held detailed regional security discussions with "
+            "officials over developments in the broader Middle East. "
+        ) * 6
+        for domain, cls in [
+            ("aljazeera.com", "wysiwyg wysiwyg--all-content"),
+            ("france24.com", "t-content__body u-clearfix"),
+            ("iranintl.com", "blocks")
+        ]:
+            with self.subTest(domain=domain):
+                paragraphs = "".join(f"<p>{lorem} Additional verified context: part {i}.</p>" for i in range(3))
+                html = (
+                    "<html><article><p>Related story: unverified unrelated news</p></article>"
+                    + f'<div class="{cls}">{paragraphs}</div></html>'
+                )
+                content = article.full_story_text(html, site_host=f"www.{domain}")
+                self.assertIsNotNone(content)
+                self.assertNotIn("unverified unrelated news", content)
+                self.assertGreaterEqual(len(content.split()), article.MIN_REPORT_WORDS)
+
     def test_short_live_blog_update_is_not_misrepresented_as_full_article(self):
         html = ("<article><p>Israeli media reported that the prime minister asked "
                 "the US president to consider a new attack against Iran.</p>"
@@ -122,7 +157,7 @@ class ArticleEvidenceTests(unittest.TestCase):
             with patch.object(intl, "enrich_international_item", return_value=None) as enrich:
                 items = intl.fetch_international_news(set(), now)
         self.assertEqual(items, [])
-        self.assertEqual(fetch.call_count, 9)
+        self.assertEqual(fetch.call_count, len(intl.SOURCES))
         self.assertEqual(enrich.call_count, 1)  # identical IDs use a 30-minute no-repeat cache
 
     def test_overlong_article_is_not_silently_truncated_as_complete(self):

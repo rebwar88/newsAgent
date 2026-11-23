@@ -14,9 +14,13 @@ from urllib.robotparser import RobotFileParser
 import requests
 from bs4 import BeautifulSoup
 
-# Only MEE has been technically tested for public HTML/robots access. Other
-# publishers need independently established collection/reuse authorization.
-DEFAULT_APPROVED_DOMAINS = ("middleeasteye.net",)
+# Public robots and article URLs have been checked in read-only smoke tests.
+# Content is evidence for original factual reports, never verbatim syndication.
+# AFP, Bloomberg and FT are discovery-only pending licensed content access.
+DEFAULT_APPROVED_DOMAINS = (
+    "middleeasteye.net", "aljazeera.com", "france24.com", "dw.com",
+    "al-monitor.com", "iranintl.com",
+)
 MAX_HTML_BYTES = 1_600_000
 MAX_SOURCE_CHARS = 17000
 MIN_REPORT_WORDS = 125
@@ -25,6 +29,11 @@ MIN_REPORT_CHARS = 680
 HEADERS = {
     "User-Agent": "NewsAgent/1.0 (+public editorial source reading; no bulk archiving)",
     "Accept": "text/html,application/xhtml+xml",
+}
+PUBLISHER_CONTENT_SELECTORS = {
+    "aljazeera.com": (".wysiwyg.wysiwyg--all-content",),
+    "france24.com": (".t-content__body",),
+    "iranintl.com": ("div.blocks",),
 }
 CONTENT_SELECTORS = (
     "article .article-body",
@@ -70,7 +79,7 @@ def _robots_allowed(host, path):
         return False
 
 
-def _paragraphs_from_html(raw_html):
+def _paragraphs_from_html(raw_html, site_host=""):
     soup = BeautifulSoup(raw_html, "html.parser")
     # JSON-LD full article evidence, when publisher explicitly offers it.
     for node in soup.select("script[type='application/ld+json']"):
@@ -91,7 +100,9 @@ def _paragraphs_from_html(raw_html):
             if isinstance(body, str) and len(body) > MIN_REPORT_CHARS:
                 return [part.strip() for part in re.split(r"\n{2,}", body)
                         if part.strip()][:30]
-    for selector in CONTENT_SELECTORS:
+    site_selectors = next((selectors for domain, selectors in PUBLISHER_CONTENT_SELECTORS.items()
+                           if site_host == domain or site_host.endswith("." + domain)), ())
+    for selector in site_selectors + CONTENT_SELECTORS:
         root = soup.select_one(selector)
         if not root:
             continue
@@ -111,9 +122,9 @@ def _paragraphs_from_html(raw_html):
     return []
 
 
-def full_story_text(html):
+def full_story_text(html, site_host=""):
     """Only return substantive article evidence, not a short live update."""
-    paragraphs = _paragraphs_from_html(html)
+    paragraphs = _paragraphs_from_html(html, site_host=site_host)
     text = "\n\n".join(paragraphs).strip()
     # Never silently truncate the publisher report and call it complete.
     if len(text) > MAX_SOURCE_CHARS:
@@ -123,6 +134,12 @@ def full_story_text(html):
             len(words) < MIN_REPORT_WORDS or len(text) < MIN_REPORT_CHARS):
         return None
     return text
+
+
+def can_read_full_article(item, approved_domains=DEFAULT_APPROVED_DOMAINS):
+    """Preflight: only configured direct HTTPS publisher URLs are eligible."""
+    return bool(isinstance(item, dict) and item.get("international_source") and
+                _allowed_hostname(str(item.get("link") or ""), approved_domains))
 
 
 def enrich_international_item(item, approved_domains=DEFAULT_APPROVED_DOMAINS):
@@ -156,7 +173,8 @@ def enrich_international_item(item, approved_domains=DEFAULT_APPROVED_DOMAINS):
                 if len(raw) > MAX_HTML_BYTES:
                     print("International source page too large; skipped.")
                     return None
-            text = full_story_text(bytes(raw).decode(res.encoding or "utf-8", errors="replace"))
+            text = full_story_text(bytes(raw).decode(res.encoding or "utf-8", errors="replace"),
+                                   site_host=parsed.hostname.lower())
         finally:
             res.close()
     except requests.RequestException as exc:

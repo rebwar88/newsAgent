@@ -29,14 +29,40 @@ class InternationalNewsTests(unittest.TestCase):
             item["source"] = feedparser.FeedParserDict(source)
         return item
 
-    def test_nine_explicit_desks(self):
+    def test_nineteen_global_publisher_desks(self):
+        names = [s["name"] for s in intl.SOURCES]
         self.assertEqual(
-            [s["name"] for s in intl.SOURCES],
+            names,
             ["The New York Times", "The Washington Post", "Middle East Eye",
              "Reuters", "Associated Press", "CNN", "BBC Persian",
-             "BBC Arabic", "BBC English"]
+             "BBC Arabic", "BBC English",
+             "AFP", "Al Jazeera English", "France 24 English", "France 24 Arabic",
+             "Deutsche Welle", "Bloomberg News", "Al-Monitor",
+             "Iran International English", "Iran International Persian",
+             "Financial Times"]
         )
-        self.assertEqual(len({s["name"] for s in intl.SOURCES}), 9)
+        self.assertEqual(len(set(names)), 19)
+        for spec in intl.SOURCES:
+            with self.subTest(source=spec["name"]):
+                self.assertTrue(spec["feed"].startswith("https://"))
+                self.assertGreater(len(spec["domains"]), 0)
+
+    def test_eight_new_orgs_have_publisher_scoped_feeds(self):
+        for name, hostname in [
+            ("AFP", "afp.com"), ("Al Jazeera English", "aljazeera.com"),
+            ("France 24 English", "france24.com"), ("Deutsche Welle", "dw.com"),
+            ("Bloomberg News", "bloomberg.com"), ("Al-Monitor", "al-monitor.com"),
+            ("Iran International Persian", "iranintl.com"), ("Financial Times", "ft.com"),
+        ]:
+            with self.subTest(name=name):
+                spec = next(s for s in intl.SOURCES if s["name"] == name)
+                self.assertIn(hostname, spec["domains"])
+                self.assertEqual(len(spec["domains"]), 1)
+                self.assertIn(hostname, spec["feed"] if spec["kind"] == "google" else spec["feed"].replace("rss.dw.com", "dw.com"))
+        for name in ("AFP", "Bloomberg News", "Financial Times"):
+            spec = next(s for s in intl.SOURCES if s["name"] == name)
+            self.assertEqual(spec["kind"], "google")
+            self.assertIn("news.google.com", spec["feed"])
 
     def test_iraq_in_multiple_languages(self):
         samples = [
@@ -136,6 +162,63 @@ class InternationalNewsTests(unittest.TestCase):
         self.assertEqual(len(items), 4)
         self.assertEqual(get.call_args.kwargs["timeout"], (4, 9))
 
+    def test_full_article_fetch_is_limited_and_spread_across_publishers(self):
+        supported = [
+            ("Middle East Eye", "middleeasteye.net"),
+            ("Al Jazeera English", "aljazeera.com"),
+            ("France 24 English", "france24.com"),
+            ("France 24 Arabic", "france24.com"),
+            ("Deutsche Welle", "dw.com"),
+            ("Al-Monitor", "al-monitor.com"),
+            ("Iran International English", "iranintl.com"),
+            ("Iran International Persian", "iranintl.com"),
+        ]
+        addresses = dict(supported)
+        def fake_fetch(spec, now, seen_ids):
+            domain = addresses.get(spec["name"])
+            if not domain:
+                return []
+            return [
+                {
+                    "id": "intl:" + spec["name"] + str(i),
+                    "source_name": spec["name"],
+                    "international_source": True,
+                    "link": f"https://www.{domain}/news/iran-{i}",
+                    "source_published_at": self.now.isoformat(),
+                    "content": "A long report on Iraq and Iran"
+                }
+                for i in range(4)
+            ]
+        state = {}
+        def enrich(item):
+            return dict(item, international_full_evidence=True,
+                        content="Full documented report. " * 70)
+        with patch.object(intl, "_fetch_source", side_effect=fake_fetch), patch.object(
+                intl, "enrich_international_item", side_effect=enrich) as get:
+            results = intl.fetch_international_news(set(), self.now, state)
+        self.assertEqual(len(results), intl.MAX_FULL_PAGES_PER_POLL)
+        self.assertEqual(get.call_count, intl.MAX_FULL_PAGES_PER_POLL)
+        self.assertEqual(len({r["source_name"] for r in results}), len(supported))
+        self.assertIn("last_international_poll_at", state)
+
+    def test_five_minute_cron_does_not_refetch_fresh_source_pages(self):
+        source = {
+            "id": "intl:new", "source_name": "Al-Monitor",
+            "international_source": True, "link": "https://www.al-monitor.com/news/iraq",
+            "source_published_at": self.now.isoformat(),
+        }
+        state = {}
+        with patch.object(intl, "_fetch_source", return_value=[source]) as fetch, patch.object(
+                intl, "enrich_international_item", return_value=None) as enrich:
+            self.assertEqual(intl.fetch_international_news(set(), self.now, state), [])
+            calls = fetch.call_count
+            self.assertEqual(intl.fetch_international_news(
+                set(), self.now + timedelta(minutes=5), state), [])
+            self.assertEqual(fetch.call_count, calls)
+            self.assertEqual(intl.fetch_international_news(
+                set(), self.now + timedelta(minutes=31), state), [])
+            self.assertEqual(enrich.call_count, 2)
+
     def test_source_failure_does_not_block_others(self):
         with patch.object(intl.requests, "get", side_effect=intl.requests.Timeout()):
             items = intl.fetch_international_news(set(), self.now)
@@ -172,7 +255,7 @@ class InternationalNewsTests(unittest.TestCase):
             self.assertIn("news.google.com", get.call_args.args[0])
 
     def test_official_bbc_feed_falls_back_to_verified_index_if_unavailable(self):
-        spec = intl.SOURCES[-1]
+        spec = next(s for s in intl.SOURCES if s["name"] == "BBC English")
         row = self.entry(
             url="https://news.google.com/rss/articles/fallback",
             title="Iraq officials say security forces tightened border protections after new incidents",
@@ -188,7 +271,7 @@ class InternationalNewsTests(unittest.TestCase):
         self.assertEqual(get.call_count, 2)
 
     def test_bbc_english_uses_scoped_index_fallback(self):
-        spec = intl.SOURCES[-1]
+        spec = next(s for s in intl.SOURCES if s["name"] == "BBC English")
         self.assertIn("bbc.com%2Fnews", spec["fallback_feed"])
 
 
