@@ -255,7 +255,7 @@ class ReliabilityTests(unittest.TestCase):
                 main.requests, "post", return_value=Mock(status_code=201)) as post:
             self.assertTrue(main.send_news_to_dashboard(item, news))
             sent = post.call_args.kwargs["json"]
-        self.assertEqual(sent["content"], body)
+        self.assertEqual(sent["body"], body)
 
     def test_multipart_news_is_kept_and_selected_first_after_retry(self):
         now = datetime.now(timezone.utc)
