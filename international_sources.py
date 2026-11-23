@@ -14,6 +14,7 @@ from urllib.parse import urlencode, urlparse
 import feedparser
 import requests
 from bs4 import BeautifulSoup
+from international_article_text import enrich_international_item
 
 # Prefer publishers' own active feeds. Google News indexes Reuters/AP/CNN:
 # their historical public RSS endpoints are unreliable/unmaintained.
@@ -229,5 +230,14 @@ def fetch_international_news(seen_ids, now=None):
             except Exception as exc:
                 print(f"International feed {jobs[job]['name']} unexpected error ({type(exc).__name__}).")
     results.sort(key=lambda e: e.get("source_published_at") or "", reverse=True)
-    print(f"International feeds: {len(results)} candidate items from {len(SOURCES)} publishers/languages.")
-    return results
+    # Discovery metadata is NOT a full article. Read only approved, public
+    # publisher pages; other publishers require an authorized article feed/API.
+    # Never publish a Google News headline as a fabricated full report.
+    complete = []
+    for item in results:
+        enriched = enrich_international_item(item)
+        if enriched is not None:
+            complete.append(enriched)
+    print(f"International feeds: {len(results)} discovered; {len(complete)} full-source "
+          f"articles ready for independent Sorani reporting.")
+    return complete
