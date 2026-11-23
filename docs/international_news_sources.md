@@ -1,3 +1,5 @@
+> **November 2026 update:** International RSS/Google feeds are discovery only, not enough to publish a complete report. See [the complete-source evidence policy](full_article_evidence.md). Only articles with verified substantive source text may proceed to Sorani editorial processing; short live updates are skipped.
+
 # International sources for Iraq and Iran conflict — NewsAgent
 
 Nine editorial desks are collected from public, low-volume RSS/index sources:
