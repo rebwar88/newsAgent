@@ -122,7 +122,7 @@ class ArticleEvidenceTests(unittest.TestCase):
             with patch.object(intl, "enrich_international_item", return_value=None) as enrich:
                 items = intl.fetch_international_news(set(), now)
         self.assertEqual(items, [])
-        self.assertEqual(fetch.call_count, 9)
+        self.assertEqual(fetch.call_count, len(intl.SOURCES))
         self.assertEqual(enrich.call_count, 1)  # identical IDs use a 30-minute no-repeat cache
 
     def test_overlong_article_is_not_silently_truncated_as_complete(self):
