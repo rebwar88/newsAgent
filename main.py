@@ -868,7 +868,8 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
             return False
         full_text = "<b>" + html.escape(title) + "</b>\n\n" + html.escape(body)
     else:
-        full_text = html.escape(re.sub(r"</?b>", "", str(message_text), flags=re.IGNORECASE))
+        body = re.sub(r"</?b>", "", str(message_text), flags=re.IGNORECASE)
+        full_text = html.escape(body)
     attribution = "\n\n" + html.escape(source_label) if source_label else ""
     full_text += attribution
     if len(full_text) > 4000:
@@ -984,14 +985,15 @@ def send_to_telegram(message_text, source_link=None, image_url=None, video_url=N
     return post_telegram("sendMessage", text_payload) == "ok"
 
 
-DRAIN_TARGET = timedelta(minutes=20)  # the queue should be empty within about this long
+DRAIN_TARGET = timedelta(minutes=10)  # drain a busy newsroom queue promptly without flooding Telegram
+MAX_POSTS_PER_RUN = 10  # bounded by the existing 240-second runtime window
 
 def adaptive_interval(pending_count):
-    """Spacing between articles shrinks as the queue grows: 5 min for a short queue down to 1 min for a long one."""
+    """Publish faster as backlog grows: 5m quiet, 3m small, down to 25s busy."""
     if pending_count <= 1:
         return timedelta(minutes=5)
     seconds = DRAIN_TARGET.total_seconds() / pending_count
-    return timedelta(seconds=min(300, max(60, seconds)))
+    return timedelta(seconds=min(180, max(25, seconds)))
 
 
 PENDING_MAX_AGE = timedelta(hours=6)   # older news is stale: drop it instead of publishing it late
@@ -1355,7 +1357,7 @@ def main():
     processed_count = 0
     gemini_attempted = False
     attempted = set()
-    while processed_count < 5 and time.monotonic() - started < 240:
+    while processed_count < MAX_POSTS_PER_RUN and time.monotonic() - started < 240:
         item = choose_pending(pending, state, attempted)
         if item is None:
             break
@@ -1378,7 +1380,10 @@ def main():
             save_seen_ids(seen_ids)
             save_publication_state(state)
             continue
-        interval = timedelta(0) if AGGREGATOR_SYNC_ONLY else adaptive_interval(len(pending))
+        delivery = item.get("telegram_delivery") or {}
+        resuming_long_story = isinstance(delivery, dict) and delivery.get("sent") in (1, 2)
+        interval = (timedelta(0) if AGGREGATOR_SYNC_ONLY or resuming_long_story
+                    else adaptive_interval(len(pending)))
         now = datetime.now(timezone.utc)
         last = state.get("last_published_at") or state.get("last_normal_at")
         if last:
