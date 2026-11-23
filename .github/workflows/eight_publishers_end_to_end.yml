@@ -1,0 +1,37 @@
+name: Eight Global Sources End-to-End Full Evidence Smoke
+on:
+  push:
+    branches: [feature/eight-global-publishers-20261123]
+    paths: ['.github/workflows/eight_publishers_end_to_end.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - name: Verify real full article extraction without AI or publishing
+        run: |
+          python - <<'PY'
+          from collections import Counter
+          from international_sources import fetch_international_news,SOURCES
+          state={}
+          items=fetch_international_news(set(),state=state)
+          print("Configured publisher language desks:",len(SOURCES),flush=True)
+          print("Substantive complete articles:",len(items),flush=True)
+          for item in items:
+              print("QUALIFIED:",item["source_name"],
+                    "words",item.get("source_word_count",0),
+                    "full",item.get("international_full_evidence",False),
+                    "publication_source",item["link"].split("/")[2],flush=True)
+          assert len(SOURCES)==19
+          assert all(x["international_full_evidence"] and x["source_word_count"]>=125
+                     for x in items)
+          print("This was a zero-publication, zero-Apify, zero-AI-key smoke test.",flush=True)
+          PY
