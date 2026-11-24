@@ -1,12 +1,12 @@
 {
-  "run_id": "45337803383",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45337803383",
-  "started_at": "2026-11-24T06:05:17.493309+00:00",
-  "finished_at": "2026-11-24T06:09:31.838923+00:00",
-  "duration_seconds": 254.3,
+  "run_id": "45338419682",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45338419682",
+  "started_at": "2026-11-24T06:10:16.012379+00:00",
+  "finished_at": "2026-11-24T06:12:41.850637+00:00",
+  "duration_seconds": 145.8,
   "exit_code": 0,
   "found": 3,
-  "published": 2,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -21,8 +21,8 @@
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "blocked",
-      "detail": "Gemini quota exhausted; using safe non-AI fallback."
+      "status": "unknown",
+      "detail": "No event recorded"
     },
     "telegram": {
       "status": "ok",
@@ -30,12 +30,14 @@
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 2 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
   "issues": [
     "Non-AI fallback rejected: insufficient Sorani text or article content.",
-    "Gemini quota exhausted; using safe non-AI fallback."
+    "News quality gate rejected article: headline has too few meaningful words.",
+    "Translation fallback rejected by language and completeness QA; item remains pending.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
     {
@@ -48,27 +50,11 @@
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
-    },
-    {
-      "stage": "telegram",
-      "message": "Successfully published!"
+      "message": "Processing item from وێبسایتی نێودەوڵەتی..."
     },
     {
       "stage": "selection",
-      "message": "Processing item from تێلیگرام (@brakingnews24)..."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 1/2 in 5s."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini HTTP 503; retry 2/2 in 15s."
-    },
-    {
-      "stage": "gemini",
-      "message": "Gemini quota exhausted; using safe non-AI fallback."
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
     },
     {
       "stage": "telegram",
@@ -76,10 +62,10 @@
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 2 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@brakingnews24)...\nGemini HTTP 503; retry 1/2 in 5s.\nGemini HTTP 503; retry 2/2 in 15s.\nGemini quota exhausted; using safe non-AI fallback.\nSuccessfully published!\nCompleted run. Processed 2 articles.",
+  "log": "Checking for new articles...\nFound 3 new items.\nProcessing item from وێبسایتی نێودەوڵەتی...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation fallback rejected by language and completeness QA; item remains pending.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
       "id": "6cf3b8569ef736fe68987106be1f74e0",
@@ -89,8 +75,8 @@
       "method": "undecided",
       "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
       "received_at": "2026-11-24T06:00:26.745528+00:00",
-      "updated_at": "2026-11-24T06:00:30.452281+00:00",
-      "eligible_at": "2026-11-24T06:05:30.426014+00:00",
+      "updated_at": "2026-11-24T06:12:41.799394+00:00",
+      "eligible_at": "2026-11-24T06:15:41.777953+00:00",
       "history": [
         {
           "stage": "received",
@@ -115,11 +101,151 @@
           "at": "2026-11-24T06:00:30.452281+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-24T06:12:41.793119+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-24T06:12:41.799394+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "intl:b5842899112657ee3aaf2987",
+      "title": "مباشر - اليمن: الحوثيون يعلنون مقتل وفقدان 25 شخصا في ضربة سعودية على لحج",
+      "source": "France 24 Arabic",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "received_at": "2026-11-24T06:10:36.493202+00:00",
+      "updated_at": "2026-11-24T06:12:37.600470+00:00",
+      "eligible_at": "2026-11-24T06:12:31.777500+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-24T06:10:36.493202+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-24T06:10:36.499082+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-24T06:10:36.523499+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-24T06:10:36.542417+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-24T06:12:31.783180+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-24T06:12:32.059563+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-24T06:12:32.066152+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-24T06:12:37.600470+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     }
   ],
   "recent_articles": [
+    {
+      "id": "e2b7dcd3696ce3379cd37f86e6adaa78",
+      "title": "موحسین ڕەزایی: لە ئێستادا هیچ دانوستانێک لە نێوان ئێمە و واشنتۆن سکرتێری ئەنجومەنی باڵای",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-24T06:10:36.505147+00:00",
+      "updated_at": "2026-11-24T06:12:40.538243+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-24T06:10:36.505147+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-24T06:10:36.511013+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-24T06:12:37.606663+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-24T06:12:37.613076+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-24T06:12:37.795194+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-24T06:12:37.801396+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-24T06:12:40.014532+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-24T06:12:40.020924+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-24T06:12:40.538243+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
+        }
+      ]
+    },
     {
       "id": "82d73a2783d930666faf3d55794154da",
       "title": "ئەمڕۆ یادی 157 ساڵەی هەڵەبجەیە و سەرجەم ئامادەکارییەکان بۆ یادەکە تەواو بوون",
@@ -2254,76 +2380,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "f6580e84589e9a7c25096273e443624b",
-      "title": "دوو کەشتی لە ڕێگای تەکساس بە زمانی فارسی پەیامی هەڕەشەئامێزیان پێگەیشت ڕۆژنامەی وۆڵ ستریت",
-      "source": "تلگرامی - خبرهای فوری مهم 🔖",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-24T04:05:26.170212+00:00",
-      "updated_at": "2026-11-24T04:05:49.718131+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-24T04:05:26.170212+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-24T04:05:26.176886+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-24T04:05:26.246046+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-24T04:05:26.253400+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-24T04:05:47.298213+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-24T04:05:47.305559+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-24T04:05:49.280735+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-24T04:05:49.287638+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-24T04:05:49.718131+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-24T06:09:31.884473+00:00",
+  "pending_count": 2,
+  "snapshot_at": "2026-11-24T06:12:41.901443+00:00",
   "gemini_blocked_until": "2026-11-24T06:39:25.845995+00:00"
 }
