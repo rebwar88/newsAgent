@@ -1,9 +1,9 @@
 {
-  "run_id": "45302292512",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45302292512",
-  "started_at": "2026-11-24T01:05:17.316796+00:00",
-  "finished_at": "2026-11-24T01:05:29.066044+00:00",
-  "duration_seconds": 11.7,
+  "run_id": "45302954078",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45302954078",
+  "started_at": "2026-11-24T01:10:16.093336+00:00",
+  "finished_at": "2026-11-24T01:11:10.890934+00:00",
+  "duration_seconds": 54.8,
   "exit_code": 0,
   "found": 0,
   "published": 0,
@@ -17,12 +17,12 @@
       "detail": "0 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Gemini stage reached"
     },
     "telegram": {
       "status": "unknown",
@@ -33,7 +33,10 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
+    "News quality gate rejected article: Persian or Arabic grammatical residue in article."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +47,29 @@
       "message": "Found 0 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from وێبسایتی نێودەوڵەتی..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini output truncated at token limit; keeping item for retry."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 0 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 0 new items.\nProcessing item from وێبسایتی نێودەوڵەتی...\nGemini output truncated at token limit; keeping item for retry.\nTranslation service HTTP 429.\nTranslation service HTTP 429.\nTranslation fallback unavailable; keeping item pending.\nTranslation service unreachable; pausing it for 30 minutes.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "intl:2b8f0fd8b34515aa6119ccfd",
       "title": "سوريا: ظهور رجل ببزة عسكرية إسرائيلية خلال زيارة لعائلته في ريف القنيطرة يثير جدلا",
       "source": "France 24 Arabic",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-24T01:00:40.537485+00:00",
-      "updated_at": "2026-11-24T01:05:28.997222+00:00",
+      "updated_at": "2026-11-24T01:11:10.831568+00:00",
       "eligible_at": "2026-11-24T01:06:27.501335+00:00",
       "history": [
         {
@@ -96,6 +107,48 @@
           "at": "2026-11-24T01:05:28.997222+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-24T01:10:26.003706+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-24T01:10:26.011511+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-24T01:10:26.024308+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-24T01:10:43.884883+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-24T01:11:06.971653+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-24T01:11:06.979394+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-24T01:11:10.831568+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
         }
       ]
     }
@@ -2323,6 +2376,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-24T01:05:29.125921+00:00",
+  "snapshot_at": "2026-11-24T01:11:10.944362+00:00",
   "gemini_blocked_until": "2026-11-23T23:50:33.892525+00:00"
 }
