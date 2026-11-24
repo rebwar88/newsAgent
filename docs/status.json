@@ -1,9 +1,9 @@
 {
-  "run_id": "45327958846",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45327958846",
-  "started_at": "2026-11-24T04:40:18.807816+00:00",
-  "finished_at": "2026-11-24T04:40:32.537228+00:00",
-  "duration_seconds": 13.7,
+  "run_id": "45328528663",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45328528663",
+  "started_at": "2026-11-24T04:45:13.403537+00:00",
+  "finished_at": "2026-11-24T04:45:23.006947+00:00",
+  "duration_seconds": 9.6,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -17,8 +17,8 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
@@ -33,7 +33,9 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "News quality gate rejected article: Persian or Arabic grammatical residue in headline."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +46,25 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nTranslation fallback deferred: article exceeds safe translation budget.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "82b2b446640dd3c95340fe3b13c026c6",
       "title": "#صبحانه_خبری",
       "source": "پایگاه خبری انتخاب",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-24T04:20:40.335632+00:00",
-      "updated_at": "2026-11-24T04:40:32.488603+00:00",
+      "updated_at": "2026-11-24T04:45:22.952279+00:00",
       "eligible_at": "2026-11-24T04:40:34.597134+00:00",
       "history": [
         {
@@ -203,6 +209,36 @@
           "stage": "waiting_slot",
           "at": "2026-11-24T04:40:32.488603+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-24T04:45:22.622098+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-24T04:45:22.633207+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-24T04:45:22.850251+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-24T04:45:22.892905+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-24T04:45:22.952279+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
       ]
@@ -2653,6 +2689,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-24T04:40:32.587709+00:00",
+  "snapshot_at": "2026-11-24T04:45:23.051330+00:00",
   "gemini_blocked_until": "2026-11-24T04:59:14.052834+00:00"
 }
