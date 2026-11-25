@@ -1,12 +1,12 @@
 {
-  "run_id": "45543750128",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45543750128",
-  "started_at": "2026-11-25T04:00:18.584344+00:00",
-  "finished_at": "2026-11-25T04:00:27.286040+00:00",
-  "duration_seconds": 8.7,
+  "run_id": "45544320509",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45544320509",
+  "started_at": "2026-11-25T04:05:18.244206+00:00",
+  "finished_at": "2026-11-25T04:09:38.965988+00:00",
+  "duration_seconds": 260.7,
   "exit_code": 0,
-  "found": 1,
-  "published": 0,
+  "found": 4,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -14,26 +14,31 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "1 items found"
+      "detail": "4 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n{\"id\":\"gen-1795579531-8YbDV3rr7olfwP'",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "OpenRouter openrouter/free failed (JSONDecodeError). HTTP 200, body starts: '\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n         \\n\\n  '",
+    "News quality gate rejected article: Persian or Arabic grammatical residue in headline."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -41,24 +46,149 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 1 new items."
+      "message": "Found 4 new items."
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@entekhab_ir)..."
     },
     {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 4 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@entekhab_ir)...\nTranslation fallback deferred: article exceeds safe translation budget.\nCompleted run. Processed 1 articles.",
   "articles": [
     {
-      "id": "8307e3479bf9b42a3b882706a24a4916",
-      "title": "وزیران خارجه مصر و اردن درباره ایران و غزه رایزنی کردند",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
+      "id": "ae4aaf584a2d04778eda08bd94a4b33f",
+      "title": "#صبحانه_خبری",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "blocked_content",
+      "method": "translation",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+      "received_at": "2026-11-25T04:05:31.683332+00:00",
+      "updated_at": "2026-11-25T04:09:38.905731+00:00",
+      "eligible_at": "2026-11-25T04:08:46.577905+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-25T04:05:31.683332+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-25T04:05:31.690671+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-25T04:05:46.596416+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-25T04:05:46.605251+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-25T04:08:46.607892+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-25T04:09:38.890140+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-25T04:09:38.898351+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-25T04:09:38.905731+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        }
+      ]
+    },
+    {
+      "id": "0660184ab02aecaa6c42dcf0e9441cf3",
+      "title": "وال‌استریت ژورنال: ۵۰ کشتی حامل نفت، گاز و مواد شیمیایی مورد حملات سایبری قرار گرفتند؛ کشتی‌ها پیام‌های تهدیدآمیزی به زبان فارسی دریافت کرده‌اند",
+      "source": "پایگاه خبری انتخاب",
+      "stage": "waiting_turn",
       "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-25T04:05:31.698241+00:00",
+      "updated_at": "2026-11-25T04:05:31.705499+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-25T04:05:31.698241+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-25T04:05:31.705499+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "ae308c38f186e022925cc671db2a6b44",
+      "title": "هشدار دوباره آمریکا؛ این بار در سراسر غرب آسیا",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-25T04:05:31.712802+00:00",
+      "updated_at": "2026-11-25T04:05:31.720169+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-25T04:05:31.712802+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-25T04:05:31.720169+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "8307e3479bf9b42a3b882706a24a4916",
+      "title": "وەزیرانی دەرەوەی میسر و ئوردن باسیان لە ئێران و غەززە کرد وەزیری دەرەوەی میسر",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-25T04:00:27.198218+00:00",
-      "updated_at": "2026-11-25T04:00:27.227174+00:00",
+      "updated_at": "2026-11-25T04:05:43.612275+00:00",
       "eligible_at": "2026-11-25T04:00:49.172838+00:00",
       "history": [
         {
@@ -84,11 +214,51 @@
           "at": "2026-11-25T04:00:27.227174+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-25T04:05:31.735535+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-25T04:05:31.743347+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-25T04:05:41.565336+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-25T04:05:41.573291+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-25T04:05:43.131612+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-25T04:05:43.139281+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-25T04:05:43.612275+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "intl:20d63782915e006dce42f77a",
       "title": "تۆڕێک کە بنکەکەی لە ئێران بوو، بە زیرەکی دەستکرد و پەیامنێری ساختە ڕای گشتی لە ئوسترالیا کردە ئامانج",
@@ -2169,88 +2339,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "fb:1128084920047668",
-      "title": "بەپەلە.. پەیامی ئەمریکا بۆ عەلی زەیدی و چەند بڕیارێکی نوێ لە بەغداوە",
-      "source": "پەیجی - Rudaw.net",
-      "stage": "published",
-      "method": "source",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-24T21:10:34.358071+00:00",
-      "updated_at": "2026-11-24T21:12:05.606637+00:00",
-      "eligible_at": "2026-11-24T21:12:03.955315+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-24T21:10:34.358071+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-24T21:10:34.364514+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-24T21:10:38.257423+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-24T21:10:38.264163+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_gemini",
-          "at": "2026-11-24T21:12:03.981142+00:00",
-          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_gemini",
-          "at": "2026-11-24T21:12:03.994694+00:00",
-          "reason": "داواکاری بۆ Gemini نێردراوە",
-          "method": "gemini"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-24T21:12:04.189899+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-24T21:12:04.472736+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-24T21:12:04.480035+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "source"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-24T21:12:04.486419+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "source"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-24T21:12:05.606637+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "source"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-25T04:00:27.342609+00:00",
+  "pending_count": 3,
+  "snapshot_at": "2026-11-25T04:09:39.024617+00:00",
   "gemini_blocked_until": "2026-11-25T04:15:32.908607+00:00"
 }
