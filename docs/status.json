@@ -1,9 +1,9 @@
 {
-  "run_id": "45710128617",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45710128617",
-  "started_at": "2026-11-25T22:05:20.995657+00:00",
-  "finished_at": "2026-11-25T22:06:01.377043+00:00",
-  "duration_seconds": 40.4,
+  "run_id": "45710858625",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/45710858625",
+  "started_at": "2026-11-25T22:10:14.495018+00:00",
+  "finished_at": "2026-11-25T22:10:23.437117+00:00",
+  "duration_seconds": 8.9,
   "exit_code": 0,
   "found": 1,
   "published": 0,
@@ -17,8 +17,8 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
@@ -33,7 +33,11 @@
       "detail": "Completed run. Processed 0 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "News quality gate rejected article: excessive untranslated Latin-script text.",
+    "Translation fallback rejected by language and completeness QA; item remains pending."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +48,25 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 0 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nTranslation fallback rejected by language and completeness QA; item remains pending.\nCompleted run. Processed 0 articles.",
   "articles": [
     {
       "id": "b89c7735fd0f3e84eb3519ff0ab74841",
       "title": "Elon Musk’s Neuralink says it received FDA approval to launch LINK, which it called the first US pivotal trial of an implantable brain-computer interface.",
       "source": "Clash Report",
-      "stage": "waiting_slot",
+      "stage": "blocked_content",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-25T21:10:25.496408+00:00",
-      "updated_at": "2026-11-25T22:06:01.303838+00:00",
+      "updated_at": "2026-11-25T22:10:23.389210+00:00",
       "eligible_at": "2026-11-25T22:06:49.096843+00:00",
       "history": [
         {
@@ -185,6 +193,36 @@
           "stage": "waiting_slot",
           "at": "2026-11-25T22:06:01.303838+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-25T22:10:22.919785+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-25T22:10:22.926257+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-25T22:10:23.251218+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-25T22:10:23.257236+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-25T22:10:23.389210+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
         }
       ]
@@ -4441,6 +4479,6 @@
     }
   ],
   "pending_count": 1,
-  "snapshot_at": "2026-11-25T22:06:01.439700+00:00",
+  "snapshot_at": "2026-11-25T22:10:23.484071+00:00",
   "gemini_blocked_until": "2026-11-25T22:17:53.110848+00:00"
 }
