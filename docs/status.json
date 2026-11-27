@@ -1,12 +1,12 @@
 {
-  "run_id": "46084208822",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/46084208822",
-  "started_at": "2026-11-27T23:45:16.261225+00:00",
-  "finished_at": "2026-11-27T23:45:34.300053+00:00",
-  "duration_seconds": 18.0,
+  "run_id": "46084650724",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/46084650724",
+  "started_at": "2026-11-27T23:50:14.734546+00:00",
+  "finished_at": "2026-11-27T23:50:28.175059+00:00",
+  "duration_seconds": 13.4,
   "exit_code": 0,
   "found": 1,
-  "published": 0,
+  "published": 1,
   "stages": {
     "fetch": {
       "status": "ok",
@@ -17,23 +17,25 @@
       "detail": "1 items found"
     },
     "selection": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Article selected for processing"
     },
     "gemini": {
       "status": "unknown",
       "detail": "No event recorded"
     },
     "telegram": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "ok",
+      "detail": "Telegram confirmed publication"
     },
     "state": {
       "status": "ok",
-      "detail": "Completed run. Processed 0 articles."
+      "detail": "Completed run. Processed 1 articles."
     }
   },
-  "issues": [],
+  "issues": [
+    "Non-AI fallback rejected: insufficient Sorani text or article content."
+  ],
   "events": [
     {
       "stage": "fetch",
@@ -44,21 +46,30 @@
       "message": "Found 1 new items."
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@ClashReport)..."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
-      "message": "Completed run. Processed 0 articles."
+      "message": "Completed run. Processed 1 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 1 new items.\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 0 articles.",
-  "articles": [
+  "log": "Checking for new articles...\nFound 1 new items.\nProcessing item from تێلیگرام (@ClashReport)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nCompleted run. Processed 1 articles.",
+  "articles": [],
+  "recent_articles": [
     {
       "id": "37e1a6b0c794e36437800ef6f937783f",
-      "title": "French Presidential Candidate Jean-Luc Mélenchon:",
-      "source": "Clash Report",
-      "stage": "waiting_slot",
-      "method": "undecided",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "title": "کاندیدی سەرۆکایەتی فەرەنسا ژان لوک مێلینشۆن: وەک فەرەنسییەک شانازی دەکەم کە لە ڕووی کولتوورییەوە",
+      "source": "تلگرامی - Clash Report",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-27T23:30:35.154998+00:00",
-      "updated_at": "2026-11-27T23:45:34.249990+00:00",
+      "updated_at": "2026-11-27T23:50:25.233329+00:00",
       "eligible_at": "2026-11-27T23:46:57.890775+00:00",
       "history": [
         {
@@ -96,11 +107,51 @@
           "at": "2026-11-27T23:45:34.249990+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-27T23:50:23.029731+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-27T23:50:23.037100+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-27T23:50:23.419463+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-27T23:50:23.423999+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-27T23:50:24.761247+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-27T23:50:24.765520+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-27T23:50:25.233329+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
-    }
-  ],
-  "recent_articles": [
+    },
     {
       "id": "f61a5ac546fbeccd7c1fed8458aa4869",
       "title": "کاندیدی سەرۆکایەتی فەرەنسا ژان لوک مێلینشۆن: ڕۆشنبیری و هاووڵاتیبوون لە ڕێگەی سیاسەتەوە، لە ڕێگەی",
@@ -2253,82 +2304,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "e43560a530555305eeb6c3b1aef44957",
-      "title": "سیکۆرسکی وەزیری دەرەوەی پۆڵەندا: ئێمە دیکتاتۆرییەکی شەڕانگێز نین کە هەوڵی گۆڕینی سنوورەکان بدەین بە",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-27T20:30:26.105765+00:00",
-      "updated_at": "2026-11-27T20:57:05.946989+00:00",
-      "eligible_at": "2026-11-27T20:57:01.376536+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-27T20:30:26.105765+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-27T20:30:26.112078+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-27T20:55:35.682108+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-27T20:55:35.690029+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-27T20:57:01.386276+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-27T20:57:01.632939+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-27T20:57:01.639992+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-27T20:57:02.983067+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-27T20:57:02.990066+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-27T20:57:05.946989+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 1,
-  "snapshot_at": "2026-11-27T23:45:34.348870+00:00",
+  "pending_count": 0,
+  "snapshot_at": "2026-11-27T23:50:28.217642+00:00",
   "gemini_blocked_until": "2026-11-28T00:05:29.878113+00:00"
 }
