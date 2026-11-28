@@ -1,11 +1,11 @@
 {
-  "run_id": "46108972034",
-  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/46108972034",
-  "started_at": "2026-11-28T04:45:17.773252+00:00",
-  "finished_at": "2026-11-28T04:47:22.295147+00:00",
-  "duration_seconds": 124.5,
+  "run_id": "46109348489",
+  "run_url": "https://github.com/rebwar88/newsAgent/actions/runs/46109348489",
+  "started_at": "2026-11-28T04:50:17.017205+00:00",
+  "finished_at": "2026-11-28T04:53:03.585908+00:00",
+  "duration_seconds": 166.6,
   "exit_code": 0,
-  "found": 6,
+  "found": 5,
   "published": 2,
   "stages": {
     "fetch": {
@@ -14,15 +14,15 @@
     },
     "discovery": {
       "status": "ok",
-      "detail": "6 items found"
+      "detail": "5 items found"
     },
     "selection": {
       "status": "ok",
       "detail": "Article selected for processing"
     },
     "gemini": {
-      "status": "unknown",
-      "detail": "No event recorded"
+      "status": "blocked",
+      "detail": "Gemini quota exhausted; using safe non-AI fallback."
     },
     "telegram": {
       "status": "ok",
@@ -34,8 +34,9 @@
     }
   },
   "issues": [
-    "Non-AI fallback rejected: insufficient Sorani text or article content.",
     "News quality gate rejected article: Persian or Arabic grammatical residue in headline.",
+    "Non-AI fallback rejected: insufficient Sorani text or article content.",
+    "Gemini quota exhausted; using safe non-AI fallback.",
     "Non-AI fallback rejected: insufficient Sorani text or article content."
   ],
   "events": [
@@ -45,15 +46,7 @@
     },
     {
       "stage": "discovery",
-      "message": "Found 6 new items."
-    },
-    {
-      "stage": "selection",
-      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
-    },
-    {
-      "stage": "telegram",
-      "message": "Successfully published!"
+      "message": "Found 5 new items."
     },
     {
       "stage": "selection",
@@ -68,11 +61,23 @@
       "message": "Successfully published!"
     },
     {
+      "stage": "selection",
+      "message": "Processing item from تێلیگرام (@Khabar_Fouri)..."
+    },
+    {
+      "stage": "gemini",
+      "message": "Gemini quota exhausted; using safe non-AI fallback."
+    },
+    {
+      "stage": "telegram",
+      "message": "Successfully published!"
+    },
+    {
       "stage": "state",
       "message": "Completed run. Processed 2 articles."
     }
   ],
-  "log": "Checking for new articles...\nFound 6 new items.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@entekhab_ir)...\nTranslation fallback deferred: article exceeds safe translation budget.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
+  "log": "Checking for new articles...\nFound 5 new items.\nProcessing item from تێلیگرام (@entekhab_ir)...\nTranslation fallback deferred: article exceeds safe translation budget.\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nProcessing item from تێلیگرام (@Khabar_Fouri)...\nGemini quota exhausted; using safe non-AI fallback.\nNon-AI fallback rejected: insufficient Sorani text or article content.\nSuccessfully published!\nWaiting for next publishing slot; queue saved.\nCompleted run. Processed 2 articles.",
   "articles": [
     {
       "id": "f7b12bb8d734fc73cbcd2f8e91cf1980",
@@ -82,7 +87,7 @@
       "method": "translation",
       "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
       "received_at": "2026-11-28T04:35:26.723090+00:00",
-      "updated_at": "2026-11-28T04:47:18.358204+00:00",
+      "updated_at": "2026-11-28T04:50:25.622428+00:00",
       "eligible_at": "2026-11-28T04:47:18.095493+00:00",
       "history": [
         {
@@ -198,18 +203,197 @@
           "at": "2026-11-28T04:47:18.358204+00:00",
           "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-28T04:50:25.353099+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-28T04:50:25.364082+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-28T04:50:25.602862+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-28T04:50:25.613303+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "blocked_content",
+          "at": "2026-11-28T04:50:25.622428+00:00",
+          "reason": "دەقێکی گونجاو ئامادە نەبوو؛ لە ڕەنی داهاتوودا هەوڵ دەدرێتەوە",
+          "method": "translation"
+        }
+      ]
+    },
+    {
+      "id": "eb4f0c298ce3c1cf5dcb717edbd3d40b",
+      "title": "نیروی دریایی سپاه پاسداران: ‌گرفتن انتقام شهدای عرصهٔ دریا عهدی است که با برادران‌مان در نیروی دریایی ارتش، با خون بسته‌ایم",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_slot",
+      "method": "undecided",
+      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "received_at": "2026-11-28T04:40:24.804781+00:00",
+      "updated_at": "2026-11-28T04:53:03.525158+00:00",
+      "eligible_at": "2026-11-28T04:56:03.494850+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-28T04:40:24.804781+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-28T04:40:24.813769+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-28T04:53:03.515757+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-28T04:53:03.525158+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        }
+      ]
+    },
+    {
+      "id": "eca2d11a74d810012defafa500142ff7",
+      "title": "فرمانده نیروی دریایی ارتش: یکی از ناوشکن‌های آمریکا مستقیماً هدف قرار گرفت، به‌کلی از صحنه خارج شد و آن را با سختی و مشقت به کشورشان منتقل کردند  ",
+      "source": "خبرهای فوری مهم 🔖",
+      "stage": "waiting_turn",
+      "method": "undecided",
+      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+      "received_at": "2026-11-28T04:45:34.518029+00:00",
+      "updated_at": "2026-11-28T04:45:34.527059+00:00",
+      "eligible_at": null,
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-28T04:45:34.518029+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-28T04:45:34.527059+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        }
+      ]
+    }
+  ],
+  "recent_articles": [
+    {
+      "id": "3d620a9940d471815eeb2084ea831f47",
+      "title": "ڕۆژنامەی واشنتۆن پۆست: داهاتووی بنکەی بەلەمی پێنجەمی ئەمریکا لە بەحرەین لە ژێر گوماندایە؛ زیانی",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
+      "method": "translation",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+      "received_at": "2026-11-28T04:45:34.499179+00:00",
+      "updated_at": "2026-11-28T04:53:01.352889+00:00",
+      "eligible_at": "2026-11-28T04:52:59.334517+00:00",
+      "history": [
+        {
+          "stage": "received",
+          "at": "2026-11-28T04:45:34.499179+00:00",
+          "reason": "",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_turn",
+          "at": "2026-11-28T04:45:34.508399+00:00",
+          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
+          "method": "undecided"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-28T04:50:29.355156+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_slot",
+          "at": "2026-11-28T04:50:29.364363+00:00",
+          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+          "method": "undecided"
+        },
+        {
+          "stage": "waiting_gemini",
+          "at": "2026-11-28T04:52:59.364530+00:00",
+          "reason": "هەڵبژێردراوە بۆ داڕشتنەوە بە Gemini",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_gemini",
+          "at": "2026-11-28T04:52:59.382762+00:00",
+          "reason": "داواکاری بۆ Gemini نێردراوە",
+          "method": "gemini"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-28T04:52:59.534578+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-28T04:52:59.700723+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-28T04:52:59.709617+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-28T04:53:00.969329+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-28T04:53:00.978164+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-28T04:53:01.352889+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
     },
     {
       "id": "fbfba55374a953d3966f62ce9046131f",
-      "title": "منابع عربی: پایگاه نظامی الخرج در عربستان سعودی مورد حمله قرار گرفته است",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_slot",
+      "title": "سەرچاوە عەرەبییەکان: هێرش دەکرێتە سەر بنکەی سەربازی ئەلخەرج لە سعودیە 🪖",
+      "source": "تلگرامی - خبرهای فوری مهم 🔖",
+      "stage": "published",
       "method": "translation",
-      "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
+      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
       "received_at": "2026-11-28T04:35:26.753946+00:00",
-      "updated_at": "2026-11-28T04:47:22.230782+00:00",
+      "updated_at": "2026-11-28T04:50:28.407180+00:00",
       "eligible_at": "2026-11-28T04:49:22.200462+00:00",
       "history": [
         {
@@ -265,86 +449,51 @@
           "at": "2026-11-28T04:47:22.230782+00:00",
           "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
           "method": "translation"
+        },
+        {
+          "stage": "selected",
+          "at": "2026-11-28T04:50:25.632211+00:00",
+          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
+          "method": "translation"
+        },
+        {
+          "stage": "processing_openrouter",
+          "at": "2026-11-28T04:50:25.641374+00:00",
+          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
+          "method": "openrouter"
+        },
+        {
+          "stage": "formatting_source",
+          "at": "2026-11-28T04:50:25.777689+00:00",
+          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
+          "method": "source"
+        },
+        {
+          "stage": "translating",
+          "at": "2026-11-28T04:50:25.786527+00:00",
+          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
+          "method": "translation"
+        },
+        {
+          "stage": "ready",
+          "at": "2026-11-28T04:50:27.975267+00:00",
+          "reason": "دەق ئامادەی ناردنە",
+          "method": "translation"
+        },
+        {
+          "stage": "sending",
+          "at": "2026-11-28T04:50:27.984264+00:00",
+          "reason": "ناردن بۆ تێلیگرام",
+          "method": "translation"
+        },
+        {
+          "stage": "published",
+          "at": "2026-11-28T04:50:28.407180+00:00",
+          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
+          "method": "translation"
         }
       ]
     },
-    {
-      "id": "eb4f0c298ce3c1cf5dcb717edbd3d40b",
-      "title": "نیروی دریایی سپاه پاسداران: ‌گرفتن انتقام شهدای عرصهٔ دریا عهدی است که با برادران‌مان در نیروی دریایی ارتش، با خون بسته‌ایم",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-28T04:40:24.804781+00:00",
-      "updated_at": "2026-11-28T04:40:24.813769+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-28T04:40:24.804781+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-28T04:40:24.813769+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "3d620a9940d471815eeb2084ea831f47",
-      "title": "واشنگتن‌پست: آینده پایگاه ناوگان پنجم آمریکا در بحرین در هاله‌ای از ابهام؛ خسارت حملات ایران بیش از ۴۰۰ میلیون دلار برآورد می‌شود",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-28T04:45:34.499179+00:00",
-      "updated_at": "2026-11-28T04:45:34.508399+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-28T04:45:34.499179+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-28T04:45:34.508399+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    },
-    {
-      "id": "eca2d11a74d810012defafa500142ff7",
-      "title": "فرمانده نیروی دریایی ارتش: یکی از ناوشکن‌های آمریکا مستقیماً هدف قرار گرفت، به‌کلی از صحنه خارج شد و آن را با سختی و مشقت به کشورشان منتقل کردند  ",
-      "source": "خبرهای فوری مهم 🔖",
-      "stage": "waiting_turn",
-      "method": "undecided",
-      "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-      "received_at": "2026-11-28T04:45:34.518029+00:00",
-      "updated_at": "2026-11-28T04:45:34.527059+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-28T04:45:34.518029+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-28T04:45:34.527059+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        }
-      ]
-    }
-  ],
-  "recent_articles": [
     {
       "id": "2bca890f20e31c6a3a75874f1108f85d",
       "title": "عێراق دەروازە وشکانی و ڕووبارەکانی نێوان پارێزگای ئەلحەسەکەی سوریا و ناوچەی کوردستانی داخست 🔹",
@@ -3186,161 +3335,9 @@
           "method": "translation"
         }
       ]
-    },
-    {
-      "id": "9ee0ae414eb49ad526a02ca3daea96a8",
-      "title": "کاندیدی سەرۆکایەتی فەرەنسا ژان لوک مێلینشۆن: چینییەکان پێشتر ژێرخانی ئاڵوگۆڕی دراویان دامەزراندووە. لە ئەوروپا",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-27T23:15:30.037637+00:00",
-      "updated_at": "2026-11-27T23:27:29.657211+00:00",
-      "eligible_at": "2026-11-27T23:27:27.687967+00:00",
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-27T23:15:30.037637+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-27T23:15:30.043542+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-27T23:22:36.838650+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-27T23:22:36.843817+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-27T23:25:27.700671+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_slot",
-          "at": "2026-11-27T23:25:27.705153+00:00",
-          "reason": "چاوەڕوانی کاتی بڵاوکردنەوە؛ ئامادەکردنی دەق دوای نۆرە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-27T23:27:27.718041+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-27T23:27:27.938463+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-27T23:27:27.943748+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-27T23:27:29.196036+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-27T23:27:29.200284+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-27T23:27:29.657211+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
-    },
-    {
-      "id": "08f7ec482dd72db548ee9f51323a47c1",
-      "title": "کاندیدی سەرۆکایەتی فەرەنسا ژان لوک مێلینشۆن: ئێمە لەگەڵ ئەمریکییەکان و لەگەڵ هیچ کەسێکی تردا",
-      "source": "تلگرامی - Clash Report",
-      "stage": "published",
-      "method": "translation",
-      "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-      "received_at": "2026-11-27T23:25:24.223006+00:00",
-      "updated_at": "2026-11-27T23:25:26.393548+00:00",
-      "eligible_at": null,
-      "history": [
-        {
-          "stage": "received",
-          "at": "2026-11-27T23:25:24.223006+00:00",
-          "reason": "",
-          "method": "undecided"
-        },
-        {
-          "stage": "waiting_turn",
-          "at": "2026-11-27T23:25:24.227081+00:00",
-          "reason": "چاوەڕوانی نۆرەی سەرچاوە",
-          "method": "undecided"
-        },
-        {
-          "stage": "selected",
-          "at": "2026-11-27T23:25:24.246605+00:00",
-          "reason": "نۆرەی ئەم سەرچاوەیە هاتووە",
-          "method": "undecided"
-        },
-        {
-          "stage": "processing_openrouter",
-          "at": "2026-11-27T23:25:24.250902+00:00",
-          "reason": "Gemini نەیتوانی دابڕێژێتەوە؛ هەوڵی OpenRouter",
-          "method": "openrouter"
-        },
-        {
-          "stage": "formatting_source",
-          "at": "2026-11-27T23:25:24.589975+00:00",
-          "reason": "هەردوو AI شکستیان هێنا؛ پشکنینی کوردی",
-          "method": "source"
-        },
-        {
-          "stage": "translating",
-          "at": "2026-11-27T23:25:24.594424+00:00",
-          "reason": "وەرگێڕانی جێگرەوە بەبێ AI",
-          "method": "translation"
-        },
-        {
-          "stage": "ready",
-          "at": "2026-11-27T23:25:25.935296+00:00",
-          "reason": "دەق ئامادەی ناردنە",
-          "method": "translation"
-        },
-        {
-          "stage": "sending",
-          "at": "2026-11-27T23:25:25.939601+00:00",
-          "reason": "ناردن بۆ تێلیگرام",
-          "method": "translation"
-        },
-        {
-          "stage": "published",
-          "at": "2026-11-27T23:25:26.393548+00:00",
-          "reason": "تێلیگرام بڵاوکردنەوەکەی پشتڕاست کردەوە",
-          "method": "translation"
-        }
-      ]
     }
   ],
-  "pending_count": 5,
-  "snapshot_at": "2026-11-28T04:47:22.355415+00:00",
-  "gemini_blocked_until": "2026-11-28T04:50:41.481702+00:00"
+  "pending_count": 3,
+  "snapshot_at": "2026-11-28T04:53:03.646010+00:00",
+  "gemini_blocked_until": "2026-11-28T05:22:59.525325+00:00"
 }
